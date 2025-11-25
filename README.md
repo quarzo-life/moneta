@@ -15,11 +15,11 @@ Fork from v2.dinerojs.com/
 ## 📦 Install
 
 ```sh
-deno add jsr:@b-life-org/moneta
+deno add jsr:@quarzo-life/moneta
 
 or
 
-npx jsr add @b-life-org/moneta
+npx jsr add @quarzo-life/moneta
 ```
 
 ## ⚡️ Quick start
@@ -30,7 +30,7 @@ allowing you only to bundle exactly what you use.
 All amounts use are in `bigint`
 
 ```ts
-import { add, EUR, Money } from "jsr:@b-life-org/moneta";
+import { add, EUR, Money } from "jsr:@quarzo-life/moneta";
 
 const d1 = new Money({ amount: 300n, currency: EUR });
 const d2 = new Money({ amount: 200n, currency: EUR });
