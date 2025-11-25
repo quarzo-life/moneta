@@ -57,7 +57,7 @@ export type Rate = ScaledAmount | number;
 export type Rates = Record<string, Rate>;
 
 /**
- * Formatter for Moneta
+ * Formatter for Money
  */
 export type Formatter = {
   readonly toNumber: (value?: bigint) => number;

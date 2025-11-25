@@ -1,26 +1,26 @@
 import { UNEQUAL_CURRENCIES_MESSAGE } from "../../messages.ts";
-import { Moneta } from "../../mod.ts";
+import { Money } from "../../mod.ts";
 import { assert } from "../helpers/assert.ts";
 import { normalizeScale } from "./normalizeScale.ts";
 import { haveSameCurrency } from "./index.ts";
 
 /**
- * Add two Moneta object
- * @param m1 Moneta object
- * @param extras Moneta object, one or more object
+ * Add two Money object
+ * @param m1 Money object
+ * @param extras Money object, one or more object
  * @returns monata object
- * @example // To add many Moneta object
- * import { Moneta, add, USD } from "jsr:@b-life-org/moneta"
+ * @example // To add many Money object
+ * import { Money, add, USD } from "jsr:@b-life-org/moneta"
  *
- * const d1 = new Moneta({ amount: 300n, currency: USD });
- * const d2 = new Moneta({ amount: 200n, currency: USD });
- * const d3 = new Moneta({ amount: 100n, currency: USD });
+ * const d1 = new Money({ amount: 300n, currency: USD });
+ * const d2 = new Money({ amount: 200n, currency: USD });
+ * const d3 = new Money({ amount: 100n, currency: USD });
  *
- * const addMany = (addends: Moneta[]) => addends.reduce(add);
+ * const addMany = (addends: Money[]) => addends.reduce(add);
  *
- * addMany([d1, d2, d3]); // a Moneta object with amount 600
+ * addMany([d1, d2, d3]); // a Money object with amount 600
  */
-export const add = (augend: Moneta, addend: Moneta): Moneta => {
+export const add = (augend: Money, addend: Money): Money => {
   const condition = haveSameCurrency([augend, addend]);
   assert(condition, UNEQUAL_CURRENCIES_MESSAGE);
 
@@ -29,5 +29,5 @@ export const add = (augend: Moneta, addend: Moneta): Moneta => {
   const currency = newAugend.currency;
   const scale = newAugend.scale;
 
-  return new Moneta({ amount, currency, scale });
+  return new Money({ amount, currency, scale });
 };

@@ -1,12 +1,12 @@
-import { Moneta } from "../../mod.ts";
+import { Money } from "../../mod.ts";
 import { isDecimal } from "./isDecimal.ts";
 
 /**
- * Print a Moneta object as a string with it currency and amount with decimal.
- * @param m Moneta object to print.
+ * Print a Money object as a string with it currency and amount with decimal.
+ * @param m Money object to print.
  * @returns
  */
-export const toString = (m: Moneta): string => {
+export const toString = (m: Money): string => {
   const currency = m.currency;
 
   if (isDecimal(m)) {

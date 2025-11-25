@@ -1,38 +1,38 @@
 import { assert } from "../helpers/assert.ts";
 import { NON_DECIMAL_CURRENCY_MESSAGE } from "../../messages.ts";
-import { Moneta } from "../../mod.ts";
+import { Money } from "../../mod.ts";
 import { Formatter, Transformer } from "../types/types.ts";
 import { absolute, computeBase, isArray } from "../utils/index.ts";
 import { toUnits } from "./toUnits.ts";
 
 export type ToDecimalParams<TOutput> = readonly [
-  monetaObject: Moneta,
+  monetaObject: Money,
   transformer?: Transformer<TOutput, string>,
 ];
 
 /**
- * Get the amount of a Moneta object in a stringified decimal representation.
+ * Get the amount of a Money object in a stringified decimal representation.
  *
  * The number of decimal places depends on the scale of your object—or, when unspecified, the exponent of its currency.
  *
- * You can only use this function with Moneta objects that are single-based and use a decimal currency.
+ * You can only use this function with Money objects that are single-based and use a decimal currency.
  *
- * @param monetaObject The Moneta object to format.
+ * @param monetaObject The Money object to format.
  * @param transformer An optional transformer function.
- * @returns Moneta object stringified decimal representation
+ * @returns Money object stringified decimal representation
  * @example // Format an object in decimal format
- * import { Moneta, toDecimal, USD } from "jsr:@b-life-org/moneta"
+ * import { Money, toDecimal, USD } from "jsr:@b-life-org/moneta"
  *
- * const d1 = new Moneta({ amount: 1050n, currency: USD });
- * const d2 = new Moneta({ amount: 10545n, currency: USD, scale: 3 });
+ * const d1 = new Money({ amount: 1050n, currency: USD });
+ * const d2 = new Money({ amount: 10545n, currency: USD, scale: 3 });
  *
  * toDecimal(d1); // "10.50"
  * toDecimal(d2); // "10.545"
  * @example // Use a custom transformer
  * // If you need to further transform the value before returning it, you can pass a custom function.
- * import { Moneta, toDecimal, USD } from "jsr:@b-life-org/moneta"
+ * import { Money, toDecimal, USD } from "jsr:@b-life-org/moneta"
  *
- * const d = new Moneta({ amount: 1050n, currency: USD });
+ * const d = new Money({ amount: 1050n, currency: USD });
  *
  * toDecimal(d, ({ value, currency }) => `${currency.code} ${value}`); // "USD 10.50"
  */

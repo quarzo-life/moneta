@@ -2,8 +2,8 @@ import { add, createDinero, dinero } from "npm:dinero.js@2.0.0-alpha.14";
 import { calculator } from "npm:@dinero.js/calculator-bigint@alpha";
 import { add as add_moneta } from "../mod.ts";
 import { USD } from "../src/currencies/usd.ts";
-import { Moneta } from "../mod.ts";
-import { Currency, Money } from "jsr:@dnl-fm/money-ts";
+import { Money } from "../mod.ts";
+import { Currency, Money as MoneyTsMoney } from "jsr:@dnl-fm/money-ts";
 
 Currency.loadIsoCurrencies([
   {
@@ -26,9 +26,9 @@ const USD_Bigint = {
     Add 2 objects
 */
 
-Deno.bench("Moneta", { group: "add 2 objects" }, () => {
-  const d1 = new Moneta({ amount: 500n, currency: USD });
-  const d2 = new Moneta({ amount: 100n, currency: USD });
+Deno.bench("Money", { group: "add 2 objects" }, () => {
+  const d1 = new Money({ amount: 500n, currency: USD });
+  const d2 = new Money({ amount: 100n, currency: USD });
 
   add_moneta(d1, d2); // a Dinero object with amount 600
 });
@@ -49,9 +49,9 @@ Deno.bench("Dinero.js : bigint", { group: "add 2 objects" }, () => {
   add(d1, d2); // a Dinero object with amount `600n`
 });
 
-Deno.bench("Money ts", { group: "add 2 objects" }, () => {
-  const paycheck = Money.of(500, usd_money);
-  const bonus = Money.of(100, usd_money);
+Deno.bench("ThirdPartyMoney ts", { group: "add 2 objects" }, () => {
+  const paycheck = MoneyTsMoney.of(500, usd_money);
+  const bonus = MoneyTsMoney.of(100, usd_money);
 
   paycheck.plus(bonus);
 });
@@ -60,7 +60,7 @@ Deno.bench("Money ts", { group: "add 2 objects" }, () => {
     Add 1000 objects
 */
 
-Deno.bench("Moneta", { group: "add 1000 objects" }, (b) => {
+Deno.bench("Money", { group: "add 1000 objects" }, (b) => {
   const portfolio = [];
   // generate 1000 money objects
   for (let i = 0; i < 1000; i++) {
@@ -68,9 +68,9 @@ Deno.bench("Moneta", { group: "add 1000 objects" }, (b) => {
   }
 
   b.start();
-  let total = new Moneta({ amount: 0n, currency: USD });
+  let total = new Money({ amount: 0n, currency: USD });
   for (let i = 0; i < 1000; i++) {
-    const d = new Moneta(portfolio[i]);
+    const d = new Money(portfolio[i]);
     total = add_moneta(total, d);
   }
   b.end();

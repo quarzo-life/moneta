@@ -1,11 +1,11 @@
-import { computeBase, Moneta } from "../../mod.ts";
+import { computeBase, Money } from "../../mod.ts";
 
 export type HasSubUnitsParams = readonly [
-  monetaObject: Moneta,
+  monetaObject: Money,
 ];
 
 /**
- * Moneta object has sub units
+ * Money object has sub units
  * @param monetaObject moneta object
  * @returns
  */

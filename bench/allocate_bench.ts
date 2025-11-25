@@ -1,14 +1,14 @@
 import { allocate, dinero } from "npm:dinero.js@2.0.0-alpha.14";
 import { allocate as allocate_moneta } from "../mod.ts";
 import { EUR } from "../src/currencies/eur.ts";
-import { Moneta } from "../mod.ts";
+import { Money } from "../mod.ts";
 
-Deno.bench("Moneta", { group: "allocate" }, () => {
+Deno.bench("Money", { group: "allocate" }, () => {
   const ratios = [
     { amount: 505n, scale: 1 },
     { amount: 495n, scale: 1 },
   ]; // translates to ratios 50.5 and 49.5
-  const m = new Moneta({ amount: 100n, currency: EUR });
+  const m = new Money({ amount: 100n, currency: EUR });
 
   allocate_moneta(m, ratios);
 });

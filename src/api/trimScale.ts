@@ -1,27 +1,27 @@
-import { Moneta } from "../../mod.ts";
+import { Money } from "../../mod.ts";
 import { computeBase, countTrailingZeros } from "../utils/index.ts";
 import { transformScale } from "./transformScale.ts";
 
-export type TrimScaleParams = readonly [monetaObject: Moneta];
+export type TrimScaleParams = readonly [monetaObject: Money];
 
 /**
- * Trim a Moneta object's scale as much as possible, down to the currency exponent.
- * @param monetaObject Moneta object to trim.
- * @returns Moneta object
+ * Trim a Money object's scale as much as possible, down to the currency exponent.
+ * @param monetaObject Money object to trim.
+ * @returns Money object
  * @example // Trim an object down to its currency exponent's scale
- * import { Moneta, trimScale, EUR } from "jsr:@b-life-org/moneta"
- * const m = new Moneta({ amount: 500000n, currency: EUR, scale: 5 });
+ * import { Money, trimScale, EUR } from "jsr:@b-life-org/moneta"
+ * const m = new Money({ amount: 500000n, currency: EUR, scale: 5 });
  *
- * trimScale(m); // a Moneta object with amount 500 and scale 2
+ * trimScale(m); // a Money object with amount 500 and scale 2
  *
  * @example // Trim an object down to the safest possible scale
- * import { Moneta, trimScale, EUR } from "jsr:@b-life-org/moneta"
+ * import { Money, trimScale, EUR } from "jsr:@b-life-org/moneta"
  *
- * const d = new Moneta({ amount: 99950, currency: USD, scale: 4 });
+ * const d = new Money({ amount: 99950, currency: USD, scale: 4 });
  *
  * trimScale(d); // a Dinero object with amount 9995 and scale 3
  */
-export const trimScale = (...[monetaObject]: TrimScaleParams): Moneta => {
+export const trimScale = (...[monetaObject]: TrimScaleParams): Money => {
   const { amount, currency, scale } = monetaObject;
   const base = computeBase(currency.base);
 

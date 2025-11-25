@@ -1,16 +1,16 @@
-import { Currency, Moneta } from "../../mod.ts";
+import { Currency, Money } from "../../mod.ts";
 
 /**
- * JSON snapshot of a Moneta object.
- * Snapshot can't be used to store Moneta objects in a database because amount is a bigint and can't be serialized.
+ * JSON snapshot of a Money object.
+ * Snapshot can't be used to store Money objects in a database because amount is a bigint and can't be serialized.
  *
- * Use `toJSON()` to serialize a Moneta object to a JSON string.
+ * Use `toJSON()` to serialize a Money object to a JSON string.
  *
- * @param montetaObject  Moneta object to snapshot.
+ * @param montetaObject  Money object to snapshot.
  * @see toJSON()
  * @returns
  */
-export const toSnapshot = (montetaObject: Moneta): {
+export const toSnapshot = (montetaObject: Money): {
   amount: bigint;
   currency: Currency;
   scale: number;
