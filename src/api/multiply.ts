@@ -19,14 +19,14 @@ export type MultiplyParams = readonly [
  * @param multiplier multiplier : ScaledAmount | number ex :  { amount: 21n, scale: 1 } or 3
  * @returns Money object
  * @example // Multiply by an integer
- * import { Money, multiply, EUR } from "jsr:@b-life-org/moneta"
+ * import { Money, multiply, EUR } from "jsr:@quarzo-life/moneta"
 
 const d = new Money({ amount: 400n, currency: EUR });
 
 multiply(d, 4); // a Money object with amount 1600
 
 * @example // Multiply by a scaled multiplier
- * import { Money, multiply, EUR } from "jsr:@b-life-org/moneta"
+ * import { Money, multiply, EUR } from "jsr:@quarzo-life/moneta"
 
 const d = new Money({ amount: 401n, currency: EUR });
 

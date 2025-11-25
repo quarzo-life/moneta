@@ -10,7 +10,7 @@ export type HaveSameAmountParams = readonly [
  * @param monetaObjects moneta objects in a array
  * @returns
  * @example // Compare two objects with different amount
- * import { Money, haveSameAmount, USD } from "jsr:@b-life-org/moneta"
+ * import { Money, haveSameAmount, USD } from "jsr:@quarzo-life/moneta"
  *
  * const d1 = new Money({ amount: 1000n, currency: USD });
  * const d2 = new Money({ amount: 2000n, currency: USD });
@@ -18,7 +18,7 @@ export type HaveSameAmountParams = readonly [
  * haveSameAmount([d1, d2]); // false
  *
  * @example // Compare two objects with the same amount once normalized
- * import { Money, haveSameAmount, USD } from "jsr:@b-life-org/moneta"
+ * import { Money, haveSameAmount, USD } from "jsr:@quarzo-life/moneta"
  *
  * const d1 = new Money({ amount: 1000n, currency: USD });
  * const d2 = new Money({ amount: 10000n, currency: USD, scale: 3  });

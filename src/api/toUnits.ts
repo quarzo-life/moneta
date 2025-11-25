@@ -18,7 +18,7 @@ export type ToUnitsParams<TOutput> = readonly [
  * @returns
  * @example // Format an object in units
 
- * import { Money, toUnits, USD } from "jsr:@b-life-org/moneta"
+ * import { Money, toUnits, USD } from "jsr:@quarzo-life/moneta"
 
 const d1 = new Money({ amount: 1050, currency: USD });
 const d2 = new Money({ amount: 10545, currency: USD, scale: 3 });
@@ -28,7 +28,7 @@ toUnits(d2); // [10, 545]
 
 * @example // Format a non-decimal object
 
- * import { Money, toUnits } from "jsr:@b-life-org/moneta"
+ * import { Money, toUnits } from "jsr:@quarzo-life/moneta"
 
 const GRD = { code: 'GRD', base: 6, exponent: 1 };
 const d = new Money({ amount: 9, currency: GRD });
@@ -37,7 +37,7 @@ toUnits(d); // [1, 3]
 
 * @example // Format an object with multiple subdivisions
 
- * import { Money, toUnits } from "jsr:@b-life-org/moneta"
+ * import { Money, toUnits } from "jsr:@quarzo-life/moneta"
 
 const GBP = { code: 'GBP', base: [20, 12], exponent: 1 };
 const d = new Money({ amount: 267n, currency: GBP });
@@ -48,7 +48,7 @@ toUnits(d); // [1, 2, 3]
 
 // If you need to further transform the value before returning it, you can pass a custom function.
 
- * import { Money, toUnits } from "jsr:@b-life-org/moneta"
+ * import { Money, toUnits } from "jsr:@quarzo-life/moneta"
 
 const GBP = { code: 'GBP', base: [20, 12], exponent: 1 };
 const d = new Money({ amount: 267n, currency: GBP });

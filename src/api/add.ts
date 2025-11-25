@@ -10,7 +10,7 @@ import { haveSameCurrency } from "./index.ts";
  * @param extras Money object, one or more object
  * @returns monata object
  * @example // To add many Money object
- * import { Money, add, USD } from "jsr:@b-life-org/moneta"
+ * import { Money, add, USD } from "jsr:@quarzo-life/moneta"
  *
  * const d1 = new Money({ amount: 300n, currency: USD });
  * const d2 = new Money({ amount: 200n, currency: USD });

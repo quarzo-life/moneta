@@ -12,7 +12,7 @@ import { haveSameCurrency } from "./index.ts";
  * @param subtrahend The Money object to subtract from.
  * @returns a new Money object
  * @example // Subtract more than two objects
- * import { Money, subtract, USD } from "jsr:@b-life-org/moneta"
+ * import { Money, subtract, USD } from "jsr:@quarzo-life/moneta"
  *
  * const d1 = new Money({ amount: 400n, currency: USD });
  * const d2 = new Money({ amount: 200n, currency: USD });
@@ -22,7 +22,7 @@ import { haveSameCurrency } from "./index.ts";
  *
  * subtractMany([d1, d2, d3]); // a Money object with amount 100
  * @example // Subtract objects with a different scale
- * import { Money, subtract, USD } from "jsr:@b-life-org/moneta"
+ * import { Money, subtract, USD } from "jsr:@quarzo-life/moneta"
  *
  * const d1 = new Money({ amount: 500n, currency: USD });
  * const d2 = new Money({ amount: 1000n, currency: USD, scale: 3 });

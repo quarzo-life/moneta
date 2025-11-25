@@ -6,7 +6,7 @@ import { computeBase } from "../utils/index.ts";
  * @param monetaObjects Money objects in a array
  * @returns boolean
  * @example // Compare two objects with the same currency
- * import { Money, haveSameCurrency, USD } from "jsr:@b-life-org/moneta"
+ * import { Money, haveSameCurrency, USD } from "jsr:@quarzo-life/moneta"
  *
  * const d1 = new Money({ amount: 1000n, currency: USD });
  * const d2 = new Money({ amount: 2000n, currency: USD });
@@ -14,7 +14,7 @@ import { computeBase } from "../utils/index.ts";
  * haveSameCurrency([d1, d2]); // true
  *
  * @example // Compare two objects with different currencies
- * import { Money, haveSameCurrency, USD, EUR } from "jsr:@b-life-org/moneta"
+ * import { Money, haveSameCurrency, USD, EUR } from "jsr:@quarzo-life/moneta"
  *
  * const d1 = new Money({ amount: 1000n, currency: USD });
  * const d2 = new Money({ amount: 10000n, currency: EUR });

@@ -19,7 +19,7 @@ import {
   trimScale,
   up,
   USD,
-} from "./mod.ts"; // "jsr:@b-life-org/moneta";
+} from "./mod.ts"; // "jsr:@quarzo-life/moneta";
 
 // examples
 const example1 = () => {
@@ -145,6 +145,7 @@ const example13 = () => {
   console.log(toUnits(d)); // [1, 2, 3]
 };
 
+/*
 const example14 = () => {
   console.log("Use a custom transformer");
 
@@ -153,12 +154,16 @@ const example14 = () => {
 
   const labels = ["pounds", "shillings", "pence"];
 
-  console.log(toUnits(d, ({ value }) =>
-    value
-      .filter((amount) => amount > 0n)
-      .map((amount, index) => `${amount} ${labels[index]}`)
-      .join(", ")));
+  console.log(
+    toUnits(d, ({ value }) =>
+      value
+        .filter((amount) => amount > 0n)
+        .map((amount, index) => `${amount} ${labels[index]}`)
+        .join(", "),
+    ),
+  );
 };
+*/
 
 const example15 = () => {
   console.log("Format an object in decimal format");
@@ -232,7 +237,7 @@ example10();
 example11();
 example12();
 example13();
-example14();
+// example14();
 example15();
 example16();
 example17();

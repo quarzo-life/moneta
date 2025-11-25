@@ -14,7 +14,7 @@ export type NormalizeScaleParams = readonly [
  * @returns
  * @example // Normalize objects to the same scale
  *
- * import { Money, normalizeScale, USD } from "jsr:@b-life-org/moneta"
+ * import { Money, normalizeScale, USD } from "jsr:@quarzo-life/moneta"
  *
  * const d1 = new Money({ amount: 100n, currency: USD, scale: 2 });
  * const d2 = new Money({ amount: 2000n, currency: USD, scale: 3 });

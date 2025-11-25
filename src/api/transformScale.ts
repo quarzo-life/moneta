@@ -14,14 +14,14 @@ import { down } from "../divide/down.ts";
  * @param divide A custom divide function.
  * @returns a new Money object
  * @example // Transform an object to a new scale
- * import { Money, transformScale, USD } from "jsr:@b-life-org/moneta"
+ * import { Money, transformScale, USD } from "jsr:@quarzo-life/moneta"
  *
  * const d = new Money({ amount: 500n, currency: USD, scale: 2 });
  *
  * transformScale(d, 4); // a Money object with amount 50000 and scale 4
  *
  * @example // Pass a custom divide function
- * import { Money, transformScale, up, USD } from "jsr:@b-life-org/moneta"
+ * import { Money, transformScale, up, USD } from "jsr:@quarzo-life/moneta"
  *
  * const d = new Money({ amount: 10455n, currency: USD, scale: 3 });
  *

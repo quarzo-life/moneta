@@ -21,7 +21,7 @@ export type ToDecimalParams<TOutput> = readonly [
  * @param transformer An optional transformer function.
  * @returns Money object stringified decimal representation
  * @example // Format an object in decimal format
- * import { Money, toDecimal, USD } from "jsr:@b-life-org/moneta"
+ * import { Money, toDecimal, USD } from "jsr:@quarzo-life/moneta"
  *
  * const d1 = new Money({ amount: 1050n, currency: USD });
  * const d2 = new Money({ amount: 10545n, currency: USD, scale: 3 });
@@ -30,7 +30,7 @@ export type ToDecimalParams<TOutput> = readonly [
  * toDecimal(d2); // "10.545"
  * @example // Use a custom transformer
  * // If you need to further transform the value before returning it, you can pass a custom function.
- * import { Money, toDecimal, USD } from "jsr:@b-life-org/moneta"
+ * import { Money, toDecimal, USD } from "jsr:@quarzo-life/moneta"
  *
  * const d = new Money({ amount: 1050n, currency: USD });
  *

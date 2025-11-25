@@ -9,13 +9,13 @@ export type TrimScaleParams = readonly [monetaObject: Money];
  * @param monetaObject Money object to trim.
  * @returns Money object
  * @example // Trim an object down to its currency exponent's scale
- * import { Money, trimScale, EUR } from "jsr:@b-life-org/moneta"
+ * import { Money, trimScale, EUR } from "jsr:@quarzo-life/moneta"
  * const m = new Money({ amount: 500000n, currency: EUR, scale: 5 });
  *
  * trimScale(m); // a Money object with amount 500 and scale 2
  *
  * @example // Trim an object down to the safest possible scale
- * import { Money, trimScale, EUR } from "jsr:@b-life-org/moneta"
+ * import { Money, trimScale, EUR } from "jsr:@quarzo-life/moneta"
  *
  * const d = new Money({ amount: 99950, currency: USD, scale: 4 });
  *
