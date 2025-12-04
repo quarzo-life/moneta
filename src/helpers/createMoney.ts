@@ -32,7 +32,6 @@ export class Money {
    * - A base, or radix. ex 10
    * - An exponent. ex 2
    *
-   * Default EUR
    * @param scale The scale is one of the three pieces of domain data necessary to create a Money object. It's conceptually close to the currency exponent but serves the purpose of expressing precision as accurately as possible.
    *
    * Most of the time, you don't need to specify the scale. It defaults to the currency exponent.
@@ -42,7 +41,7 @@ export class Money {
   constructor(
     { amount = 0n, currency = EUR, scale = currency.exponent }: {
       amount?: bigint;
-      currency?: Currency;
+      currency: Currency;
       scale?: number;
     },
   ) {
