@@ -1,4 +1,4 @@
-import { Money } from "../helpers/createMoney.ts";
+import { Money } from "../money/index.ts";
 import { ScaledAmount } from "../types/types.ts";
 import { getAmountAndScale } from "../utils/index.ts";
 import { transformScale } from "./transformScale.ts";

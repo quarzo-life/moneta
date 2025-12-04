@@ -2,8 +2,8 @@ import { EUR } from "../currencies/eur.ts";
 import type { Currency, Formatter } from "../types/types.ts";
 import { toDecimal } from "../api/toDecimal.ts";
 import { toString } from "../utils/toString.ts";
-import { bigIntReplacer } from "./JSONbigint.ts";
 import { toSnapshot } from "../api/index.ts";
+import { bigIntReplacer } from "../helpers/JSONbigint.ts";
 
 /**
  * Money class to represent a money (ex 51,20 EUR).
@@ -11,10 +11,13 @@ import { toSnapshot } from "../api/index.ts";
 export class Money {
   /** Amount expressed in the smallest subdivision of the currency, as an integer */
   readonly amount: bigint;
+
   /** The currency of the money with a base (decimal or rarely non decimal) and exponent */
   readonly currency: Currency;
+
   /** The scale is conceptually close to the currency exponent but serves the purpose of expressing precision as accurately as possible */
   readonly scale: number;
+
   /** Formatter of the amount */
   readonly formatter: Formatter;
 
