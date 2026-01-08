@@ -19,6 +19,8 @@ import {
   trimScale,
   up,
   USD,
+  bigIntReplacer,
+  bigIntReviver
 } from "./mod.ts"; // "jsr:@quarzo-life/moneta";
 
 // examples
@@ -223,6 +225,22 @@ const example20 = () => {
   console.log(toSnapshot(d)); // { amount: 1000n, currency: USD, scale: 2 }
 };
 
+const example21 = () => {
+  console.log("Stringify/Parse a object including a Money object");
+
+  const anOjbect = {
+    id: 1,
+    amount: new Money({ amount: 1000n, currency: USD })
+  };
+
+  const a = JSON.stringify(anOjbect, bigIntReplacer);
+  console.log(a)
+  const b = JSON.parse(a, bigIntReviver);
+  console.log(b)
+};
+
+
+
 // Run all examples
 example1();
 example2();
@@ -244,3 +262,4 @@ example17();
 example18();
 example19();
 example20();
+example21();

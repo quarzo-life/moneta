@@ -68,9 +68,15 @@ export class Money {
   }
 
   /** Serialize Money object to a JSON string.
-   * Use `parse()` to deserialize a Money object from a JSON string.
+   * Use `JSON.stringify(money, bigIntReplacer)` to serialize a Money object to a JSON string (toJSON is implicity called)
+   * Use `parse(money, bigIntReviver)` to deserialize a Money object from a JSON string.
+   * @see bigIntReplacer & bigIntReviver in helpers
    */
-  toJSON(): string {
-    return JSON.stringify(toSnapshot(this), bigIntReplacer);
+  toJSON(): {
+    amount: bigint;
+    currency: Currency;
+    scale: number;
+  } {
+    return toSnapshot(this);
   }
 }

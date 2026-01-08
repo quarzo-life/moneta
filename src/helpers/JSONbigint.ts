@@ -1,14 +1,23 @@
 /**
+ * Helper functions for JSON.stringify and JSON.parse
+ *
+ * We choose the approach of adding a "n" suffix to BigInt values when serializing to JSON.
+ *
+ * Alternative approach: Use a `__bigint__` prefix if we want to prevent accidental collisions
+ * Ex : "__bigint__:123"
+ */
+
+
+/**
  * Replacer BigInt with string for JSON.stringify
  * @param _key
  * @param value
  * @returns
  */
 export function bigIntReplacer(_key: string, value: unknown): unknown {
-  if (typeof value === "bigint") {
-    return value.toString() + "n";
-  }
-  return value;
+  return typeof value === "bigint"
+      ? `${value}n`
+      : value;
 }
 
 /**
@@ -17,9 +26,15 @@ export function bigIntReplacer(_key: string, value: unknown): unknown {
  * @param value
  * @returns
  */
-export function bigIntReviver(_key: string, value: unknown): unknown {
-  if (typeof value === "string" && /^\d+n$/.test(value)) {
-    return BigInt(value.slice(0, -1));
-  }
-  return value;
-}
+ export function bigIntReviver(_key: string, value: unknown): unknown {
+   if (
+     typeof value === "string" &&
+     value.endsWith("n")
+   ) {
+     const num = value.slice(0, -1);
+     if (/^-?\d+$/.test(num)) {
+       return BigInt(num);
+     }
+   }
+   return value;
+ }
