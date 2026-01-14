@@ -1,9 +1,7 @@
+import { toDecimal } from "../api/toDecimal.ts";
 import { EUR } from "../currencies/eur.ts";
 import type { Currency, Formatter } from "../types/types.ts";
-import { toDecimal } from "../api/toDecimal.ts";
 import { toString } from "../utils/toString.ts";
-import { toSnapshot } from "../api/index.ts";
-import { bigIntReplacer } from "../helpers/JSONbigint.ts";
 
 /**
  * Money class to represent a money (ex 51,20 EUR).
@@ -41,13 +39,15 @@ export class Money {
    *
    * Default currency exponent
    */
-  constructor(
-    { amount = 0n, currency = EUR, scale = currency.exponent }: {
-      amount?: bigint;
-      currency: Currency;
-      scale?: number;
-    },
-  ) {
+  constructor({
+    amount = 0n,
+    currency = EUR,
+    scale = currency.exponent,
+  }: {
+    amount?: bigint;
+    currency: Currency;
+    scale?: number;
+  }) {
     this.amount = amount;
     this.currency = currency;
     this.scale = scale;
@@ -67,16 +67,20 @@ export class Money {
     return toString(this);
   }
 
-  /** Serialize Money object to a JSON string.
-   * Use `JSON.stringify(money, bigIntReplacer)` to serialize a Money object to a JSON string (toJSON is implicity called)
+  /** Provide the JSON-serializable representation of a Money object.
+   * Use `JSON.stringify(money)` to create a JSON string (toJSON is implicitly called)
    * Use `parse(money, bigIntReviver)` to deserialize a Money object from a JSON string.
    * @see bigIntReplacer & bigIntReviver in helpers
    */
   toJSON(): {
-    amount: bigint;
+    amount: string;
     currency: Currency;
     scale: number;
   } {
-    return toSnapshot(this);
+    return {
+      amount: `${this.amount}n`,
+      currency: this.currency,
+      scale: this.scale,
+    };
   }
 }
