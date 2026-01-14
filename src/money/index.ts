@@ -1,5 +1,5 @@
 import { toDecimal } from "../api/toDecimal.ts";
-import { EUR } from "../currencies/eur.ts";
+import { CURRENCIES, CurrencyCode } from "../currencies/index.ts";
 import type { Currency, Formatter } from "../types/types.ts";
 import { toString } from "../utils/toString.ts";
 
@@ -16,8 +16,13 @@ export class Money {
   /** The scale is conceptually close to the currency exponent but serves the purpose of expressing precision as accurately as possible */
   readonly scale: number;
 
+  static readonly defaultFormatter: Formatter = Object.freeze({
+    toNumber: Number,
+    toString: String,
+  });
+
   /** Formatter of the amount */
-  readonly formatter: Formatter;
+  readonly formatter: Formatter = Money.defaultFormatter;
 
   /**
    * Create a new Money object.
@@ -41,20 +46,62 @@ export class Money {
    */
   constructor({
     amount = 0n,
-    currency = EUR,
-    scale = currency.exponent,
+    // not optional to force dev to see the currency they manipulate
+    currency,
+    scale,
   }: {
-    amount?: bigint;
-    currency: Currency;
+    amount?: number | bigint | string;
+    currency: Currency | CurrencyCode;
     scale?: number;
   }) {
-    this.amount = amount;
-    this.currency = currency;
-    this.scale = scale;
-    this.formatter = {
-      toNumber: Number,
-      toString: String,
-    };
+    // 1. Resolve Currency
+    if (typeof currency === "string") {
+      const foundCurrency = CURRENCIES[currency];
+      if (!foundCurrency) {
+        throw new Error(`[Money] Unknown currency code: ${currency}`);
+      }
+      this.currency = foundCurrency;
+    } else {
+      this.currency = currency;
+    }
+
+    // 2. Resolve Scale (Default to currency exponent, fallback to 2)
+    const resolvedScale = scale ?? this.currency.exponent ?? 2;
+    if (!Number.isInteger(resolvedScale)) {
+      throw new Error(
+        `[Money] Scale must be an integer, but received: ${resolvedScale} (${typeof resolvedScale})`,
+      );
+    }
+
+    if (resolvedScale < 0) {
+      throw new Error(
+        `[Money] Scale must be a non-negative integer, but received: ${resolvedScale}`,
+      );
+    }
+    this.scale = resolvedScale;
+
+    // 3. Resolve Amount
+    if (typeof amount === "bigint") {
+      this.amount = amount;
+    } else if (typeof amount === "number") {
+      if (!Number.isSafeInteger(amount)) {
+        throw new Error(
+          "[Money] Amount is not a safe integer; use bigint or string",
+        );
+      }
+      this.amount = BigInt(amount);
+    } else if (typeof amount === "string") {
+      // Handles "123", "123n", and whitespace
+      const normalized = amount.trim().replace(/n$/, "");
+      if (!/^-?\d+$/.test(normalized)) {
+        throw new Error(`[Money] Invalid string amount: ${amount}`);
+      }
+      this.amount = BigInt(normalized);
+    } else {
+      throw new Error("[Money] Invalid amount type");
+    }
+
+    this.formatter = Money.defaultFormatter;
   }
 
   /** Get the amount of a Money object in a stringified decimal representation. */
@@ -67,19 +114,30 @@ export class Money {
     return toString(this);
   }
 
+  /**
+   * Compares two Money objects for equality.
+   */
+  equals(other: Money): boolean {
+    return (
+      this.amount === other.amount &&
+      this.currency.code === other.currency.code &&
+      this.scale === other.scale
+    );
+  }
+
   /** Provide the JSON-serializable representation of a Money object.
+   * We choose the approach of adding a "n" suffix to BigInt values when serializing to JSON.
    * Use `JSON.stringify(money)` to create a JSON string (toJSON is implicitly called)
-   * Use `parse(money, bigIntReviver)` to deserialize a Money object from a JSON string.
-   * @see bigIntReplacer & bigIntReviver in helpers
+   * Use `new Money(parse(money))` to deserialize a Money object from a JSON string.
    */
   toJSON(): {
     amount: string;
-    currency: Currency;
+    currency: string;
     scale: number;
   } {
     return {
       amount: `${this.amount}n`,
-      currency: this.currency,
+      currency: this.currency.code,
       scale: this.scale,
     };
   }

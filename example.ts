@@ -5,6 +5,8 @@
 import {
   add,
   allocate,
+  bigIntReplacer,
+  bigIntReviver,
   EUR,
   haveSameAmount,
   haveSameCurrency,
@@ -19,8 +21,6 @@ import {
   trimScale,
   up,
   USD,
-  bigIntReplacer,
-  bigIntReviver
 } from "./mod.ts"; // "jsr:@quarzo-life/moneta";
 
 // examples
@@ -230,16 +230,17 @@ const example21 = () => {
 
   const anOjbect = {
     id: 1,
-    amount: new Money({ amount: 1000n, currency: USD })
+    amount: new Money({ amount: "1000", currency: USD }),
   };
 
-  const a = JSON.stringify(anOjbect, bigIntReplacer);
-  console.log(a)
-  const b = JSON.parse(a, bigIntReviver);
-  console.log(b)
+  const a = JSON.stringify(anOjbect);
+  console.log(a);
+  // try to parse the stringified object
+  const parsedObject = JSON.parse(a);
+  console.log(parsedObject);
+  const b = new Money(parsedObject.amount);
+  console.log(b);
 };
-
-
 
 // Run all examples
 example1();
