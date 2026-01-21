@@ -3,7 +3,7 @@ import { calculator } from "npm:@dinero.js/calculator-bigint@alpha";
 import { add as add_moneta } from "../mod.ts";
 import { USD } from "../src/currencies/usd.ts";
 import { Money } from "../mod.ts";
-import { Currency, Money as MoneyTsMoney } from "jsr:@dnl-fm/money-ts";
+import { Currency, Money as MoneyTsMoney } from "jsr:@dnl-fm/money-ts@0.8.0";
 
 Currency.loadIsoCurrencies([
   {

@@ -25,6 +25,17 @@ export class Money {
   readonly formatter: Formatter = Money.defaultFormatter;
 
   /**
+   * Create a Money object with amount 0 for the specified currency.
+   * @param currency The currency for the zero amount
+   * @returns A new Money object with amount 0n
+   * @example
+   * const zeroMoney = Money.zero('EUR');
+   */
+  static zero(currency: Currency | CurrencyCode): Money {
+    return new Money({ amount: 0n, currency });
+  }
+
+  /**
    * Create a new Money object.
    * @param amount The amount is one of the three pieces of domain data necessary to create a Money object. It's expressed in the smallest subdivision of the currency, as an integer.
    *

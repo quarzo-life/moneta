@@ -242,6 +242,15 @@ const example21 = () => {
   console.log(b);
 };
 
+const example22 = () => {
+  console.log("Zero Money object");
+
+  const zeroEUR = Money.zero("EUR");
+  console.log(zeroEUR);
+  const zeroUSD = Money.zero(USD);
+  console.log(zeroUSD);
+};
+
 // Run all examples
 example1();
 example2();
@@ -264,3 +273,4 @@ example18();
 example19();
 example20();
 example21();
+example22();

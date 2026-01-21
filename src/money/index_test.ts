@@ -78,6 +78,13 @@ Deno.test("Money constructor recovers state from JSON-like object", () => {
   assertStrictEquals(money.currency.code, "EUR");
 });
 
+Deno.test("Money zero object", () => {
+  const zeroEUR = Money.zero(EUR);
+
+  assertStrictEquals(zeroEUR.amount, 0n);
+  assertStrictEquals(zeroEUR.currency.code, "EUR");
+});
+
 Deno.test("Money constructor throws descriptive error for negative scale", () => {
   assertThrows(
     () => new Money({ amount: 100n, currency: EUR, scale: -5 }),
