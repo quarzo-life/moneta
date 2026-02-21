@@ -1,13 +1,19 @@
 <p align="center">
-  Moneta JS
+  <h1>Moneta JS</h1>
 </p>
 
 <p align="center">
-Moneta lets you create, calculate, and format money safely in JavaScript and
-TypeScript. Amount type is only bigint.
+  <strong>Create, calculate, and format money safely in JavaScript and TypeScript.</strong>
+</p>
 
-Fork from v2.dinerojs.com/
+<p align="center">
+  Moneta is a lightweight monetary library built exclusively on <code>bigint</code> 
+  to ensure precision and safety for financial calculations.
+</p>
 
+<p align="center">
+  Originally forked from <a href="https://v2.dinerojs.com/">Dinero.js v2</a>, 
+  and adapted to work solely with <code>bigint</code>.
 </p>
 
 ---

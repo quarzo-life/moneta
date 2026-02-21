@@ -1,3 +1,4 @@
+import { equal } from "../api/index.ts";
 import { toDecimal } from "../api/toDecimal.ts";
 import { CURRENCIES, CurrencyCode } from "../currencies/index.ts";
 import type { Currency, Formatter } from "../types/types.ts";
@@ -116,7 +117,7 @@ export class Money {
   }
 
   /** Get the amount of a Money object in a stringified decimal representation. */
-  toDecimal(): string {
+  toDecimal(): string | number {
     return toDecimal(this);
   }
 
@@ -129,11 +130,7 @@ export class Money {
    * Compares two Money objects for equality.
    */
   equals(other: Money): boolean {
-    return (
-      this.amount === other.amount &&
-      this.currency.code === other.currency.code &&
-      this.scale === other.scale
-    );
+    return equal(this, other);
   }
 
   /** Provide the JSON-serializable representation of a Money object.

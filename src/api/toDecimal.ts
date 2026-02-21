@@ -5,7 +5,7 @@ import { Formatter, Transformer } from "../types/types.ts";
 import { absolute, computeBase, isArray } from "../utils/index.ts";
 import { toUnits } from "./toUnits.ts";
 
-export type ToDecimalParams<TOutput> = readonly [
+export type ToDecimalParams<TOutput extends number | string> = readonly [
   monetaObject: Money,
   transformer?: Transformer<TOutput, string>,
 ];
@@ -36,9 +36,14 @@ export type ToDecimalParams<TOutput> = readonly [
  *
  * toDecimal(d, ({ value, currency }) => `${currency.code} ${value}`); // "USD 10.50"
  */
-export const toDecimal = (
-  ...[monetaObject, transformer]: ToDecimalParams<string>
-): string => {
+export function toDecimal(monetaObject: Money): number;
+export function toDecimal<TOutput extends number | string>(
+  monetaObject: Money,
+  transformer: Transformer<TOutput, string>,
+): TOutput;
+export function toDecimal<TOutput extends number | string = number>(
+  ...[monetaObject, transformer]: ToDecimalParams<TOutput>
+): TOutput {
   const { currency, scale } = monetaObject;
 
   const base = computeBase(currency.base);
@@ -55,14 +60,14 @@ export const toDecimal = (
 
   const value = getDecimalFn(units, scale);
 
-  if (!transformer) {
-    return value;
+  if (transformer) {
+    return transformer({ value, currency });
   }
 
-  return transformer({ value, currency });
-};
+  return Number(value) as TOutput;
+}
 
-function getDecimal(formatter: Formatter) {
+const getDecimal = (formatter: Formatter) => {
   return (units: readonly bigint[], scale: number) => {
     const whole = formatter.toString(units[0]);
     const fractional = formatter.toString(absolute(units[1]));
@@ -76,4 +81,4 @@ function getDecimal(formatter: Formatter) {
     // formatter won't preserve its negative sign (since 0 === -0).
     return leadsWithZero && isNegative ? `-${decimal}` : decimal;
   };
-}
+};

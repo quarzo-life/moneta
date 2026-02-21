@@ -5,11 +5,11 @@
 import {
   add,
   allocate,
-  bigIntReplacer,
-  bigIntReviver,
   EUR,
   haveSameAmount,
   haveSameCurrency,
+  maximum,
+  minimum,
   Money,
   multiply,
   normalizeScale,
@@ -251,6 +251,40 @@ const example22 = () => {
   console.log(zeroUSD);
 };
 
+const example23 = () => {
+  console.log("Print a object including a Money object");
+
+  const anOjbect = {
+    id: 1,
+    amount: new Money({ amount: "1000", currency: USD }),
+  };
+
+  console.log(USD);
+  console.log(anOjbect);
+
+  const d = new Money({ amount: 100123n, currency: USD, scale: 3 });
+
+  console.log(
+    new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" })
+      .format(
+        toDecimal(d),
+      ),
+  );
+};
+
+const example24 = () => {
+  const d1 = new Money({ amount: 150, currency: USD });
+  const d2 = new Money({ amount: 50, currency: USD });
+
+  console.log(minimum([d1, d2]));
+  console.log(maximum([d1, d2]));
+
+  const d3 = new Money({ amount: 500n, currency: USD });
+  const d4 = new Money({ amount: 1000n, currency: USD, scale: 3 });
+
+  console.log(maximum([d3, d4]));
+};
+
 // Run all examples
 example1();
 example2();
@@ -274,3 +308,5 @@ example19();
 example20();
 example21();
 example22();
+example23();
+example24();
