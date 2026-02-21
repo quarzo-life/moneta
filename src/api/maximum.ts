@@ -22,7 +22,7 @@ export type MaximumParams = readonly [
  *
  * maximum([d1, d2]);
  */
-export function maximum(...[moneyObjects]: MaximumParams) {
+export const maximum = (...[moneyObjects]: MaximumParams): Money => {
   const condition = haveSameCurrency(moneyObjects);
   assert(condition, UNEQUAL_CURRENCIES_MESSAGE);
 
@@ -40,4 +40,4 @@ export function maximum(...[moneyObjects]: MaximumParams) {
     currency,
     scale,
   });
-}
+};

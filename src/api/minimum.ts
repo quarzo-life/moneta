@@ -20,7 +20,7 @@ export type MinimumParams = readonly [
  *
  * minimum([d1, d2]);
  */
-export function minimum(...[moneyObjects]: MinimumParams) {
+export const minimum = (...[moneyObjects]: MinimumParams): Money => {
   const condition = haveSameCurrency(moneyObjects);
   assert(condition, UNEQUAL_CURRENCIES_MESSAGE);
 
@@ -38,4 +38,4 @@ export function minimum(...[moneyObjects]: MinimumParams) {
     currency,
     scale,
   });
-}
+};
