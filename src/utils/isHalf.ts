@@ -6,10 +6,9 @@ import { absolute } from "./absolute.ts";
  * @param total
  * @returns boolean
  */
-export const isHalf = (input: bigint, total: number): boolean => {
-  const totalBigInt = BigInt(total);
-  const remainder = absolute(input % totalBigInt);
-  const difference = totalBigInt - remainder;
+export const isHalf = (input: bigint, total: bigint): boolean => {
+  const remainder = absolute(input % total);
+  const difference = total - remainder;
 
   return difference === remainder;
 };

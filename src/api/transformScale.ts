@@ -1,6 +1,19 @@
 import { computeBase, Money } from "../../mod.ts";
 import { down } from "../divide/down.ts";
 
+const factorCache = new Map<string, bigint>();
+
+const getFactor = (baseNum: number, diff: number): bigint => {
+  if (diff === 0) return 1n; // fast path, no need to cache
+  const key = `${baseNum}:${diff}`;
+  let cached = factorCache.get(key);
+  if (cached === undefined) {
+    cached = BigInt(baseNum) ** BigInt(diff);
+    factorCache.set(key, cached);
+  }
+  return cached;
+};
+
 /**
  * Transform a Money object to a new scale.
  *
@@ -39,12 +52,13 @@ export const transformScale = (
   let newAmount = amount;
   const [a, b] = isLarger ? [newScale, scale] : [scale, newScale];
   const base = computeBase(currency.base);
-  const factor = base ** (a - b);
+  const factor = getFactor(base, a - b);
 
   if (isLarger) {
     // multiply
-    newAmount *= BigInt(factor);
+    newAmount *= factor;
   } else {
+    // TO DO : to change signature
     newAmount = divide(amount, factor);
   }
 

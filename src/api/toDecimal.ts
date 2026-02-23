@@ -5,7 +5,7 @@ import { Formatter, Transformer } from "../types/types.ts";
 import { absolute, computeBase, isArray } from "../utils/index.ts";
 import { toUnits } from "./toUnits.ts";
 
-export type ToDecimalParams<TOutput extends number | string> = readonly [
+export type ToDecimalParams<TOutput> = readonly [
   monetaObject: Money,
   transformer?: Transformer<TOutput, string>,
 ];
@@ -34,16 +34,16 @@ export type ToDecimalParams<TOutput extends number | string> = readonly [
  *
  * const d = new Money({ amount: 1050n, currency: USD });
  *
+ * toDecimal(d, ({ value, currency }) =>
+       new Intl.NumberFormat("en-US", { style: "currency", currency: currency.code })
+         .format(Number(value)) // "$100.12"
+     )
  * toDecimal(d, ({ value, currency }) => `${currency.code} ${value}`); // "USD 10.50"
+ *
  */
-export function toDecimal(monetaObject: Money): number;
-export function toDecimal<TOutput extends number | string>(
-  monetaObject: Money,
-  transformer: Transformer<TOutput, string>,
-): TOutput;
-export function toDecimal<TOutput extends number | string = number>(
+export const toDecimal = <TOutput>(
   ...[monetaObject, transformer]: ToDecimalParams<TOutput>
-): TOutput {
+): TOutput | string => {
   const { currency, scale } = monetaObject;
 
   const base = computeBase(currency.base);
@@ -64,8 +64,8 @@ export function toDecimal<TOutput extends number | string = number>(
     return transformer({ value, currency });
   }
 
-  return Number(value) as TOutput;
-}
+  return value;
+};
 
 const getDecimal = (formatter: Formatter) => {
   return (units: readonly bigint[], scale: number) => {

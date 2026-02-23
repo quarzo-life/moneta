@@ -33,7 +33,7 @@ export type Currency = {
  */
 export type DivideOperation = (
   amount: bigint,
-  factor: number,
+  factor: bigint,
 ) => bigint;
 
 /**

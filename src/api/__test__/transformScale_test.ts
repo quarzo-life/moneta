@@ -154,7 +154,7 @@ Deno.test("transformScale: decimal currencies", async (t) => {
   });
 
   await t.step("uses a custom divide function", () => {
-    const divideFn = (_x: bigint, _y: number) => 1045n;
+    const divideFn = (_x: bigint, _y: bigint) => 1045n;
     const d = new Money({ amount: 10455n, currency: USD, scale: 3 });
 
     const snapshot = toSnapshot(transformScale(d, 2, divideFn));

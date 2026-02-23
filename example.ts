@@ -265,10 +265,26 @@ const example23 = () => {
   const d = new Money({ amount: 100123n, currency: USD, scale: 3 });
 
   console.log(
-    new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" })
-      .format(
-        toDecimal(d),
-      ),
+    toDecimal(
+      d,
+      ({ value, currency }) =>
+        new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: currency.code,
+        })
+          .format(Number(value)),
+    ),
+  );
+  console.log(
+    toDecimal(
+      d,
+      ({ value, currency }) =>
+        new Intl.NumberFormat("fr-FR", {
+          style: "currency",
+          currency: currency.code,
+        })
+          .format(Number(value)),
+    ),
   );
 };
 
