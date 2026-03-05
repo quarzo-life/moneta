@@ -51,6 +51,30 @@ Deno.test("Money constructor throws for non-integer numbers", () => {
   );
 });
 
+Deno.test("Money constructor throws for non-integer string", () => {
+  const amount = "12.34";
+  assertThrows(
+    () => {
+      // Logic from index.ts prevents decimals as numbers to avoid precision loss
+      new Money({ amount, currency: EUR });
+    },
+    Error,
+    `[Money] Invalid string amount: ${amount}`,
+  );
+});
+
+Deno.test("Money constructor throws for non-integer string", () => {
+  const amount = "12,34";
+  assertThrows(
+    () => {
+      // Logic from index.ts prevents decimals as numbers to avoid precision loss
+      new Money({ amount, currency: EUR });
+    },
+    Error,
+    `[Money] Invalid string amount: ${amount}`,
+  );
+});
+
 Deno.test("Money constructor respects custom scale", () => {
   const customScale = 4;
   const money = new Money({ amount: 100n, currency: EUR, scale: customScale });
