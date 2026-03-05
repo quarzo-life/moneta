@@ -49,12 +49,21 @@ export type ScaledAmount = {
 /**
  * Rate is a ScaledAmount or a number
  */
-export type Rate = ScaledAmount | number;
+export type Rate = ScaledAmount | number | bigint;
 
 /**
  * Rates is a Record of Rate
  */
 export type Rates = Record<string, Rate>;
+
+/**
+ * FX Rate
+ */
+export type FXRate = {
+  from: Currency;
+  to: Currency;
+  rate: Rate;
+};
 
 /**
  * Formatter for Money

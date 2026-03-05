@@ -6,7 +6,7 @@ import { isScaledAmount } from "./isScaledAmount.ts";
  * @param value
  * @returns
  */
-export const getAmountAndScale = (value: ScaledAmount | number): {
+export const getAmountAndScale = (value: ScaledAmount | number | bigint): {
   amount: bigint;
   scale: number;
 } => {

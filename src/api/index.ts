@@ -5,6 +5,7 @@
 
 export * from "./add.ts";
 export * from "./allocate.ts";
+export * from "./convert.ts";
 export * from "./equal.ts";
 export * from "./hasSubUnits.ts";
 export * from "./haveSameAmount.ts";

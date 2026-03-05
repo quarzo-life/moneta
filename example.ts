@@ -8,6 +8,7 @@ import {
   EUR,
   haveSameAmount,
   haveSameCurrency,
+  JPY,
   maximum,
   minimum,
   Money,
@@ -22,6 +23,7 @@ import {
   up,
   USD,
 } from "./mod.ts"; // "jsr:@quarzo-life/moneta";
+import { convert } from "./src/api/index.ts";
 
 // examples
 const example1 = () => {
@@ -301,6 +303,38 @@ const example24 = () => {
   console.log(maximum([d3, d4]));
 };
 
+const example25 = () => {
+  console.log("Convert an object");
+
+  const fx = { from: EUR, to: JPY, rate: { amount: 1826655n, scale: 4 } };
+  const d = new Money({ amount: 1000, currency: EUR, scale: 0 });
+
+  const dJPY = convert(d, fx);
+
+  console.log(d, dJPY);
+  console.log(
+    toDecimal(
+      d,
+      ({ value, currency }) =>
+        new Intl.NumberFormat("fr-FR", {
+          style: "currency",
+          currency: currency.code,
+        })
+          .format(Number(value)),
+    ),
+    "=>",
+    toDecimal(
+      dJPY,
+      ({ value, currency }) =>
+        new Intl.NumberFormat("fr-FR", {
+          style: "currency",
+          currency: currency.code,
+        })
+          .format(Number(value)),
+    ),
+  );
+};
+
 // Run all examples
 example1();
 example2();
@@ -326,3 +360,4 @@ example21();
 example22();
 example23();
 example24();
+example25();
