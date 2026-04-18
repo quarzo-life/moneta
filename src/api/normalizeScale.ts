@@ -16,8 +16,8 @@ export type NormalizeScaleParams = readonly [
  *
  * import { Money, normalizeScale, USD } from "jsr:@quarzo-life/moneta"
  *
- * const d1 = new Money({ amount: 100n, currency: USD, scale: 2 });
- * const d2 = new Money({ amount: 2000n, currency: USD, scale: 3 });
+ * const d1 = money({ amount: 100n, currency: USD, scale: 2 });
+ * const d2 = money({ amount: 2000n, currency: USD, scale: 3 });
  *
  * const [one, two] = normalizeScale([d1, d2]);
  *

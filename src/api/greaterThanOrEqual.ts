@@ -20,9 +20,6 @@ export const greaterThanOrEqual = (
   const condition = haveSameCurrency([moneyObject, comparator]);
   assert(condition, UNEQUAL_CURRENCIES_MESSAGE);
 
-  const [subjectAmount, comparatorAmount] = normalizeScale([
-    moneyObject,
-    comparator,
-  ]);
-  return subjectAmount >= comparatorAmount;
+  const [subject, comp] = normalizeScale([moneyObject, comparator]);
+  return subject.amount >= comp.amount;
 };

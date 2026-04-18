@@ -1,5 +1,5 @@
 import { bigIntReviver } from "../helpers/JSONbigint.ts";
-import { Money } from "../../mod.ts";
+import { money, type Money } from "../../mod.ts";
 import { Currency } from "../types/types.ts";
 
 /**
@@ -13,5 +13,5 @@ export const parse = (text: string): Money => {
   const currency = json.currency as Currency;
   const scale = json?.scale || 0;
 
-  return new Money({ amount, currency, scale });
+  return money({ amount, currency, scale });
 };

@@ -8,16 +8,16 @@ import { computeBase } from "../utils/index.ts";
  * @example // Compare two objects with the same currency
  * import { Money, haveSameCurrency, USD } from "jsr:@quarzo-life/moneta"
  *
- * const d1 = new Money({ amount: 1000n, currency: USD });
- * const d2 = new Money({ amount: 2000n, currency: USD });
+ * const d1 = money({ amount: 1000n, currency: USD });
+ * const d2 = money({ amount: 2000n, currency: USD });
  *
  * haveSameCurrency([d1, d2]); // true
  *
  * @example // Compare two objects with different currencies
  * import { Money, haveSameCurrency, USD, EUR } from "jsr:@quarzo-life/moneta"
  *
- * const d1 = new Money({ amount: 1000n, currency: USD });
- * const d2 = new Money({ amount: 10000n, currency: EUR });
+ * const d1 = money({ amount: 1000n, currency: USD });
+ * const d2 = money({ amount: 10000n, currency: EUR });
  *
  * haveSameCurrency([d1, d2]); // false
  */

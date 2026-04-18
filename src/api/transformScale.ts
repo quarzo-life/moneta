@@ -1,4 +1,4 @@
-import { computeBase, Money } from "../../mod.ts";
+import { computeBase, money, type Money } from "../../mod.ts";
 import { down } from "../divide/down.ts";
 
 const factorCache = new Map<string, bigint>();
@@ -29,14 +29,14 @@ const getFactor = (baseNum: number, diff: number): bigint => {
  * @example // Transform an object to a new scale
  * import { Money, transformScale, USD } from "jsr:@quarzo-life/moneta"
  *
- * const d = new Money({ amount: 500n, currency: USD, scale: 2 });
+ * const d = money({ amount: 500n, currency: USD, scale: 2 });
  *
  * transformScale(d, 4); // a Money object with amount 50000 and scale 4
  *
  * @example // Pass a custom divide function
  * import { Money, transformScale, up, USD } from "jsr:@quarzo-life/moneta"
  *
- * const d = new Money({ amount: 10455n, currency: USD, scale: 3 });
+ * const d = money({ amount: 10455n, currency: USD, scale: 3 });
  *
  * transformScale(d, 2, up); // a Money object with amount 1046 and scale 2
  */
@@ -62,7 +62,7 @@ export const transformScale = (
     newAmount = divide(amount, factor);
   }
 
-  return new Money({
+  return money({
     amount: newAmount,
     currency,
     scale: newScale,

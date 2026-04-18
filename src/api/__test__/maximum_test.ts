@@ -1,11 +1,11 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { EUR, USD } from "../../currencies/index.ts";
-import { maximum, Money, toSnapshot } from "../../../mod.ts";
+import { maximum, money, toSnapshot } from "../../../mod.ts";
 
 Deno.test("maximum - bigint", async (t) => {
   await t.step("maximum - bigint (returns greatest)", () => {
-    const d1 = new Money({ amount: 150n, currency: USD });
-    const d2 = new Money({ amount: 50n, currency: USD });
+    const d1 = money({ amount: 150n, currency: USD });
+    const d2 = money({ amount: 50n, currency: USD });
 
     const snapshot = toSnapshot(maximum([d1, d2]));
 
@@ -17,8 +17,8 @@ Deno.test("maximum - bigint", async (t) => {
   });
 
   await t.step("maximum - bigint (after normalization)", () => {
-    const d1 = new Money({ amount: 500n, currency: USD });
-    const d2 = new Money({ amount: 1000n, currency: USD, scale: 3 });
+    const d1 = money({ amount: 500n, currency: USD });
+    const d2 = money({ amount: 1000n, currency: USD, scale: 3 });
 
     const snapshot = toSnapshot(maximum([d1, d2]));
 
@@ -30,8 +30,8 @@ Deno.test("maximum - bigint", async (t) => {
   });
 
   await t.step("maximum - bigint (different currencies)", () => {
-    const d1 = new Money({ amount: 150n, currency: USD });
-    const d2 = new Money({ amount: 50n, currency: EUR });
+    const d1 = money({ amount: 150n, currency: USD });
+    const d2 = money({ amount: 50n, currency: EUR });
 
     assertThrows(
       () => maximum([d1, d2]),

@@ -1,10 +1,10 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { MGA, USD } from "../../currencies/index.ts";
 import { allocate, toSnapshot } from "../index.ts";
-import { Money } from "../../../mod.ts";
+import { money } from "../../../mod.ts";
 
 Deno.test("allocate - decimal currencies - allocates to percentages", () => {
-  const d = new Money({ amount: 1003n, currency: USD });
+  const d = money({ amount: 1003n, currency: USD });
   const shares = allocate(d, [50, 50]);
   const [firstAllocated, secondAllocated] = shares;
 
@@ -21,7 +21,7 @@ Deno.test("allocate - decimal currencies - allocates to percentages", () => {
 });
 
 Deno.test("allocate - decimal currencies - allocates to ratios", () => {
-  const d = new Money({ amount: 100n, currency: USD });
+  const d = money({ amount: 100n, currency: USD });
   const shares = allocate(d, [1, 3]);
   const [firstAllocated, secondAllocated] = shares;
 
@@ -38,7 +38,7 @@ Deno.test("allocate - decimal currencies - allocates to ratios", () => {
 });
 
 Deno.test("allocate - decimal currencies - ignores zero ratios", () => {
-  const d = new Money({ amount: 1003n, currency: USD });
+  const d = money({ amount: 1003n, currency: USD });
   const shares = allocate(d, [0, 50, 50]);
   const [firstAllocated, secondAllocated, thirdAllocated] = shares;
 
@@ -60,7 +60,7 @@ Deno.test("allocate - decimal currencies - ignores zero ratios", () => {
 });
 
 Deno.test("allocate - decimal currencies - converts the allocated amounts to the safest scale", () => {
-  const d = new Money({ amount: 100n, currency: USD });
+  const d = money({ amount: 100n, currency: USD });
   const shares = allocate(d, [
     { amount: 505n, scale: 1 },
     { amount: 495n, scale: 1 },
@@ -80,7 +80,7 @@ Deno.test("allocate - decimal currencies - converts the allocated amounts to the
 });
 
 Deno.test("allocate - decimal currencies - converts the ratios to the same scale before allocating", () => {
-  const d = new Money({ amount: 100n, currency: USD });
+  const d = money({ amount: 100n, currency: USD });
   const shares = allocate(d, [
     { amount: 5050n, scale: 2 },
     { amount: 495n, scale: 1 },
@@ -100,7 +100,7 @@ Deno.test("allocate - decimal currencies - converts the ratios to the same scale
 });
 
 Deno.test("allocate - decimal currencies - throws when using empty ratios", () => {
-  const d = new Money({ amount: 100n, currency: USD });
+  const d = money({ amount: 100n, currency: USD });
 
   assertThrows(
     () => {
@@ -112,7 +112,7 @@ Deno.test("allocate - decimal currencies - throws when using empty ratios", () =
 });
 
 Deno.test("allocate - decimal currencies - throws when using negative ratios", () => {
-  const d = new Money({ amount: 100n, currency: USD });
+  const d = money({ amount: 100n, currency: USD });
 
   assertThrows(
     () => {
@@ -124,7 +124,7 @@ Deno.test("allocate - decimal currencies - throws when using negative ratios", (
 });
 
 Deno.test("allocate - decimal currencies - throws when using only zero ratios", () => {
-  const d = new Money({ amount: 100n, currency: USD });
+  const d = money({ amount: 100n, currency: USD });
 
   assertThrows(
     () => {
@@ -136,7 +136,7 @@ Deno.test("allocate - decimal currencies - throws when using only zero ratios", 
 });
 
 Deno.test("allocate - non-decimal currencies - allocates to percentages", () => {
-  const d = new Money({ amount: 5n, currency: MGA });
+  const d = money({ amount: 5n, currency: MGA });
   const shares = allocate(d, [50, 50]);
   const [firstAllocated, secondAllocated] = shares;
 
@@ -153,7 +153,7 @@ Deno.test("allocate - non-decimal currencies - allocates to percentages", () => 
 });
 
 Deno.test("allocate - non-decimal currencies - allocates to ratios", () => {
-  const d = new Money({ amount: 5n, currency: MGA });
+  const d = money({ amount: 5n, currency: MGA });
   const shares = allocate(d, [1, 3]);
   const [firstAllocated, secondAllocated] = shares;
 
@@ -170,7 +170,7 @@ Deno.test("allocate - non-decimal currencies - allocates to ratios", () => {
 });
 
 Deno.test("allocate - non-decimal currencies - ignores zero ratios", () => {
-  const d = new Money({ amount: 5n, currency: MGA });
+  const d = money({ amount: 5n, currency: MGA });
   const shares = allocate(d, [0, 50, 50]);
   const [firstAllocated, secondAllocated, thirdAllocated] = shares;
 
@@ -192,7 +192,7 @@ Deno.test("allocate - non-decimal currencies - ignores zero ratios", () => {
 });
 
 Deno.test("allocate - non-decimal currencies - converts the allocated amounts to the safest scale", () => {
-  const d = new Money({ amount: 5n, currency: MGA });
+  const d = money({ amount: 5n, currency: MGA });
   const shares = allocate(d, [
     { amount: 505n, scale: 1 },
     { amount: 495n, scale: 1 },
@@ -212,7 +212,7 @@ Deno.test("allocate - non-decimal currencies - converts the allocated amounts to
 });
 
 Deno.test("allocate - non-decimal currencies - converts the ratios to the same scale before allocating", () => {
-  const d = new Money({ amount: 5n, currency: MGA });
+  const d = money({ amount: 5n, currency: MGA });
   const shares = allocate(d, [
     { amount: 5050n, scale: 2 },
     { amount: 495n, scale: 1 },
@@ -232,7 +232,7 @@ Deno.test("allocate - non-decimal currencies - converts the ratios to the same s
 });
 
 Deno.test("allocate - non-decimal currencies - throws when using empty ratios", () => {
-  const d = new Money({ amount: 5n, currency: MGA });
+  const d = money({ amount: 5n, currency: MGA });
 
   assertThrows(
     () => {
@@ -244,7 +244,7 @@ Deno.test("allocate - non-decimal currencies - throws when using empty ratios", 
 });
 
 Deno.test("allocate - non-decimal currencies - throws when using negative ratios", () => {
-  const d = new Money({ amount: 5n, currency: MGA });
+  const d = money({ amount: 5n, currency: MGA });
 
   assertThrows(
     () => {
@@ -256,7 +256,7 @@ Deno.test("allocate - non-decimal currencies - throws when using negative ratios
 });
 
 Deno.test("allocate - non-decimal currencies - throws when using only zero ratios", () => {
-  const d = new Money({ amount: 5n, currency: MGA });
+  const d = money({ amount: 5n, currency: MGA });
 
   assertThrows(
     () => {

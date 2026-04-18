@@ -1,5 +1,5 @@
 import { UNEQUAL_CURRENCIES_MESSAGE } from "../../messages.ts";
-import { Money } from "../../mod.ts";
+import { money, type Money } from "../../mod.ts";
 import { assert } from "../helpers/assert.ts";
 import { normalizeScale } from "./normalizeScale.ts";
 import { haveSameCurrency } from "./index.ts";
@@ -12,9 +12,9 @@ import { haveSameCurrency } from "./index.ts";
  * @example // To add many Money object
  * import { Money, add, USD } from "jsr:@quarzo-life/moneta"
  *
- * const d1 = new Money({ amount: 300n, currency: USD });
- * const d2 = new Money({ amount: 200n, currency: USD });
- * const d3 = new Money({ amount: 100n, currency: USD });
+ * const d1 = money({ amount: 300n, currency: USD });
+ * const d2 = money({ amount: 200n, currency: USD });
+ * const d3 = money({ amount: 100n, currency: USD });
  *
  * const addMany = (addends: Money[]) => addends.reduce(add);
  *
@@ -29,5 +29,5 @@ export const add = (augend: Money, addend: Money): Money => {
   const currency = newAugend.currency;
   const scale = newAugend.scale;
 
-  return new Money({ amount, currency, scale });
+  return money({ amount, currency, scale });
 };

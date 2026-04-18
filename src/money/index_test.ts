@@ -2,91 +2,90 @@ import { assertEquals } from "@std/assert/equals";
 import { assertStrictEquals } from "@std/assert/strict-equals";
 import { assertThrows } from "@std/assert/throws";
 import { EUR } from "../currencies/index.ts";
-import { Money } from "./index.ts";
+import { money, zeroMoney } from "./index.ts";
 
-Deno.test("Money constructor respects bigint amounts and currency scale", () => {
+Deno.test("money factory respects bigint amounts and currency scale", () => {
   const amount = 500n;
-  const money = new Money({ amount, currency: EUR });
+  const m = money({ amount, currency: EUR });
 
-  assertStrictEquals(money.amount, amount);
-  assertStrictEquals(money.currency.code, EUR.code);
-  assertStrictEquals(money.scale, EUR.exponent);
+  assertStrictEquals(m.amount, amount);
+  assertStrictEquals(m.currency.code, EUR.code);
+  assertStrictEquals(m.scale, EUR.exponent);
 });
 
-Deno.test("Money constructor throws when currency does not exist", () => {
+Deno.test("money factory throws when currency does not exist", () => {
   assertThrows(
     () => {
       // @ts-expect-error deliberately using unknown currency code
-      new Money({ amount: 124n, currency: "DOES NOT EXIST" });
+      money({ amount: 124n, currency: "DOES NOT EXIST" });
     },
     Error,
     "[Money] Unknown currency code: DOES NOT EXIST",
   );
 });
 
-Deno.test("Money constructor handles string amounts with 'n' suffix", () => {
-  const money = new Money({ amount: "1234n", currency: EUR });
-  assertStrictEquals(money.amount, 1234n);
+Deno.test("money factory handles string amounts with 'n' suffix", () => {
+  const m = money({ amount: "1234n", currency: EUR });
+  assertStrictEquals(m.amount, 1234n);
 });
 
-Deno.test("Money constructor throws for unsafe integers", () => {
+Deno.test("money factory throws for unsafe integers", () => {
   assertThrows(
     () => {
       // 2^53 is the limit for safe integers in JS
-      new Money({ amount: 9007199254740992, currency: EUR });
+      money({ amount: 9007199254740992, currency: EUR });
     },
     Error,
     "[Money] Amount is not a safe integer; use bigint or string",
   );
 });
 
-Deno.test("Money constructor throws for non-integer numbers", () => {
+Deno.test("money factory throws for non-integer numbers", () => {
   assertThrows(
     () => {
       // Logic from index.ts prevents decimals as numbers to avoid precision loss
-      new Money({ amount: 12.34, currency: EUR });
+      money({ amount: 12.34, currency: EUR });
     },
     Error,
     "[Money] Amount is not a safe integer; use bigint or string",
   );
 });
 
-Deno.test("Money constructor throws for non-integer string", () => {
+Deno.test("money factory throws for non-integer string", () => {
   const amount = "12.34";
   assertThrows(
     () => {
       // Logic from index.ts prevents decimals as numbers to avoid precision loss
-      new Money({ amount, currency: EUR });
+      money({ amount, currency: EUR });
     },
     Error,
     `[Money] Invalid string amount: ${amount}`,
   );
 });
 
-Deno.test("Money constructor throws for non-integer string", () => {
+Deno.test("money factory throws for non-integer string with comma", () => {
   const amount = "12,34";
   assertThrows(
     () => {
       // Logic from index.ts prevents decimals as numbers to avoid precision loss
-      new Money({ amount, currency: EUR });
+      money({ amount, currency: EUR });
     },
     Error,
     `[Money] Invalid string amount: ${amount}`,
   );
 });
 
-Deno.test("Money constructor respects custom scale", () => {
+Deno.test("money factory respects custom scale", () => {
   const customScale = 4;
-  const money = new Money({ amount: 100n, currency: EUR, scale: customScale });
+  const m = money({ amount: 100n, currency: EUR, scale: customScale });
 
-  assertStrictEquals(money.scale, customScale);
+  assertStrictEquals(m.scale, customScale);
 });
 
 Deno.test("Money serialization (toJSON) converts bigint to string", () => {
-  const money = new Money({ amount: 5000n, currency: EUR });
-  const json = money.toJSON();
+  const m = money({ amount: 5000n, currency: EUR });
+  const json = m.toJSON();
 
-  // Based on your index.ts implementation which appends "n"
   assertEquals(json, {
     amount: "5000n",
     currency: "EUR",
@@ -94,32 +93,39 @@ Deno.test("Money serialization (toJSON) converts bigint to string", () => {
   });
 });
 
-Deno.test("Money constructor recovers state from JSON-like object", () => {
-  const data = { amount: "1000n", currency: "EUR" as const, scale: 2 };
-  const money = new Money(data);
+Deno.test("Money serialization (JSON.stringify) calls toJSON implicitly", () => {
+  const m = money({ amount: 5000n, currency: EUR });
+  const json = JSON.stringify(m);
 
-  assertStrictEquals(money.amount, 1000n);
-  assertStrictEquals(money.currency.code, "EUR");
+  assertEquals(json, '{"amount":"5000n","currency":"EUR","scale":2}');
+});
+
+Deno.test("money factory recovers state from JSON-like object", () => {
+  const data = { amount: "1000n", currency: "EUR" as const, scale: 2 };
+  const m = money(data);
+
+  assertStrictEquals(m.amount, 1000n);
+  assertStrictEquals(m.currency.code, "EUR");
 });
 
 Deno.test("Money zero object", () => {
-  const zeroEUR = Money.zero(EUR);
+  const zeroEUR = zeroMoney(EUR);
 
   assertStrictEquals(zeroEUR.amount, 0n);
   assertStrictEquals(zeroEUR.currency.code, "EUR");
 });
 
-Deno.test("Money constructor throws descriptive error for negative scale", () => {
+Deno.test("money factory throws descriptive error for negative scale", () => {
   assertThrows(
-    () => new Money({ amount: 100n, currency: EUR, scale: -5 }),
+    () => money({ amount: 100n, currency: EUR, scale: -5 }),
     Error,
     "[Money] Scale must be a non-negative integer, but received: -5",
   );
 });
 
-Deno.test("Money constructor throws descriptive error for non-integer scale", () => {
+Deno.test("money factory throws descriptive error for non-integer scale", () => {
   assertThrows(
-    () => new Money({ amount: 100n, currency: EUR, scale: 2.75 }),
+    () => money({ amount: 100n, currency: EUR, scale: 2.75 }),
     Error,
     "[Money] Scale must be an integer, but received: 2.75",
   );

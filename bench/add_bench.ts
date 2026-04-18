@@ -2,7 +2,7 @@ import { add, createDinero, dinero } from "npm:dinero.js@2.0.0-alpha.14";
 import { calculator } from "npm:@dinero.js/calculator-bigint@alpha";
 import { add as add_moneta } from "../mod.ts";
 import { USD } from "../src/currencies/usd.ts";
-import { Money } from "../mod.ts";
+import { money } from "../mod.ts";
 import { Currency, Money as MoneyTsMoney } from "jsr:@dnl-fm/money-ts@0.8.0";
 
 Currency.loadIsoCurrencies([
@@ -27,8 +27,8 @@ const USD_Bigint = {
 */
 
 Deno.bench("Money", { group: "add 2 objects" }, () => {
-  const d1 = new Money({ amount: 500n, currency: USD });
-  const d2 = new Money({ amount: 100n, currency: USD });
+  const d1 = money({ amount: 500n, currency: USD });
+  const d2 = money({ amount: 100n, currency: USD });
 
   add_moneta(d1, d2); // a Dinero object with amount 600
 });
@@ -68,9 +68,9 @@ Deno.bench("Money", { group: "add 1000 objects" }, (b) => {
   }
 
   b.start();
-  let total = new Money({ amount: 0n, currency: USD });
+  let total = money({ amount: 0n, currency: USD });
   for (let i = 0; i < 1000; i++) {
-    const d = new Money(portfolio[i]);
+    const d = money(portfolio[i]);
     total = add_moneta(total, d);
   }
   b.end();

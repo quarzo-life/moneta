@@ -23,8 +23,8 @@ export type ToDecimalParams<TOutput> = readonly [
  * @example // Format an object in decimal format
  * import { Money, toDecimal, USD } from "jsr:@quarzo-life/moneta"
  *
- * const d1 = new Money({ amount: 1050n, currency: USD });
- * const d2 = new Money({ amount: 10545n, currency: USD, scale: 3 });
+ * const d1 = money({ amount: 1050n, currency: USD });
+ * const d2 = money({ amount: 10545n, currency: USD, scale: 3 });
  *
  * toDecimal(d1); // "10.50"
  * toDecimal(d2); // "10.545"
@@ -32,7 +32,7 @@ export type ToDecimalParams<TOutput> = readonly [
  * // If you need to further transform the value before returning it, you can pass a custom function.
  * import { Money, toDecimal, USD } from "jsr:@quarzo-life/moneta"
  *
- * const d = new Money({ amount: 1050n, currency: USD });
+ * const d = money({ amount: 1050n, currency: USD });
  *
  * toDecimal(d, ({ value, currency }) =>
        new Intl.NumberFormat("en-US", { style: "currency", currency: currency.code })

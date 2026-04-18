@@ -1,11 +1,11 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { EUR, USD } from "../../currencies/index.ts";
-import { Money, subtract, toSnapshot } from "../../../mod.ts";
+import { money, subtract, toSnapshot } from "../../../mod.ts";
 
 Deno.test("subtract - number", async (t) => {
   await t.step("subtracts positive Money objects", () => {
-    const d1 = new Money({ amount: 500n, currency: USD });
-    const d2 = new Money({ amount: 100n, currency: USD });
+    const d1 = money({ amount: 500n, currency: USD });
+    const d2 = money({ amount: 100n, currency: USD });
 
     const snapshot = toSnapshot(subtract(d1, d2));
 
@@ -17,8 +17,8 @@ Deno.test("subtract - number", async (t) => {
   });
 
   await t.step("subtracts negative Money objects", () => {
-    const d1 = new Money({ amount: -500n, currency: USD });
-    const d2 = new Money({ amount: -100n, currency: USD });
+    const d1 = money({ amount: -500n, currency: USD });
+    const d2 = money({ amount: -100n, currency: USD });
 
     const snapshot = toSnapshot(subtract(d1, d2));
 
@@ -30,8 +30,8 @@ Deno.test("subtract - number", async (t) => {
   });
 
   await t.step("subtracts positive negative Money objects", () => {
-    const d1 = new Money({ amount: 500n, currency: USD });
-    const d2 = new Money({ amount: -100n, currency: USD });
+    const d1 = money({ amount: 500n, currency: USD });
+    const d2 = money({ amount: -100n, currency: USD });
 
     const snapshot = toSnapshot(subtract(d1, d2));
 
@@ -43,8 +43,8 @@ Deno.test("subtract - number", async (t) => {
   });
 
   await t.step("normalizes the result to the highest scale", () => {
-    const d1 = new Money({ amount: 500n, currency: USD });
-    const d2 = new Money({ amount: 1000n, currency: USD, scale: 3 });
+    const d1 = money({ amount: 500n, currency: USD });
+    const d2 = money({ amount: 1000n, currency: USD, scale: 3 });
 
     const snapshot = toSnapshot(subtract(d1, d2));
 
@@ -56,8 +56,8 @@ Deno.test("subtract - number", async (t) => {
   });
 
   await t.step("throws when using different currencies", () => {
-    const d1 = new Money({ amount: 500n, currency: USD });
-    const d2 = new Money({ amount: 100n, currency: EUR });
+    const d1 = money({ amount: 500n, currency: USD });
+    const d2 = money({ amount: 100n, currency: EUR });
 
     assertThrows(
       () => subtract(d1, d2),

@@ -1,6 +1,6 @@
 import { UNEQUAL_CURRENCIES_MESSAGE } from "../../messages.ts";
 import { assert, maxBigIntArray } from "../helpers/index.ts";
-import { Money } from "../../mod.ts";
+import { money, type Money } from "../../mod.ts";
 import { haveSameCurrency, normalizeScale } from "./index.ts";
 
 export type MaximumParams = readonly [
@@ -17,8 +17,8 @@ export type MaximumParams = readonly [
  * @example
  * import { Money, maximum, EUR } from "jsr:@quarzo-life/moneta"
  *
- * const d1 = new Money({ amount: 150, currency: USD });
- * const d2 = new Money({ amount: 50, currency: USD });
+ * const d1 = money({ amount: 150, currency: USD });
+ * const d2 = money({ amount: 50, currency: USD });
  *
  * maximum([d1, d2]);
  */
@@ -35,7 +35,7 @@ export const maximum = (...[moneyObjects]: MaximumParams): Money => {
     normalizedMoneyObjects.map((subject) => subject.amount),
   );
 
-  return new Money({
+  return money({
     amount,
     currency,
     scale,

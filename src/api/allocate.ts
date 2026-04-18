@@ -1,6 +1,6 @@
 import { assert } from "../helpers/assert.ts";
 import { INVALID_RATIOS_MESSAGE } from "../../messages.ts";
-import { Money } from "../../mod.ts";
+import { money, type Money } from "../../mod.ts";
 import { ScaledAmount } from "../types/types.ts";
 import { distribute, getAmountAndScale } from "../utils/index.ts";
 import { transformScale } from "./index.ts";
@@ -20,7 +20,7 @@ function unsafeAllocate(
   );
 
   return shares.map((share) => {
-    return new Money({
+    return money({
       amount: share,
       currency,
       scale,
@@ -48,7 +48,7 @@ export type AllocateParams = readonly [
  * @returns Money objects with the allocated amounts.
  * @example Distribute as fairly as possible and Ignore zero ratios
  *
- * const m = new Money({ amount: 1003n, currency: EUR });
+ * const m = money({ amount: 1003n, currency: EUR });
 
 const [m1, m2, m3] = allocate(m, [0, 50, 50]);
 
@@ -62,7 +62,7 @@ const ratios = [
   { amount: 505n, scale: 1 },
   { amount: 495n, scale: 1 },
 ]; // translates to ratios 50.5 and 49.5
-const m = new Money({ amount: 100n, currency: EUR });
+const m = money({ amount: 100n, currency: EUR });
 
 const [m1, m2] = allocate(m, ratios);
 

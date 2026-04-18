@@ -3,7 +3,7 @@ import {
   INVALID_RATE_MESSAGE,
   UNEQUAL_CURRENCIES_MESSAGE,
 } from "../../messages.ts";
-import { Money } from "../../mod.ts";
+import { money, type Money } from "../../mod.ts";
 import type { Currency, FXRate } from "../types/types.ts";
 import { assert } from "../helpers/assert.ts";
 import { getAmountAndScale, isArray } from "../utils/index.ts";
@@ -75,7 +75,7 @@ export const convert = (moneyObject: Money, fx: FXRate): Money => {
   const { amount: rateAmount, scale: rateScale } = getAmountAndScale(rate);
 
   const newScale = moneyObject.scale + rateScale;
-  const result = new Money({
+  const result = money({
     amount: moneyObject.amount * rateAmount,
     currency: to,
     scale: newScale,

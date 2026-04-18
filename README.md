@@ -36,10 +36,10 @@ allowing you only to bundle exactly what you use.
 All amounts use are in `bigint`
 
 ```ts
-import { add, EUR, Money } from "jsr:@quarzo-life/moneta";
+import { add, EUR, money } from "jsr:@quarzo-life/moneta";
 
-const d1 = new Money({ amount: 300n, currency: EUR });
-const d2 = new Money({ amount: 200n, currency: EUR });
+const d1 = money({ amount: 300n, currency: EUR });
+const d2 = money({ amount: 200n, currency: EUR });
 
 add(d1, d2); // a Money object with amount 500
 ```

@@ -2,7 +2,7 @@ import { createDinero, dinero, multiply } from "npm:dinero.js@2.0.0-alpha.14";
 import { calculator } from "npm:@dinero.js/calculator-bigint@alpha";
 import { multiply as multiply_moneta } from "../mod.ts";
 import { USD } from "../src/currencies/usd.ts";
-import { Money } from "../mod.ts";
+import { money } from "../mod.ts";
 
 const USD_Bigint = {
   code: "USD",
@@ -15,7 +15,7 @@ const USD_Bigint = {
 */
 
 Deno.bench("Money", { group: "multiply" }, () => {
-  const d1 = new Money({ amount: 500n, currency: USD });
+  const d1 = money({ amount: 500n, currency: USD });
   const scale = { amount: 2001n, scale: 3 };
 
   multiply_moneta(d1, scale);

@@ -1,4 +1,4 @@
-import { Money } from "../money/index.ts";
+import { money, type Money } from "../money/index.ts";
 import { ScaledAmount } from "../types/types.ts";
 import { getAmountAndScale } from "../utils/index.ts";
 import { transformScale } from "./transformScale.ts";
@@ -21,14 +21,14 @@ export type MultiplyParams = readonly [
  * @example // Multiply by an integer
  * import { Money, multiply, EUR } from "jsr:@quarzo-life/moneta"
 
-const d = new Money({ amount: 400n, currency: EUR });
+const d = money({ amount: 400n, currency: EUR });
 
 multiply(d, 4); // a Money object with amount 1600
 
 * @example // Multiply by a scaled multiplier
  * import { Money, multiply, EUR } from "jsr:@quarzo-life/moneta"
 
-const d = new Money({ amount: 401n, currency: EUR });
+const d = money({ amount: 401n, currency: EUR });
 
 multiply(d, { amount: 2001, scale: 3 }); // a Money object with amount 802401 and scale 5
 
@@ -44,7 +44,7 @@ export const multiply = (
   const newScale = scale + multiplierScale;
 
   return transformScale(
-    new Money({
+    money({
       amount: amount * multiplierAmount,
       currency,
       scale: newScale,
