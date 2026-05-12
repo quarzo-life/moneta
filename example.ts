@@ -5,16 +5,16 @@
 import {
   add,
   allocate,
+  convert,
   EUR,
   haveSameAmount,
   haveSameCurrency,
   JPY,
   maximum,
   minimum,
-  money,
   type Money,
+  money,
   multiply,
-  zeroMoney,
   normalizeScale,
   subtract,
   toDecimal,
@@ -24,8 +24,8 @@ import {
   trimScale,
   up,
   USD,
+  zeroMoney,
 } from "./mod.ts"; // "jsr:@quarzo-life/moneta";
-import { convert } from "./src/api/index.ts";
 
 // examples
 const example1 = () => {

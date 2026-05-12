@@ -1,5 +1,5 @@
 import { assertEquals } from "@std/assert";
-import { MGA, USD } from "../../currencies/index.ts";
+import { MGA, USD } from "currencies/index.ts";
 import {
   down,
   halfAwayFromZero,
@@ -12,7 +12,7 @@ import {
   toSnapshot,
   transformScale,
   up,
-} from "../../../mod.ts";
+} from "mod";
 
 const ABC = { code: "ABC", base: 6, exponent: 1 };
 

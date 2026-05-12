@@ -1,5 +1,5 @@
-import { computeBase, money, type Money } from "../../mod.ts";
-import { down } from "../divide/down.ts";
+import { computeBase, money, type Money } from "mod";
+import { down } from "divide/down.ts";
 
 const factorCache = new Map<string, bigint>();
 

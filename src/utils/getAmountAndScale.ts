@@ -1,4 +1,4 @@
-import { ScaledAmount } from "../types/types.ts";
+import { ScaledAmount } from "types/types.ts";
 import { isScaledAmount } from "./isScaledAmount.ts";
 
 /**

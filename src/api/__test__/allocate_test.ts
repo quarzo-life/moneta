@@ -1,7 +1,7 @@
 import { assertEquals, assertThrows } from "@std/assert";
-import { MGA, USD } from "../../currencies/index.ts";
-import { allocate, toSnapshot } from "../index.ts";
-import { money } from "../../../mod.ts";
+import { MGA, USD } from "currencies/index.ts";
+import { allocate, toSnapshot } from "api/index.ts";
+import { money } from "mod";
 
 Deno.test("allocate - decimal currencies - allocates to percentages", () => {
   const d = money({ amount: 1003n, currency: USD });

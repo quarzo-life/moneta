@@ -1,5 +1,5 @@
-import { Money } from "../../mod.ts";
-import { haveSameAmount, haveSameCurrency } from "./index.ts";
+import { Money } from "mod";
+import { haveSameAmount, haveSameCurrency } from "api/index.ts";
 
 /**
  * Are Money objects equal ?

@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
-import { USD } from "../../currencies/index.ts";
-import { money, normalizeScale, toSnapshot } from "../../../mod.ts";
+import { USD } from "currencies/index.ts";
+import { money, normalizeScale, toSnapshot } from "mod";
 
 Deno.test("normalizeScale: number", async (t) => {
   await t.step(

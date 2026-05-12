@@ -1,6 +1,6 @@
 import { assertEquals, assertThrows } from "@std/assert";
-import { EUR, MGA, USD } from "../../currencies/index.ts";
-import { lessThanOrEqual, money } from "../../../mod.ts";
+import { EUR, MGA, USD } from "currencies/index.ts";
+import { lessThanOrEqual, money } from "mod";
 
 Deno.test("lessThanOrEqual - bigint", async (t) => {
   await t.step(

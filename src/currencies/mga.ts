@@ -1,4 +1,4 @@
-import type { Currency } from "../types/types.ts";
+import type { Currency } from "types/types.ts";
 
 /**
  * Malagasy ariary.

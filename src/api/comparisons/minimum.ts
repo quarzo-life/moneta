@@ -1,28 +1,26 @@
-import { UNEQUAL_CURRENCIES_MESSAGE } from "../../messages.ts";
-import { assert, maxBigIntArray } from "../helpers/index.ts";
-import { money, type Money } from "../../mod.ts";
-import { haveSameCurrency, normalizeScale } from "./index.ts";
+import { UNEQUAL_CURRENCIES_MESSAGE } from "messages";
+import { assert, minBigIntArray } from "helpers/index.ts";
+import { money, type Money } from "mod";
+import { haveSameCurrency, normalizeScale } from "api/index.ts";
 
-export type MaximumParams = readonly [
+export type MinimumParams = readonly [
   monetaObjects: ReadonlyArray<Money>,
 ];
 
 /**
- * Get the greatest of the passed Money objects.
+ * Get the lowest of the passed Money objects.
  *
  * @param moneyObjects - The Money objects to maximum.
  *
- * @returns A new Money object.
- *
+ * @returns A new Money object with the minimum amount.
  * @example
- * import { Money, maximum, EUR } from "jsr:@quarzo-life/moneta"
- *
+ * import { Money, minimum, EUR } from "jsr:@quarzo-life/moneta"
  * const d1 = money({ amount: 150, currency: USD });
  * const d2 = money({ amount: 50, currency: USD });
  *
- * maximum([d1, d2]);
+ * minimum([d1, d2]);
  */
-export const maximum = (...[moneyObjects]: MaximumParams): Money => {
+export const minimum = (...[moneyObjects]: MinimumParams): Money => {
   const condition = haveSameCurrency(moneyObjects);
   assert(condition, UNEQUAL_CURRENCIES_MESSAGE);
 
@@ -31,7 +29,7 @@ export const maximum = (...[moneyObjects]: MaximumParams): Money => {
   const [firstMoney] = normalizedMoneyObjects;
   const { currency, scale } = firstMoney;
 
-  const amount = maxBigIntArray(
+  const amount = minBigIntArray(
     normalizedMoneyObjects.map((subject) => subject.amount),
   );
 

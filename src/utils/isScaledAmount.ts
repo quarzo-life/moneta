@@ -1,4 +1,4 @@
-import { Rate, ScaledAmount } from "../types/types.ts";
+import { Rate, ScaledAmount } from "types/types.ts";
 
 /**
  * is Scaled Amount ie object has an amount & scale property

@@ -1,6 +1,6 @@
 import { assertEquals, assertThrows } from "@std/assert";
-import { EUR, USD } from "../../currencies/index.ts";
-import { maximum, money, toSnapshot } from "../../../mod.ts";
+import { EUR, USD } from "currencies/index.ts";
+import { maximum, money, toSnapshot } from "mod";
 
 Deno.test("maximum - bigint", async (t) => {
   await t.step("maximum - bigint (returns greatest)", () => {

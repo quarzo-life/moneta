@@ -1,4 +1,4 @@
-import { Currency, Money } from "../../mod.ts";
+import { Currency, Money } from "mod";
 
 /**
  * JSON snapshot of a Money object.

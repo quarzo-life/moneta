@@ -1,6 +1,6 @@
-import { Money } from "../../mod.ts";
-import { getDivisors, isArray } from "../utils/index.ts";
-import { Transformer } from "../types/types.ts";
+import { Money } from "mod";
+import { getDivisors, isArray } from "utils/index.ts";
+import { Transformer } from "types/types.ts";
 
 export type ToUnitsParams<TOutput> = readonly [
   monetaObject: Money,

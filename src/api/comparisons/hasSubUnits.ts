@@ -1,4 +1,4 @@
-import { computeBase, Money } from "../../mod.ts";
+import { computeBase, Money } from "mod";
 
 export type HasSubUnitsParams = readonly [
   monetaObject: Money,

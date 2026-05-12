@@ -1,7 +1,7 @@
-import { UNEQUAL_CURRENCIES_MESSAGE } from "../../messages.ts";
-import { assert } from "../helpers/assert.ts";
-import { Money } from "../../mod.ts";
-import { haveSameCurrency, normalizeScale } from "./index.ts";
+import { UNEQUAL_CURRENCIES_MESSAGE } from "messages";
+import { assert } from "helpers/assert.ts";
+import { Money } from "mod";
+import { haveSameCurrency, normalizeScale } from "api/index.ts";
 
 /**
  * Check whether the value of a Dinero object is greater than another.

@@ -1,9 +1,9 @@
-import { assert } from "../helpers/assert.ts";
-import { INVALID_RATIOS_MESSAGE } from "../../messages.ts";
-import { money, type Money } from "../../mod.ts";
-import { ScaledAmount } from "../types/types.ts";
-import { distribute, getAmountAndScale } from "../utils/index.ts";
-import { transformScale } from "./index.ts";
+import { assert } from "helpers/assert.ts";
+import { INVALID_RATIOS_MESSAGE } from "messages";
+import { type Money, money } from "mod";
+import { ScaledAmount } from "types/types.ts";
+import { distribute, getAmountAndScale } from "utils/index.ts";
+import { transformScale } from "api/index.ts";
 
 type UnsafeAllocateParams = readonly [
   monetaObject: Money,

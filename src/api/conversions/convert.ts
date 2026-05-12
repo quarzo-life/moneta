@@ -2,13 +2,13 @@ import {
   INCOMPATIBLE_BASES_MESSAGE,
   INVALID_RATE_MESSAGE,
   UNEQUAL_CURRENCIES_MESSAGE,
-} from "../../messages.ts";
-import { money, type Money } from "../../mod.ts";
-import type { Currency, FXRate } from "../types/types.ts";
-import { assert } from "../helpers/assert.ts";
-import { getAmountAndScale, isArray } from "../utils/index.ts";
-import { halfUp } from "../divide/halfUp.ts";
-import { transformScale } from "./transformScale.ts";
+} from "messages";
+import { money, type Money } from "mod";
+import type { Currency, FXRate } from "types/types.ts";
+import { assert } from "helpers/assert.ts";
+import { getAmountAndScale, isArray } from "utils/index.ts";
+import { halfUp } from "divide/halfUp.ts";
+import { transformScale } from "api/conversions/transformScale.ts";
 
 const areBasesCompatible = (
   left: number | readonly number[],

@@ -1,5 +1,5 @@
-import type { Money } from "../../mod.ts";
-import { computeBase } from "../utils/index.ts";
+import type { Money } from "mod";
+import { computeBase } from "utils/index.ts";
 
 /**
  * Check whether a set of Money objects have the same currency.

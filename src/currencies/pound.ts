@@ -1,4 +1,4 @@
-import type { Currency } from "../types/types.ts";
+import type { Currency } from "types/types.ts";
 
 /**
  * Pre-decimal Great Britain pound sterling

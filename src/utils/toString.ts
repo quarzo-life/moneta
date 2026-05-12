@@ -1,6 +1,6 @@
-import { Money } from "../../mod.ts";
+import { Money } from "mod";
 import { isDecimal } from "./isDecimal.ts";
-import { toDecimal } from "../api/toDecimal.ts";
+import { toDecimal } from "api/index.ts";
 
 /**
  * Print a Money object as a string with it currency and amount with decimal.

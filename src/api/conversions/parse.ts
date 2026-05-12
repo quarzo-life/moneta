@@ -1,6 +1,6 @@
-import { bigIntReviver } from "../helpers/JSONbigint.ts";
-import { money, type Money } from "../../mod.ts";
-import { Currency } from "../types/types.ts";
+import { bigIntReviver } from "helpers/JSONbigint.ts";
+import { money, type Money } from "mod";
+import { Currency } from "types/types.ts";
 
 /**
  * Reviver a JSON string to a Money object

@@ -1,7 +1,7 @@
 import { assertEquals } from "@std/assert";
-import { USD } from "../../currencies/index.ts";
-import { multiply, toSnapshot } from "../index.ts";
-import { money } from "../../../mod.ts";
+import { USD } from "currencies/index.ts";
+import { multiply, toSnapshot } from "api/index.ts";
+import { money } from "mod";
 
 // Number tests
 Deno.test("multiply - number: multiplies positive Money objects", () => {

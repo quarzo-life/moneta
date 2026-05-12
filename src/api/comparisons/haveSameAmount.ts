@@ -1,5 +1,5 @@
-import type { Money } from "../../mod.ts";
-import { normalizeScale } from "./normalizeScale.ts";
+import type { Money } from "mod";
+import { normalizeScale } from "api/conversions/normalizeScale.ts";
 
 export type HaveSameAmountParams = readonly [
   monetaObjects: ReadonlyArray<Money>,

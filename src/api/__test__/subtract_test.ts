@@ -1,6 +1,6 @@
 import { assertEquals, assertThrows } from "@std/assert";
-import { EUR, USD } from "../../currencies/index.ts";
-import { money, subtract, toSnapshot } from "../../../mod.ts";
+import { EUR, USD } from "currencies/index.ts";
+import { money, subtract, toSnapshot } from "mod";
 
 Deno.test("subtract - number", async (t) => {
   await t.step("subtracts positive Money objects", () => {

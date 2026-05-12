@@ -1,8 +1,8 @@
-import { UNEQUAL_CURRENCIES_MESSAGE } from "../../messages.ts";
-import { money, type Money } from "../../mod.ts";
-import { assert } from "../helpers/assert.ts";
-import { normalizeScale } from "./normalizeScale.ts";
-import { haveSameCurrency } from "./index.ts";
+import { UNEQUAL_CURRENCIES_MESSAGE } from "messages";
+import { money, type Money } from "mod";
+import { assert } from "helpers/assert.ts";
+import { normalizeScale } from "api/conversions/normalizeScale.ts";
+import { haveSameCurrency } from "api/index.ts";
 
 /**
  * Subtract two Money objects.

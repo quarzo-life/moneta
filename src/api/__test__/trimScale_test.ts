@@ -1,5 +1,5 @@
 import { assertEquals } from "@std/assert";
-import { money, toSnapshot, trimScale, USD } from "../../../mod.ts";
+import { money, toSnapshot, trimScale, USD } from "mod";
 
 Deno.test("trimScale - number - trims a Money object down to its currency exponent's scale", () => {
   const d = money({ amount: 500000n, currency: USD, scale: 5 });

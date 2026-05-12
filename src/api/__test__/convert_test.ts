@@ -1,6 +1,6 @@
 import { assertEquals, assertThrows } from "@std/assert";
-import { EUR, JPY, MGA } from "../../currencies/index.ts";
-import { convert, money, toSnapshot } from "../../../mod.ts";
+import { EUR, JPY, MGA } from "currencies/index.ts";
+import { convert, money, toSnapshot } from "mod";
 
 Deno.test("convert - market rate string", async (t) => {
   await t.step("converts using a comma decimal rate", () => {

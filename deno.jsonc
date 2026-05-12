@@ -1,11 +1,20 @@
 {
   "name": "@quarzo-life/moneta",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "exports": "./mod.ts",
   "lock": false,
   "imports": {
     "@std/assert": "jsr:@std/assert@^1.0.19",
+    "mod": "./mod.ts",
+    "messages": "./src/messages.ts",
+    "api/": "./src/api/",
+    "utils/": "./src/utils/",
+    "divide/": "./src/divide/",
+    "money/": "./src/money/",
+    "types/": "./src/types/",
+    "helpers/": "./src/helpers/",
+    "currencies/": "./src/currencies/",
   },
   "tasks": {
     "start": "deno run example.ts",

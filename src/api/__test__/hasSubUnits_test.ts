@@ -1,5 +1,5 @@
 import { assertEquals } from "@std/assert";
-import { hasSubUnits, MGA, money, USD } from "../../../mod.ts";
+import { hasSubUnits, MGA, money, USD } from "mod";
 
 Deno.test("hasSubUnits - decimal currencies", async (t) => {
   await t.step("returns false when there are no sub-units", () => {

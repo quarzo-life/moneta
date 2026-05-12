@@ -1,4 +1,4 @@
-import { Money } from "../../mod.ts";
+import { Money } from "mod";
 
 /**
  * Is the currency decimal (base 10)?

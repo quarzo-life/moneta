@@ -1,5 +1,5 @@
-import { Money } from "../../mod.ts";
-import { transformScale } from "./transformScale.ts";
+import { Money } from "mod";
+import { transformScale } from "api/conversions/transformScale.ts";
 
 export type NormalizeScaleParams = readonly [
   monetaObjects: ReadonlyArray<Money>,

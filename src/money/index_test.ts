@@ -1,7 +1,7 @@
 import { assertEquals } from "@std/assert/equals";
 import { assertStrictEquals } from "@std/assert/strict-equals";
 import { assertThrows } from "@std/assert/throws";
-import { EUR } from "../currencies/index.ts";
+import { EUR } from "currencies/index.ts";
 import { money, zeroMoney } from "./index.ts";
 
 Deno.test("money factory respects bigint amounts and currency scale", () => {

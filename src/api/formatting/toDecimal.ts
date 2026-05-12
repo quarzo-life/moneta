@@ -1,9 +1,9 @@
-import { assert } from "../helpers/assert.ts";
-import { NON_DECIMAL_CURRENCY_MESSAGE } from "../../messages.ts";
-import { Money } from "../../mod.ts";
-import { Formatter, Transformer } from "../types/types.ts";
-import { absolute, computeBase, isArray } from "../utils/index.ts";
-import { toUnits } from "./toUnits.ts";
+import { assert } from "helpers/assert.ts";
+import { NON_DECIMAL_CURRENCY_MESSAGE } from "messages";
+import { Money } from "mod";
+import { Formatter, Transformer } from "types/types.ts";
+import { absolute, computeBase, isArray } from "utils/index.ts";
+import { toUnits } from "api/formatting/toUnits.ts";
 
 export type ToDecimalParams<TOutput> = readonly [
   monetaObject: Money,

@@ -1,5 +1,5 @@
-import { CURRENCIES, type CurrencyCode } from "../currencies/index.ts";
-import type { Currency, Formatter } from "../types/types.ts";
+import { CURRENCIES, type CurrencyCode } from "currencies/index.ts";
+import type { Currency, Formatter } from "types/types.ts";
 
 /**
  * Money object representing a monetary value (e.g. 51,20 EUR).

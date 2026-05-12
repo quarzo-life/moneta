@@ -1,6 +1,6 @@
-import { Money } from "../../mod.ts";
-import { computeBase, countTrailingZeros } from "../utils/index.ts";
-import { transformScale } from "./transformScale.ts";
+import { Money } from "mod";
+import { computeBase, countTrailingZeros } from "utils/index.ts";
+import { transformScale } from "api/conversions/transformScale.ts";
 
 export type TrimScaleParams = readonly [monetaObject: Money];
 

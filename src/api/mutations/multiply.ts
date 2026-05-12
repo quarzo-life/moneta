@@ -1,7 +1,7 @@
-import { money, type Money } from "../money/index.ts";
-import { ScaledAmount } from "../types/types.ts";
-import { getAmountAndScale } from "../utils/index.ts";
-import { transformScale } from "./transformScale.ts";
+import { type Money, money } from "money/index.ts";
+import { ScaledAmount } from "types/types.ts";
+import { getAmountAndScale } from "utils/index.ts";
+import { transformScale } from "mod";
 
 export type MultiplyParams = readonly [
   multiplicand: Money,
