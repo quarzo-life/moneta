@@ -266,3 +266,61 @@ Deno.test("allocate - non-decimal currencies - throws when using only zero ratio
     "[Money] Ratios are invalid.",
   );
 });
+
+Deno.test("allocate - single ratio - assigns entire amount", () => {
+  const d = money({ amount: 1003n, currency: USD });
+  const [allocated] = allocate(d, [100]);
+
+  assertEquals(toSnapshot(allocated), {
+    amount: 1003n,
+    currency: USD,
+    scale: 2,
+  });
+});
+
+Deno.test("allocate - zero amount - all shares are zero", () => {
+  const d = money({ amount: 0n, currency: USD });
+  const [first, second] = allocate(d, [50, 50]);
+
+  assertEquals(toSnapshot(first), { amount: 0n, currency: USD, scale: 2 });
+  assertEquals(toSnapshot(second), { amount: 0n, currency: USD, scale: 2 });
+});
+
+Deno.test("allocate - 3-way equal split - distributes remainder to first recipient", () => {
+  const d = money({ amount: 100n, currency: USD });
+  const [first, second, third] = allocate(d, [1, 1, 1]);
+
+  assertEquals(toSnapshot(first), { amount: 34n, currency: USD, scale: 2 });
+  assertEquals(toSnapshot(second), { amount: 33n, currency: USD, scale: 2 });
+  assertEquals(toSnapshot(third), { amount: 33n, currency: USD, scale: 2 });
+});
+
+Deno.test("allocate - indivisible unit - remainder goes to first non-zero recipient", () => {
+  const d = money({ amount: 1n, currency: USD });
+  const [first, second, third] = allocate(d, [1, 1, 1]);
+
+  assertEquals(toSnapshot(first), { amount: 1n, currency: USD, scale: 2 });
+  assertEquals(toSnapshot(second), { amount: 0n, currency: USD, scale: 2 });
+  assertEquals(toSnapshot(third), { amount: 0n, currency: USD, scale: 2 });
+});
+
+Deno.test("allocate - only last ratio non-zero - full amount goes to last recipient", () => {
+  const d = money({ amount: 1003n, currency: USD });
+  const [first, second, third] = allocate(d, [0, 0, 100]);
+
+  assertEquals(toSnapshot(first), { amount: 0n, currency: USD, scale: 2 });
+  assertEquals(toSnapshot(second), { amount: 0n, currency: USD, scale: 2 });
+  assertEquals(toSnapshot(third), { amount: 1003n, currency: USD, scale: 2 });
+});
+
+Deno.test("allocate - throws when mixing negative and positive ratios", () => {
+  const d = money({ amount: 100n, currency: USD });
+
+  assertThrows(
+    () => {
+      allocate(d, [-1, 101]);
+    },
+    Error,
+    "[Money] Ratios are invalid.",
+  );
+});

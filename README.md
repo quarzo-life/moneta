@@ -13,7 +13,7 @@
 
 <p align="center">
   Originally forked from <a href="https://v2.dinerojs.com/">Dinero.js v2</a>, 
-  and adapted to work solely with <code>bigint</code>.
+  and adapted to work solely with <code>bigint</code> with Deno.
 </p>
 
 ---
@@ -21,11 +21,20 @@
 ## 📦 Install
 
 ```sh
+# Deno
 deno add jsr:@quarzo-life/moneta
 
-or
-
+# npm
 npx jsr add @quarzo-life/moneta
+
+# yarn
+yarn dlx jsr add @quarzo-life/moneta
+
+# pnpm
+pnpm dlx jsr add @quarzo-life/moneta
+
+# bun
+bunx jsr add @quarzo-life/moneta
 ```
 
 ## ⚡️ Quick start
@@ -62,6 +71,6 @@ Switching from one to another is easier.
 - [Martin Fowler's money pattern](https://martinfowler.com/eaaCatalog/money.html)
 - [Money PHP](https://www.moneyphp.org/en/stable/#)
 
-## 📜 License
+## License
 
 [MIT](LICENSE)

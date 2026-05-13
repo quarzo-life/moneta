@@ -25,7 +25,7 @@ import {
   up,
   USD,
   zeroMoney,
-} from "./mod.ts"; // "jsr:@quarzo-life/moneta";
+} from "mod"; // "jsr:@quarzo-life/moneta";
 
 // examples
 const example1 = () => {
@@ -337,6 +337,23 @@ const example25 = () => {
   );
 };
 
+const example26 = () => {
+  console.log("Allocate an investment object");
+
+  const mm = money({ amount: 100153n, currency: EUR });
+  const mm1 = money({ amount: 10153n, currency: EUR });
+  const mm2 = money({ amount: 4510n, currency: EUR });
+  const mm3 = money({ amount: 4500n, currency: EUR });
+  const [m1, m2, m3] = allocate(mm, [mm1, mm2, mm3]);
+  const [r1, r2, r3] = allocate(mm, [10153, 4510, 4500]);
+
+  console.log(m1, m2, m3);
+  console.log(r1, r2, r3);
+  console.log(toSnapshot(m1));
+  console.log(toSnapshot(m2));
+  console.log(toSnapshot(m3));
+};
+
 // Run all examples
 example1();
 example2();
@@ -363,3 +380,4 @@ example22();
 example23();
 example24();
 example25();
+example26();
