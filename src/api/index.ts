@@ -6,15 +6,17 @@
 // Mutations
 export * from "api/mutations/add.ts";
 export * from "api/mutations/allocate.ts";
+export * from "api/mutations/dangerDivide.ts";
 export * from "api/mutations/multiply.ts";
 export * from "api/mutations/subtract.ts";
 
 // Conversions
-export * from "./conversions/convert.ts";
-export * from "./conversions/normalizeScale.ts";
-export * from "./conversions/transformScale.ts";
-export * from "./conversions/trimScale.ts";
-export * from "./conversions/parse.ts";
+export * from "api/conversions/convert.ts";
+export * from "api/conversions/dangerRound.ts";
+export * from "api/conversions/normalizeScale.ts";
+export * from "api/conversions/transformScale.ts";
+export * from "api/conversions/trimScale.ts";
+export * from "api/conversions/parse.ts";
 
 // Formatting
 export * from "api/formatting/toDecimal.ts";
