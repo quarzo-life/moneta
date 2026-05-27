@@ -1,9 +1,10 @@
 import type { Money } from "mod";
 import { normalizeScale } from "api/conversions/normalizeScale.ts";
 
-export type HaveSameAmountParams = readonly [
-  monetaObjects: ReadonlyArray<Money>,
-];
+const haveSameAmountPair = (m1: Money, m2: Money): boolean => {
+  const [normalizedM1, normalizedM2] = normalizeScale([m1, m2]);
+  return normalizedM1.amount === normalizedM2.amount;
+};
 
 /**
  * Check whether a set of Money objects have the same amount.
@@ -26,14 +27,8 @@ export type HaveSameAmountParams = readonly [
  * haveSameAmount([d1, d2]); // true
  */
 export const haveSameAmount = (
-  ...[monetaObjects]: HaveSameAmountParams
+  monetaObjects: ReadonlyArray<Money>,
 ): boolean => {
-  const [firstMoney, ...otherMoneys] = normalizeScale(monetaObjects);
-  const { amount: comparatorAmount } = firstMoney;
-
-  return otherMoneys.every((d) => {
-    const { amount: subjectAmount } = d;
-
-    return subjectAmount === comparatorAmount;
-  });
+  const [firstMoney, ...otherMoneys] = monetaObjects;
+  return otherMoneys.every((d) => haveSameAmountPair(firstMoney, d));
 };

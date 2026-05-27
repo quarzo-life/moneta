@@ -1,6 +1,17 @@
 import type { Money } from "mod";
 import { computeBase } from "utils/index.ts";
 
+const haveSameCurrencyPair = (m1: Money, m2: Money): boolean => {
+  const { currency: c1 } = m1;
+  const { currency: c2 } = m2;
+
+  return (
+    c1.code === c2.code &&
+    computeBase(c1.base) === computeBase(c2.base) &&
+    c1.exponent === c2.exponent
+  );
+};
+
 /**
  * Check whether a set of Money objects have the same currency.
  * @param monetaObjects Money objects in a array
@@ -25,17 +36,5 @@ export const haveSameCurrency = (
   monetaObjects: ReadonlyArray<Money>,
 ): boolean => {
   const [firstMoney, ...otherMoneys] = monetaObjects;
-  const { currency: comparator } = firstMoney;
-  const comparatorBase = computeBase(comparator.base);
-
-  return otherMoneys.every((d) => {
-    const { currency: subject } = d;
-    const subjectBase = computeBase(subject.base);
-
-    return (
-      subject.code === comparator.code &&
-      subjectBase === comparatorBase &&
-      subject.exponent === comparator.exponent
-    );
-  });
+  return otherMoneys.every((d) => haveSameCurrencyPair(firstMoney, d));
 };
