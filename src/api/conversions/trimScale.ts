@@ -19,7 +19,7 @@ export type TrimScaleParams = readonly [monetaObject: Money];
  *
  * const d = money({ amount: 99950, currency: USD, scale: 4 });
  *
- * trimScale(d); // a Dinero object with amount 9995 and scale 3
+ * trimScale(d); // a Money object with amount 9995 and scale 3
  */
 export const trimScale = (...[monetaObject]: TrimScaleParams): Money => {
   const { amount, currency, scale } = monetaObject;

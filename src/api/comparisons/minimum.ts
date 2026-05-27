@@ -1,6 +1,6 @@
 import { UNEQUAL_CURRENCIES_MESSAGE } from "messages";
 import { assert, minBigIntArray } from "helpers/index.ts";
-import { money, type Money } from "mod";
+import { type Money, money } from "mod";
 import { haveSameCurrency, normalizeScale } from "api/index.ts";
 
 export type MinimumParams = readonly [
@@ -15,22 +15,20 @@ export type MinimumParams = readonly [
  * @returns A new Money object with the minimum amount.
  * @example
  * import { Money, minimum, EUR } from "jsr:@quarzo-life/moneta"
- * const d1 = money({ amount: 150, currency: USD });
- * const d2 = money({ amount: 50, currency: USD });
+ * const first = money({ amount: 150, currency: USD });
+ * const second = money({ amount: 50, currency: USD });
  *
- * minimum([d1, d2]);
+ * minimum([first, second]);
  */
 export const minimum = (...[moneyObjects]: MinimumParams): Money => {
-  const condition = haveSameCurrency(moneyObjects);
-  assert(condition, UNEQUAL_CURRENCIES_MESSAGE);
+  assert(haveSameCurrency(moneyObjects), UNEQUAL_CURRENCIES_MESSAGE);
 
   const normalizedMoneyObjects = normalizeScale(moneyObjects);
 
-  const [firstMoney] = normalizedMoneyObjects;
-  const { currency, scale } = firstMoney;
+  const [{ currency, scale }] = normalizedMoneyObjects;
 
   const amount = minBigIntArray(
-    normalizedMoneyObjects.map((subject) => subject.amount),
+    normalizedMoneyObjects.map(({ amount }) => amount),
   );
 
   return money({

@@ -1,4 +1,4 @@
-import { computeBase, money, type Money } from "mod";
+import { computeBase, type Money, money } from "mod";
 import { down } from "divide/down.ts";
 
 const factorCache = new Map<string, bigint>();
@@ -17,11 +17,11 @@ const getFactor = (baseNum: number, diff: number): bigint => {
 /**
  * Transform a Money object to a new scale.
  *
- * When transforming to a higher scale, the internal amount value increases by orders of magnitude. If you're using the default Dinero.js implementation (with the number calculator), be careful not to exceed the minimum and maximum safe integers.
+ * When transforming to a higher scale, the internal amount value increases by orders of magnitude. If you're using the default Moneta.js implementation (with the number calculator), be careful not to exceed the minimum and maximum safe integers.
  *
  * When transforming to a smaller scale, the amount loses precision. By default, the function rounds down the amount. You can specify how to round by passing a custom divide function.
  *
- * For convenience, Dinero.js provides the following divide functions: up, down, halfUp, halfDown, halfOdd, halfEven (bankers rounding), halfTowardsZero, and halfAwayFromZero.
+ * For convenience, Moneta.js provides the following divide functions: up, down, halfUp, halfDown, halfOdd, halfEven (bankers rounding), halfTowardsZero, and halfAwayFromZero.
  * @param monetaObject The Money object to transform.
  * @param newScale The new scale to transform to.
  * @param divide A custom divide function.

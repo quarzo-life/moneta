@@ -1,22 +1,15 @@
-import { UNEQUAL_CURRENCIES_MESSAGE } from "messages";
-import { assert } from "helpers/assert.ts";
 import { Money } from "mod";
-import { haveSameCurrency, normalizeScale } from "api/index.ts";
+import { compareAmounts } from "api/comparisons/compareAmounts.ts";
 
 /**
- * Check whether the value of a Dinero object is greater than another.
+ * Check whether the value of a Money object is greater than another.
  *
  * You can only compare objects that share the same currency.
  * The function also normalizes objects to the same scale (the highest)
  * before comparing them.
- * @param moneyObject The first Money object to compare.
- * @param comparator The seconde Money object to compare.
+ * @param first The first Money object to compare.
+ * @param second The second Money object to compare.
  * @returns true if moneyObject > comparator
  */
-export const greaterThan = (moneyObject: Money, comparator: Money): boolean => {
-  const condition = haveSameCurrency([moneyObject, comparator]);
-  assert(condition, UNEQUAL_CURRENCIES_MESSAGE);
-
-  const [subject, comp] = normalizeScale([moneyObject, comparator]);
-  return subject.amount > comp.amount;
-};
+export const greaterThan = (first: Money, second: Money): boolean =>
+  compareAmounts(first, second, (a, b) => a > b);

@@ -9,14 +9,14 @@ Deno.test("normalizeScale: number", async (t) => {
       const d1 = money({ amount: 100n, currency: USD, scale: 2 });
       const d2 = money({ amount: 1000n, currency: USD, scale: 3 });
 
-      const [firstDineroObject, secondDineroObject] = normalizeScale([d1, d2]);
+      const [firstMoneyObject, secondMoneyObject] = normalizeScale([d1, d2]);
 
-      assertEquals(toSnapshot(firstDineroObject), {
+      assertEquals(toSnapshot(firstMoneyObject), {
         amount: 1000n,
         currency: USD,
         scale: 3,
       });
-      assertEquals(toSnapshot(secondDineroObject), {
+      assertEquals(toSnapshot(secondMoneyObject), {
         amount: 1000n,
         currency: USD,
         scale: 3,
