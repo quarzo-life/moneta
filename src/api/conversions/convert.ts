@@ -3,7 +3,7 @@ import {
   INVALID_RATE_MESSAGE,
   UNEQUAL_CURRENCIES_MESSAGE,
 } from "messages";
-import { money, type Money } from "mod";
+import { type Money, money } from "mod";
 import type { Currency, FXRate } from "types/types.ts";
 import { assert } from "helpers/assert.ts";
 import { getAmountAndScale, isArray } from "utils/index.ts";
@@ -11,24 +11,25 @@ import { halfUp } from "divide/halfUp.ts";
 import { transformScale } from "api/conversions/transformScale.ts";
 
 const areBasesCompatible = (
-  left: number | readonly number[],
-  right: number | readonly number[],
+  first: number | readonly number[],
+  second: number | readonly number[],
 ): boolean => {
-  const leftIsArray = isArray(left);
-  const rightIsArray = isArray(right);
+  const firstIsArray = isArray(first);
 
-  if (leftIsArray !== rightIsArray) {
+  const secondIsArray = isArray(second);
+
+  if (firstIsArray !== secondIsArray) {
     return false;
   }
 
-  if (leftIsArray && rightIsArray) {
-    if (left.length !== right.length) {
+  if (firstIsArray && secondIsArray) {
+    if (first.length !== second.length) {
       return false;
     }
-    return left.every((value, index) => value === right[index]);
+    return first.every((value, index) => value === second[index]);
   }
 
-  return left === right;
+  return first === second;
 };
 
 const isSameCurrency = (left: Currency, right: Currency): boolean => {
@@ -75,6 +76,7 @@ export const convert = (moneyObject: Money, fx: FXRate): Money => {
   const { amount: rateAmount, scale: rateScale } = getAmountAndScale(rate);
 
   const newScale = moneyObject.scale + rateScale;
+
   const result = money({
     amount: moneyObject.amount * rateAmount,
     currency: to,

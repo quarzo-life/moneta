@@ -5,11 +5,6 @@ import { ScaledAmount } from "types/types.ts";
 import { distribute, getAmountAndScale } from "utils/index.ts";
 import { transformScale } from "api/index.ts";
 
-export type AllocateParams = readonly [
-  monetaObject: Money,
-  ratios: ReadonlyArray<ScaledAmount | number>,
-];
-
 /**
  * Distribute the amount of a {@link Money} object across a list of ratios.
  *
@@ -90,12 +85,18 @@ export type AllocateParams = readonly [
  * m2; // a Money object with amount 495 and scale 3
  * ```
  */
-export function allocate(...[monetaObject, ratios]: AllocateParams): Money[] {
+export function allocate(
+  monetaObject: Money,
+  ratios: ReadonlyArray<ScaledAmount | number>,
+): Money[] {
   const hasRatios = ratios.length > 0;
+
   const scaledRatios = ratios.map((ratio) => getAmountAndScale(ratio));
+
   const highestRatioScale = hasRatios
     ? Math.max(...scaledRatios.map(({ scale }) => scale))
     : 0;
+
   const normalizedRatios = scaledRatios.map(({ amount, scale }) => {
     const factor = scale === highestRatioScale ? 0 : highestRatioScale - scale;
 
@@ -104,20 +105,29 @@ export function allocate(...[monetaObject, ratios]: AllocateParams): Money[] {
       scale,
     };
   });
+
   const hasOnlyPositiveRatios = normalizedRatios.every(({ amount }) =>
     amount >= 0
   );
+
   const hasOneNonZeroRatio = normalizedRatios.some(({ amount }) => amount > 0);
 
-  const condition = hasRatios && hasOnlyPositiveRatios && hasOneNonZeroRatio;
-  assert(condition, INVALID_RATIOS_MESSAGE);
+  assert(
+    hasRatios && hasOnlyPositiveRatios && hasOneNonZeroRatio,
+    INVALID_RATIOS_MESSAGE,
+  );
 
   const { scale } = monetaObject;
+
   const newScale = scale + highestRatioScale;
 
   const scaled = transformScale(monetaObject, newScale);
+
   const { amount, currency } = scaled;
+
   const shares = distribute(amount, normalizedRatios.map((r) => r.amount));
 
-  return shares.map((share) => money({ amount: share, currency, scale: newScale }));
+  return shares.map((share) =>
+    money({ amount: share, currency, scale: newScale })
+  );
 }

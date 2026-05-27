@@ -2,11 +2,6 @@ import { type Money } from "mod";
 import { DivideOperation } from "types/types.ts";
 import { transformScale } from "api/conversions/transformScale.ts";
 
-export type DangerRoundParams = readonly [
-  monetaObject: Money,
-  divideOp: DivideOperation,
-];
-
 /**
  * Round a Money object to its currency's conventional scale (the exponent).
  *
@@ -58,7 +53,8 @@ export type DangerRoundParams = readonly [
  * ```
  */
 export const dangerRound = (
-  ...[monetaObject, divideOp]: DangerRoundParams
+  monetaObject: Money,
+  divideOp: DivideOperation,
 ): Money => {
   const { currency, scale } = monetaObject;
 

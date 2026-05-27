@@ -2,8 +2,6 @@ import { Money } from "mod";
 import { computeBase, countTrailingZeros } from "utils/index.ts";
 import { transformScale } from "api/conversions/transformScale.ts";
 
-export type TrimScaleParams = readonly [monetaObject: Money];
-
 /**
  * Trim a Money object's scale as much as possible, down to the currency exponent.
  * @param monetaObject Money object to trim.
@@ -21,12 +19,15 @@ export type TrimScaleParams = readonly [monetaObject: Money];
  *
  * trimScale(d); // a Money object with amount 9995 and scale 3
  */
-export const trimScale = (...[monetaObject]: TrimScaleParams): Money => {
+export const trimScale = (monetaObject: Money): Money => {
   const { amount, currency, scale } = monetaObject;
+
   const base = computeBase(currency.base);
 
   const trailingZerosLength = countTrailingZeros(amount, base);
+
   const difference = scale - trailingZerosLength;
+
   const newScale = Math.max(difference, currency.exponent);
 
   if (newScale === scale) {

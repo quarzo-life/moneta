@@ -1,10 +1,6 @@
 import { Money } from "mod";
 import { transformScale } from "api/conversions/transformScale.ts";
 
-export type NormalizeScaleParams = readonly [
-  monetaObjects: ReadonlyArray<Money>,
-];
-
 /**
  * Normalize a set of Money objects to the highest scale of the set.
  *
@@ -25,7 +21,7 @@ export type NormalizeScaleParams = readonly [
  * two; // a Money object with amount 2000 and scale 3
  */
 export const normalizeScale = (
-  ...[monetaObjects]: NormalizeScaleParams
+  monetaObjects: ReadonlyArray<Money>,
 ): Money[] => {
   const highestScale = monetaObjects.reduce((highest, current) => {
     return Math.max(highest, current.scale);

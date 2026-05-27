@@ -2,11 +2,6 @@ import { Money } from "mod";
 import { getDivisors, isArray } from "utils/index.ts";
 import { Transformer } from "types/types.ts";
 
-export type ToUnitsParams<TOutput> = readonly [
-  monetaObject: Money,
-  transformer?: Transformer<TOutput, readonly bigint[]>,
-];
-
 /**
  * Get the amount of a new Money object in units.
  * This function returns the total amount divided into each unit and sub-unit, as an array. For example, an object representing $10.45 expressed as 1045 (with currency USD and no custom scale) would return [10, 45] for 10 dollars and 45 cents.
@@ -20,11 +15,11 @@ export type ToUnitsParams<TOutput> = readonly [
 
  * import { Money, toUnits, USD } from "jsr:@quarzo-life/moneta"
 
-const d1 = money({ amount: 1050, currency: USD });
-const d2 = money({ amount: 10545, currency: USD, scale: 3 });
+const first = money({ amount: 1050, currency: USD });
+const second = money({ amount: 10545, currency: USD, scale: 3 });
 
-toUnits(d1); // [10, 50]
-toUnits(d2); // [10, 545]
+toUnits(first); // [10, 50]
+toUnits(second); // [10, 545]
 
 * @example // Format a non-decimal object
 
@@ -64,12 +59,15 @@ toUnits(d, ({ value }) =>
 
  */
 export const toUnits = (
-  ...[monetaObject, transformer]: ToUnitsParams<bigint[]>
+  monetaObject: Money,
+  transformer?: Transformer<bigint[], readonly bigint[]>,
 ): readonly bigint[] => {
   const { amount, currency, scale } = monetaObject;
 
   const bases = isArray(currency.base) ? currency.base : [currency.base];
+
   const divisors = getDivisors(bases.map((base) => base ** scale));
+
   const value = divisors.reduce<readonly bigint[]>(
     (amounts, divisor, index) => {
       const amountLeft = amounts[index];

@@ -11,22 +11,22 @@ import { haveSameCurrency, normalizeScale } from "api/index.ts";
  * @example // To add many Money object
  * import { Money, add, USD } from "jsr:@quarzo-life/moneta"
  *
- * const d1 = money({ amount: 300n, currency: USD });
- * const d2 = money({ amount: 200n, currency: USD });
- * const d3 = money({ amount: 100n, currency: USD });
+ * const first = money({ amount: 300n, currency: USD });
+ * const second = money({ amount: 200n, currency: USD });
+ * const third = money({ amount: 100n, currency: USD });
  *
  * const addMany = (addends: Money[]) => addends.reduce(add);
  *
- * addMany([d1, d2, d3]); // a Money object with amount 600
+ * addMany([first, second, third]); // a Money object with amount 600
  */
-export const add = (augend: Money, addend: Money): Money => {
-  const condition = haveSameCurrency([augend, addend]);
-  assert(condition, UNEQUAL_CURRENCIES_MESSAGE);
+export const add = (first: Money, second: Money): Money => {
+  assert(haveSameCurrency([first, second]), UNEQUAL_CURRENCIES_MESSAGE);
 
-  const [newAugend, newAddend] = normalizeScale([augend, addend]);
-  const amount = newAugend.amount + newAddend.amount;
-  const currency = newAugend.currency;
-  const scale = newAugend.scale;
+  const [normalizedFirst, normalizedSecond] = normalizeScale([first, second]);
+
+  const { currency, scale } = normalizedFirst;
+
+  const amount = normalizedFirst.amount + normalizedSecond.amount;
 
   return money({ amount, currency, scale });
 };

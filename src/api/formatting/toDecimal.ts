@@ -5,11 +5,6 @@ import { Transformer } from "types/types.ts";
 import { absolute, computeBase, isArray } from "utils/index.ts";
 import { toUnits } from "api/formatting/toUnits.ts";
 
-export type ToDecimalParams<TOutput> = readonly [
-  monetaObject: Money,
-  transformer?: Transformer<TOutput, string>,
-];
-
 /**
  * Get the amount of a Money object in a stringified decimal representation.
  *
@@ -25,11 +20,11 @@ export type ToDecimalParams<TOutput> = readonly [
  * ```ts
  * import { money, toDecimal, USD } from "jsr:@quarzo-life/moneta";
  *
- * const d1 = money({ amount: 1050n, currency: USD });
- * const d2 = money({ amount: 10545n, currency: USD, scale: 3 });
+ * const first = money({ amount: 1050n, currency: USD });
+ * const second = money({ amount: 10545n, currency: USD, scale: 3 });
  *
- * toDecimal(d1); // "10.50"
- * toDecimal(d2); // "10.545"
+ * toDecimal(first); // "10.50"
+ * toDecimal(second); // "10.545"
  * ```
  *
  * @example Use a custom transformer
@@ -47,7 +42,8 @@ export type ToDecimalParams<TOutput> = readonly [
  * ```
  */
 export const toDecimal = <TOutput>(
-  ...[monetaObject, transformer]: ToDecimalParams<TOutput>
+  monetaObject: Money,
+  transformer?: Transformer<TOutput, string>,
 ): TOutput | string => {
   const { currency, scale, formatter } = monetaObject;
 

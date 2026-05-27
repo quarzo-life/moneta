@@ -3,11 +3,6 @@ import { ScaledAmount } from "types/types.ts";
 import { getAmountAndScale } from "utils/index.ts";
 import { transformScale } from "mod";
 
-export type MultiplyParams = readonly [
-  multiplicand: Money,
-  multiplier: ScaledAmount | number,
-];
-
 /**
  * Multiply a Money object.
  *
@@ -34,7 +29,8 @@ multiply(d, { amount: 2001, scale: 3 }); // a Money object with amount 802401 an
 
  */
 export const multiply = (
-  ...[multiplicand, multiplier]: MultiplyParams
+  multiplicand: Money,
+  multiplier: ScaledAmount | number,
 ): Money => {
   const { amount, currency, scale } = multiplicand;
 

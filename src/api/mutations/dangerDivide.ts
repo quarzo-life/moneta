@@ -1,12 +1,6 @@
-import { money, type Money } from "mod";
+import { type Money, money } from "mod";
 import { DivideOperation, ScaledAmount } from "types/types.ts";
 import { getAmountAndScale } from "utils/index.ts";
-
-export type DangerDivideParams = readonly [
-  monetaObject: Money,
-  divisor: ScaledAmount | number | bigint,
-  divideOp: DivideOperation,
-];
 
 /**
  * Divide a Money object by a scalar divisor.
@@ -64,14 +58,18 @@ export type DangerDivideParams = readonly [
  * ```
  */
 export const dangerDivide = (
-  ...[monetaObject, divisor, divideOp]: DangerDivideParams
+  monetaObject: Money,
+  divisor: ScaledAmount | number | bigint,
+  divideOp: DivideOperation,
 ): Money => {
   const { amount, currency, scale } = monetaObject;
+
   const { amount: divisorAmount, scale: divisorScale } = getAmountAndScale(
     divisor,
   );
 
   const scaledAmount = amount * (10n ** BigInt(divisorScale));
+
   const newAmount = divideOp(scaledAmount, divisorAmount);
 
   return money({ amount: newAmount, currency, scale });
