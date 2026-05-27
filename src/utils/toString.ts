@@ -12,7 +12,7 @@ export const toString = (m: Money): string => {
 
   if (isDecimal(m)) {
     return `${currency.code} ${toDecimal(m)}`;
-  } else {
-    return `${currency.code} ${m.amount.toString()}`;
   }
+
+  return `${currency.code} ${m.amount.toString()}`;
 };

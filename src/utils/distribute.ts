@@ -25,9 +25,11 @@ export const distribute = (
   });
 
   const isPositive = value >= 0;
+
   const compare = (v: bigint) => {
     return (isPositive ? v > 0n : v < 0n);
   };
+
   const amount = isPositive ? 1n : -1n;
 
   let i = 0;

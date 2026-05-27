@@ -4,8 +4,5 @@
  * @returns true if even
  */
 export const isEven = (input: bigint): boolean => {
-  const zero = 0n;
-  const two = 2n;
-
-  return (input % two) === zero;
+  return (input % 2n) === 0n;
 };

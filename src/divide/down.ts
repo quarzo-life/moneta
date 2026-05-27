@@ -23,11 +23,16 @@ export const down: DivideOperation = (
   factor,
 ) => {
   const quotient = amount / factor;
+
   const remainder = amount % factor;
+
   const isInteger = remainder === 0n;
+
   const isPositive = amount > 0n;
+
   if (isPositive || isInteger) {
     return quotient;
   }
+
   return quotient - 1n;
 };

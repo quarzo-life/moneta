@@ -12,6 +12,7 @@ import { MKD } from "./mkd.ts";
 import { USD } from "./usd.ts";
 
 export const CURRENCIES = { CHF, EUR, GBP, JPY, MGA, MKD, USD };
+
 export type CurrencyCode = keyof typeof CURRENCIES;
 
 export { CHF, EUR, GBP, JPY, MGA, MKD, USD };

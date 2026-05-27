@@ -8,6 +8,5 @@ import { Money } from "mod";
 export const isDecimal = (m: Money): boolean => {
   const currency = m.currency;
   const base = currency.base;
-
   return base === 10;
 };

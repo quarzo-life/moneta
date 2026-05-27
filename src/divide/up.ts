@@ -19,9 +19,13 @@ import { DivideOperation } from "types/types.ts";
  */
 export const up: DivideOperation = (amount, factor) => {
   const zero = 0n;
+
   const isPositive = amount > zero;
+
   const quotient = amount / BigInt(factor);
+
   const remainder = amount % BigInt(factor);
+
   const isInteger = remainder === zero;
 
   if (!isInteger && isPositive) {

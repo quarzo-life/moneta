@@ -23,10 +23,15 @@ import { down, up } from "./index.ts";
  */
 export const halfUp: DivideOperation = (amount, factor) => {
   const zero = 0n;
+
   const factorBigInt = BigInt(factor);
+
   const remainder = absolute(amount % factorBigInt);
+
   const difference = factorBigInt - remainder;
+
   const isLessThanHalf = difference > remainder;
+
   const isPositive = amount > zero;
 
   if (
