@@ -7,12 +7,12 @@
 </p>
 
 <p align="center">
-  Moneta is a lightweight monetary library built exclusively on <code>bigint</code> 
+  Moneta is a lightweight monetary library built exclusively on <code>bigint</code>
   to ensure precision and safety for financial calculations.
 </p>
 
 <p align="center">
-  Originally forked from <a href="https://v2.dinerojs.com/">Dinero.js v2</a>, 
+  Originally forked from <a href="https://v2.dinerojs.com/">Dinero.js v2</a>,
   and adapted to work solely with <code>bigint</code> with Deno.
 </p>
 

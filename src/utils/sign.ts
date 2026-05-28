@@ -1,6 +1,6 @@
 /**
  * Sign of a bigint
- * @param input 
+ * @param input
  * @returns +1n / -1n
  */
 export const sign = (input: bigint): bigint => {

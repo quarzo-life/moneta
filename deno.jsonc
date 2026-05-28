@@ -14,16 +14,16 @@
     "money/": "./src/money/",
     "types/": "./src/types/",
     "helpers/": "./src/helpers/",
-    "currencies/": "./src/currencies/",
+    "currencies/": "./src/currencies/"
   },
   "tasks": {
     "start": "deno run example.ts",
     "bench": "deno bench --allow-env",
-    "test": "deno test --parallel",
+    "test": "deno test --parallel"
   },
   "lint": {
     "rules": {
-      "tags": ["recommended"],
-    },
-  },
+      "tags": ["recommended"]
+    }
+  }
 }

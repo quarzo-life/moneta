@@ -1,11 +1,17 @@
 {
   "version": "5",
   "specifiers": {
+    "jsr:@dnl-fm/money-ts@0.8.0": "0.8.0",
     "jsr:@std/assert@^1.0.19": "1.0.19",
     "jsr:@std/internal@^1.0.12": "1.0.12",
+    "npm:@dinero.js/calculator-bigint@alpha": "2.0.0-alpha.14",
+    "npm:dinero.js@2.0.0-alpha.14": "2.0.0-alpha.14",
     "npm:fast-check@4.5.3": "4.5.3"
   },
   "jsr": {
+    "@dnl-fm/money-ts@0.8.0": {
+      "integrity": "7756028d8c6d574fa23381d9575f81346788e31ad06ff8862cf069b9cbae6d8e"
+    },
     "@std/assert@1.0.19": {
       "integrity": "eaada96ee120cb980bc47e040f82814d786fe8162ecc53c91d8df60b8755991e",
       "dependencies": [
@@ -17,6 +23,35 @@
     }
   },
   "npm": {
+    "@dinero.js/calculator-bigint@2.0.0-alpha.14": {
+      "integrity": "sha512-kWrx49us3Plhdc2UbfrH7XqiOlSUFUIvRHTwzFpuKKTRhwJ5XJppSsl2ZzXeM2IgtaDKzgY2YoSci1dnExE7mQ==",
+      "dependencies": [
+        "@dinero.js/core"
+      ]
+    },
+    "@dinero.js/calculator-number@2.0.0-alpha.14": {
+      "integrity": "sha512-Vmlu6eXNtkFU2cqlrpqfq8KQP9onALf8Es2d34liVa3k3RHjuhizgFUU3V3/tsjOu5WekZq+gYPOr58XVTkB7A==",
+      "dependencies": [
+        "@dinero.js/core"
+      ]
+    },
+    "@dinero.js/core@2.0.0-alpha.14": {
+      "integrity": "sha512-CtKELJ783joUbaU62fRM2xDXb4XYSy0MgOuIkPWgVOS3SYKKb6+2Ec9bNlvrW8lsPROz/RsvCuYVTphrZ79twg==",
+      "dependencies": [
+        "@dinero.js/currencies"
+      ]
+    },
+    "@dinero.js/currencies@2.0.0-alpha.14": {
+      "integrity": "sha512-Ck5ZLjRI7Pl7Y4VkeOst4WEwiN5vZezv8GHcXWsVLUfTNsmkV37VeLYDRAuTUP4akEJyIry+1o1qHYNtLq3eNw=="
+    },
+    "dinero.js@2.0.0-alpha.14": {
+      "integrity": "sha512-dkURHd9P+2TjuSTMUAnvrB7SsL4GbBYG/WPtIBV8M+L7Xf80x84sJcUUTxIS33S4AlkIbVANlaL86w2g5zdrmg==",
+      "dependencies": [
+        "@dinero.js/calculator-number",
+        "@dinero.js/core",
+        "@dinero.js/currencies"
+      ]
+    },
     "fast-check@4.5.3": {
       "integrity": "sha512-IE9csY7lnhxBnA8g/WI5eg/hygA6MGWJMSNfFRrBlXUciADEhS1EDB0SIsMSvzubzIlOBbVITSsypCsW717poA==",
       "dependencies": [

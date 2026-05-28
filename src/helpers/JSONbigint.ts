@@ -7,7 +7,6 @@
  * Ex : "__bigint__:123"
  */
 
-
 /**
  * Replacer BigInt with string for JSON.stringify
  * @param _key
@@ -15,9 +14,7 @@
  * @returns
  */
 export function bigIntReplacer(_key: string, value: unknown): unknown {
-  return typeof value === "bigint"
-      ? `${value}n`
-      : value;
+  return typeof value === "bigint" ? `${value}n` : value;
 }
 
 /**
@@ -26,15 +23,15 @@ export function bigIntReplacer(_key: string, value: unknown): unknown {
  * @param value
  * @returns
  */
- export function bigIntReviver(_key: string, value: unknown): unknown {
-   if (
-     typeof value === "string" &&
-     value.endsWith("n")
-   ) {
-     const num = value.slice(0, -1);
-     if (/^-?\d+$/.test(num)) {
-       return BigInt(num);
-     }
-   }
-   return value;
- }
+export function bigIntReviver(_key: string, value: unknown): unknown {
+  if (
+    typeof value === "string" &&
+    value.endsWith("n")
+  ) {
+    const num = value.slice(0, -1);
+    if (/^-?\d+$/.test(num)) {
+      return BigInt(num);
+    }
+  }
+  return value;
+}
