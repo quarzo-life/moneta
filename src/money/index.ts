@@ -1,5 +1,12 @@
 import { CURRENCIES, type CurrencyCode } from "currencies/index.ts";
+import { assert } from "helpers/assert.ts";
 import type { Currency } from "types/types.ts";
+
+type SerializedMoney = {
+  amount: string;
+  currency: string;
+  scale: number;
+};
 
 /**
  * Money object representing a monetary value (e.g. 51,20 EUR).
@@ -20,15 +27,65 @@ export type Money = Readonly<{
    * Called implicitly by `JSON.stringify(money)`.
    * Use `money(parse(jsonString))` to deserialize.
    */
-  toJSON: () => { amount: string; currency: string; scale: number };
+  toJSON: () => SerializedMoney;
 }>;
 
-/** Options accepted by the {@link money} factory. */
+const resolveCurrency = (currency: Currency | CurrencyCode): Currency => {
+  if (typeof currency !== "string") {
+    return currency;
+  }
+
+  const found = CURRENCIES[currency];
+
+  assert(!!found, `Unknown currency code: ${currency}`);
+
+  return found;
+};
+
+const resolveScale = (
+  scale: number | undefined,
+  currency: Currency,
+): number => {
+  const resolved = scale ?? currency.exponent ?? 2;
+
+  assert(
+    Number.isInteger(resolved),
+    `Scale must be an integer, but received: ${resolved} (${typeof resolved})`,
+  );
+
+  assert(
+    resolved >= 0,
+    `Scale must be a non-negative integer, but received: ${resolved}`,
+  );
+
+  return resolved;
+};
+
+const resolveAmount = (amount: number | bigint | string): bigint => {
+  if (typeof amount === "bigint") {
+    return amount;
+  }
+
+  if (typeof amount === "number") {
+    assert(
+      Number.isSafeInteger(amount),
+      "Amount is not a safe integer; use bigint or string",
+    );
+
+    return BigInt(amount);
+  }
+
+  const normalized = amount.trim().replace(/n$/, "");
+
+  assert(/^-?\d+$/.test(normalized), `Invalid string amount: ${amount}`);
+
+  return BigInt(normalized);
+};
+
 export type MoneyOptions = {
-  amount?: number | bigint | string;
-  /** Not optional, to force the developer to see the currency they manipulate. */
   currency: Currency | CurrencyCode;
   scale?: number;
+  amount?: number | bigint | string;
 };
 
 /**
@@ -52,52 +109,11 @@ export const money = ({
   currency,
   scale,
 }: MoneyOptions): Money => {
-  // 1. Resolve Currency
-  let resolvedCurrency: Currency;
-  if (typeof currency === "string") {
-    const found = CURRENCIES[currency];
-    if (!found) {
-      throw new Error(`[Money] Unknown currency code: ${currency}`);
-    }
-    resolvedCurrency = found;
-  } else {
-    resolvedCurrency = currency;
-  }
+  const resolvedCurrency = resolveCurrency(currency);
 
-  // 2. Resolve Scale (default to currency exponent, fallback to 2)
-  const resolvedScale = scale ?? resolvedCurrency.exponent ?? 2;
-  if (!Number.isInteger(resolvedScale)) {
-    throw new Error(
-      `[Money] Scale must be an integer, but received: ${resolvedScale} (${typeof resolvedScale})`,
-    );
-  }
-  if (resolvedScale < 0) {
-    throw new Error(
-      `[Money] Scale must be a non-negative integer, but received: ${resolvedScale}`,
-    );
-  }
+  const resolvedScale = resolveScale(scale, resolvedCurrency);
 
-  // 3. Resolve Amount
-  let resolvedAmount: bigint;
-  if (typeof amount === "bigint") {
-    resolvedAmount = amount;
-  } else if (typeof amount === "number") {
-    if (!Number.isSafeInteger(amount)) {
-      throw new Error(
-        "[Money] Amount is not a safe integer; use bigint or string",
-      );
-    }
-    resolvedAmount = BigInt(amount);
-  } else if (typeof amount === "string") {
-    // Handles "123", "123n", and whitespace
-    const normalized = amount.trim().replace(/n$/, "");
-    if (!/^-?\d+$/.test(normalized)) {
-      throw new Error(`[Money] Invalid string amount: ${amount}`);
-    }
-    resolvedAmount = BigInt(normalized);
-  } else {
-    throw new Error("[Money] Invalid amount type");
-  }
+  const resolvedAmount = resolveAmount(amount);
 
   return Object.freeze({
     amount: resolvedAmount,
