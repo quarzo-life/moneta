@@ -45,7 +45,7 @@ export const toDecimal = <TOutput>(
   monetaObject: Money,
   transformer?: Transformer<TOutput, string>,
 ): TOutput | string => {
-  const { currency, scale, formatter } = monetaObject;
+  const { currency, scale } = monetaObject;
 
   assert(
     !isArray(currency.base) && computeBase(currency.base) % 10 === 0,
@@ -53,11 +53,11 @@ export const toDecimal = <TOutput>(
   );
 
   const units = toUnits(monetaObject);
-  const whole = formatter.toString(units[0]);
+  const whole = String(units[0]);
 
   let value: string;
   if (scale > 0) {
-    const fractional = formatter.toString(absolute(units[1]));
+    const fractional = String(absolute(units[1]));
     const decimal = `${whole}.${fractional.padStart(scale, "0")}`;
     // units[0] === 0n when the amount is between -1 and 0 (e.g. -$0.50).
     // bigint has no -0, so toString(0n) won't preserve the negative sign.

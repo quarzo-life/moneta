@@ -1,5 +1,5 @@
 import { CURRENCIES, type CurrencyCode } from "currencies/index.ts";
-import type { Currency, Formatter } from "types/types.ts";
+import type { Currency } from "types/types.ts";
 
 /**
  * Money object representing a monetary value (e.g. 51,20 EUR).
@@ -15,8 +15,6 @@ export type Money = Readonly<{
   currency: Currency;
   /** Conceptually close to the currency exponent but expresses precision as accurately as possible */
   scale: number;
-  /** Formatter of the amount */
-  formatter: Formatter;
   /**
    * JSON-serializable representation of the Money object.
    * Called implicitly by `JSON.stringify(money)`.
@@ -24,12 +22,6 @@ export type Money = Readonly<{
    */
   toJSON: () => { amount: string; currency: string; scale: number };
 }>;
-
-/** Default formatter used when none is supplied. */
-export const defaultFormatter: Formatter = Object.freeze({
-  toNumber: Number,
-  toString: String,
-});
 
 /** Options accepted by the {@link money} factory. */
 export type MoneyOptions = {
@@ -111,7 +103,6 @@ export const money = ({
     amount: resolvedAmount,
     currency: resolvedCurrency,
     scale: resolvedScale,
-    formatter: defaultFormatter,
     toJSON() {
       return {
         amount: `${resolvedAmount}n`,

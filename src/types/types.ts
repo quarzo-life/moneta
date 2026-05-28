@@ -66,14 +66,6 @@ export type FXRate = {
 };
 
 /**
- * Formatter for Money
- */
-export type Formatter = {
-  readonly toNumber: (value?: bigint) => number;
-  readonly toString: (value?: bigint) => string;
-};
-
-/**
  * TransformerOptions
  */
 export type TransformerOptions<TValue> = {
