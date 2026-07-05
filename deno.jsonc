@@ -20,6 +20,9 @@
     "start": "deno run example.ts",
     "bench": "deno bench --allow-env",
     "test": "deno test --parallel",
+    "docs:dev": "npm --prefix docs run dev",
+    "docs:build": "npm --prefix docs run build",
+    "docs:preview": "npm --prefix docs run preview",
   },
   "lint": {
     "rules": {
