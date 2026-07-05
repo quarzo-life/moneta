@@ -31,7 +31,5 @@ a JavaScript engine with `bigint` support:
 - All evergreen browsers (Chrome, Edge, Firefox, Safari) for several years
 - Deno and Bun, in every version
 
-::: warning `bigint` is a JavaScript primitive type, not a library feature it
-can't be polyfilled. If you need to support an environment without native
-`bigint`, Moneta isn't a fit; see [Why bigint?](/faq/why-bigint) for why the
-library doesn't offer a `number`-based fallback. :::
+::: warning `bigint` is a JavaScript primitive type, not a library feature it can't be polyfilled. If you need to support an environment without native `bigint`, Moneta isn't a fit; see [Why bigint?](/faq/why-bigint) for why the library doesn't offer a `number`-based fallback. 
+:::
