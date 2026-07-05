@@ -13,6 +13,9 @@ export default defineConfig({
   description: "Safe monetary calculations in TypeScript, backed by bigint.",
   lang: "en",
   cleanUrls: true,
+  // GitHub Pages serves project sites from https://<org>.github.io/<repo>/.
+  // Switch to "/" if you move to a custom domain (via a docs/public/CNAME file).
+  base: "/moneta/",
   head: [
     ["link", { rel: "icon", href: "/favicon.ico" }],
     ["meta", { property: "og:type", content: "website" }],
