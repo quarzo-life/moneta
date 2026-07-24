@@ -1,6 +1,6 @@
 import { assert } from "helpers/assert.ts";
 import { INVALID_RATIOS_MESSAGE } from "messages";
-import { type Money, money } from "mod";
+import { type Money, money } from "money/index.ts";
 import { ScaledAmount } from "types/types.ts";
 import { distribute, getAmountAndScale } from "utils/index.ts";
 import { transformScale } from "api/index.ts";

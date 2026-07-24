@@ -1,9 +1,9 @@
-import { assertEquals } from "@std/assert";
+import { describe, expect, test } from "vitest";
 import { USD } from "currencies/index.ts";
 import { money, normalizeScale, toSnapshot } from "mod";
 
-Deno.test("normalizeScale: number", async (t) => {
-  await t.step(
+describe("normalizeScale: number", () => {
+  test(
     "returns an array of Money objects with normalized scale and converted amount",
     () => {
       const d1 = money({ amount: 100n, currency: USD, scale: 2 });
@@ -11,12 +11,12 @@ Deno.test("normalizeScale: number", async (t) => {
 
       const [firstMoneyObject, secondMoneyObject] = normalizeScale([d1, d2]);
 
-      assertEquals(toSnapshot(firstMoneyObject), {
+      expect(toSnapshot(firstMoneyObject)).toEqual({
         amount: 1000n,
         currency: USD,
         scale: 3,
       });
-      assertEquals(toSnapshot(secondMoneyObject), {
+      expect(toSnapshot(secondMoneyObject)).toEqual({
         amount: 1000n,
         currency: USD,
         scale: 3,

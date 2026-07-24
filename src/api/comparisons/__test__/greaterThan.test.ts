@@ -1,102 +1,98 @@
-import { assertEquals, assertThrows } from "@std/assert";
+import { describe, expect, test } from "vitest";
 import { EUR, MGA, USD } from "currencies/index.ts";
 import { greaterThan, money } from "mod";
 
-Deno.test("greaterThan - bigint", async (t) => {
-  await t.step("greaterThan - bigint (decimal currencies: less than)", () => {
+describe("greaterThan - bigint", () => {
+  test("greaterThan - bigint (decimal currencies: less than)", () => {
     const d1 = money({ amount: 500n, currency: USD });
     const d2 = money({ amount: 800n, currency: USD });
 
-    assertEquals(greaterThan(d1, d2), false);
+    expect(greaterThan(d1, d2)).toEqual(false);
   });
 
-  await t.step("greaterThan - bigint (decimal currencies: equal)", () => {
+  test("greaterThan - bigint (decimal currencies: equal)", () => {
     const d1 = money({ amount: 500n, currency: USD });
     const d2 = money({ amount: 500n, currency: USD });
 
-    assertEquals(greaterThan(d1, d2), false);
+    expect(greaterThan(d1, d2)).toEqual(false);
   });
 
-  await t.step(
+  test(
     "greaterThan - bigint (decimal currencies: greater than)",
     () => {
       const d1 = money({ amount: 800n, currency: USD });
       const d2 = money({ amount: 500n, currency: USD });
 
-      assertEquals(greaterThan(d1, d2), true);
+      expect(greaterThan(d1, d2)).toEqual(true);
     },
   );
 
-  await t.step(
+  test(
     "greaterThan - bigint (decimal currencies: normalize scale)",
     () => {
       const d1 = money({ amount: 800n, currency: USD });
       const d2 = money({ amount: 5000n, currency: USD, scale: 3 });
 
-      assertEquals(greaterThan(d1, d2), true);
+      expect(greaterThan(d1, d2)).toEqual(true);
     },
   );
 
-  await t.step(
+  test(
     "greaterThan - bigint (decimal currencies: different currency)",
     () => {
       const d1 = money({ amount: 800n, currency: USD });
       const d2 = money({ amount: 500n, currency: EUR });
 
-      assertThrows(
-        () => greaterThan(d1, d2),
-        Error,
+      expect(() => greaterThan(d1, d2)).toThrow(
         "[Money] Objects must have the same currency.",
       );
     },
   );
 
-  await t.step(
+  test(
     "greaterThan - bigint (non-decimal currencies: less than)",
     () => {
       const d1 = money({ amount: 5n, currency: MGA });
       const d2 = money({ amount: 8n, currency: MGA });
 
-      assertEquals(greaterThan(d1, d2), false);
+      expect(greaterThan(d1, d2)).toEqual(false);
     },
   );
 
-  await t.step("greaterThan - bigint (non-decimal currencies: equal)", () => {
+  test("greaterThan - bigint (non-decimal currencies: equal)", () => {
     const d1 = money({ amount: 5n, currency: MGA });
     const d2 = money({ amount: 5n, currency: MGA });
 
-    assertEquals(greaterThan(d1, d2), false);
+    expect(greaterThan(d1, d2)).toEqual(false);
   });
 
-  await t.step(
+  test(
     "greaterThan - bigint (non-decimal currencies: greater than)",
     () => {
       const d1 = money({ amount: 8n, currency: MGA });
       const d2 = money({ amount: 5n, currency: MGA });
 
-      assertEquals(greaterThan(d1, d2), true);
+      expect(greaterThan(d1, d2)).toEqual(true);
     },
   );
 
-  await t.step(
+  test(
     "greaterThan - bigint (non-decimal currencies: normalize scale)",
     () => {
       const d1 = money({ amount: 8n, currency: MGA });
       const d2 = money({ amount: 25n, currency: MGA, scale: 2 });
 
-      assertEquals(greaterThan(d1, d2), true);
+      expect(greaterThan(d1, d2)).toEqual(true);
     },
   );
 
-  await t.step(
+  test(
     "greaterThan - bigint (non-decimal currencies: different currency)",
     () => {
       const d1 = money({ amount: 500n, currency: USD });
       const d2 = money({ amount: 500n, currency: MGA });
 
-      assertThrows(
-        () => greaterThan(d1, d2),
-        Error,
+      expect(() => greaterThan(d1, d2)).toThrow(
         "[Money] Objects must have the same currency.",
       );
     },

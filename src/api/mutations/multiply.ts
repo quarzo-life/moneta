@@ -1,7 +1,7 @@
 import { type Money, money } from "money/index.ts";
 import { ScaledAmount } from "types/types.ts";
 import { getAmountAndScale } from "utils/index.ts";
-import { transformScale } from "mod";
+import { transformScale } from "api/conversions/transformScale.ts";
 
 /**
  * Multiply a Money object.

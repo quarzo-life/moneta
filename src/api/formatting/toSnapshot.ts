@@ -1,4 +1,5 @@
-import { Currency, Money } from "mod";
+import type { Currency } from "types/types.ts";
+import type { Money } from "money/index.ts";
 
 /**
  * JSON snapshot of a Money object.

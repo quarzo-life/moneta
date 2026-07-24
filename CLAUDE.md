@@ -14,11 +14,12 @@ it through npm/yarn/pnpm/bun via the `jsr add` shim.
 
 The runtime is Deno. Tasks are defined in `deno.jsonc`:
 
-- `deno task test` — run the test suite (parallel).
+- `deno task test` — run the test suite (vitest via `deno run -A npm:vitest`).
 - `deno task bench` — run benchmarks in `bench/`.
 - `deno task start` — run `example.ts` (exercises most of the public API).
-- `deno test src/api/__test__/add_test.ts` — run a single test file.
-- `deno test --filter "name"` — filter by test name.
+- `deno task test src/api/mutations/__test__/add.test.ts` — run a single test
+  file.
+- `deno task test -t "name"` — filter by test name.
 - `deno lint` / `deno fmt` — lint and format (lint uses the `recommended`
   ruleset).
 - `deno check mod.ts` — type-check the public entrypoint.
@@ -43,8 +44,16 @@ money/      → ./src/money/
 types/      → ./src/types/
 helpers/    → ./src/helpers/
 currencies/ → ./src/currencies/
-@std/assert → jsr:@std/assert
+vitest      → npm:vitest
+fast-check  → npm:fast-check
 ```
+
+`vitest.config.ts` mirrors these aliases in its `resolve.alias` — keep both in
+sync when adding one. One exception to "use the aliases": source files under
+`src/` must **not** import from `mod` (the public barrel) — that creates import
+cycles that break under vitest's module transform. Import from the concrete
+module instead (e.g. `money/index.ts` for `Money`/`money`, `types/types.ts` for
+`Currency`); tests and `example.ts` may import from `mod`.
 
 Adding a new top-level folder under `src/` requires registering it in
 `deno.jsonc` _and_ exporting it from `mod.ts` if it should be public.
@@ -125,9 +134,12 @@ object _and_ to the named re-exports — otherwise `money({ currency: "XYZ" })`
 
 Tests live next to the code in `__test__/` or `__tests__/` directories (the API
 uses `__test__`, divide uses `__tests__` — match the directory's existing
-convention when adding a file). File names are `<feature>_test.ts`. They use
-`jsr:@std/assert` and Deno's built-in `Deno.test`. Benchmarks mirror this with
-`bench/<feature>_bench.ts` and `Deno.bench`.
+convention when adding a file). File names are `<feature>.test.ts`. The runner
+is vitest (executed through Deno's npm compat; config in `vitest.config.ts`):
+use `test()` (with `describe()` for grouping) and `expect()` assertions,
+imported from `"vitest"`. Property-based tests use `fast-check` (import as
+`"fast-check"`, resolved through the import map). Benchmarks still use Deno's
+built-in runner: `bench/<feature>_bench.ts` and `Deno.bench`.
 
 `example.ts` doubles as documentation — when adding a public API function, add
 an example demonstrating it.

@@ -1,6 +1,6 @@
 import { UNEQUAL_CURRENCIES_MESSAGE } from "messages";
 import { assert, maxBigIntArray } from "helpers/index.ts";
-import { type Money, money } from "mod";
+import { type Money, money } from "money/index.ts";
 import { haveSameCurrency, normalizeScale } from "api/index.ts";
 
 export type MaximumParams = readonly [

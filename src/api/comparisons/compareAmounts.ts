@@ -1,6 +1,6 @@
 import { UNEQUAL_CURRENCIES_MESSAGE } from "messages";
 import { assert } from "helpers/assert.ts";
-import type { Money } from "mod";
+import type { Money } from "money/index.ts";
 import { normalizeScale } from "api/conversions/normalizeScale.ts";
 import { haveSameCurrency } from "api/comparisons/haveSameCurrency.ts";
 

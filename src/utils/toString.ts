@@ -1,4 +1,4 @@
-import { Money } from "mod";
+import type { Money } from "money/index.ts";
 import { isDecimal } from "./isDecimal.ts";
 import { toDecimal } from "api/index.ts";
 

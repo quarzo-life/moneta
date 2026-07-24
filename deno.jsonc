@@ -4,8 +4,10 @@
   "license": "MIT",
   "exports": "./mod.ts",
   "lock": true,
+  "nodeModulesDir": "auto",
   "imports": {
-    "@std/assert": "jsr:@std/assert@^1.0.19",
+    "fast-check": "npm:fast-check@^4.5.3",
+    "vitest": "npm:vitest@^3.2.4",
     "mod": "./mod.ts",
     "messages": "./src/messages.ts",
     "api/": "./src/api/",
@@ -19,10 +21,10 @@
   "tasks": {
     "start": "deno run example.ts",
     "bench": "deno bench --allow-env",
-    "test": "deno test --parallel",
     "docs:dev": "npm --prefix docs run dev",
     "docs:build": "npm --prefix docs run build",
     "docs:preview": "npm --prefix docs run preview",
+    "test": "deno run -A npm:vitest run",
   },
   "lint": {
     "rules": {

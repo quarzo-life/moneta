@@ -1,4 +1,4 @@
-import { Money } from "mod";
+import type { Money } from "money/index.ts";
 import { getDivisors, isArray } from "utils/index.ts";
 import { Transformer } from "types/types.ts";
 

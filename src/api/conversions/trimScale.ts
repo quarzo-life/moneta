@@ -1,4 +1,4 @@
-import { Money } from "mod";
+import type { Money } from "money/index.ts";
 import { computeBase, countTrailingZeros } from "utils/index.ts";
 import { transformScale } from "api/conversions/transformScale.ts";
 

@@ -1,6 +1,6 @@
 import { assert } from "helpers/assert.ts";
 import { NON_DECIMAL_CURRENCY_MESSAGE } from "messages";
-import { Money } from "mod";
+import type { Money } from "money/index.ts";
 import { Transformer } from "types/types.ts";
 import { absolute, computeBase, isArray } from "utils/index.ts";
 import { toUnits } from "api/formatting/toUnits.ts";

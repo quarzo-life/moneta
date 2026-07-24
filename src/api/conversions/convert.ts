@@ -3,7 +3,7 @@ import {
   INVALID_RATE_MESSAGE,
   UNEQUAL_CURRENCIES_MESSAGE,
 } from "messages";
-import { type Money, money } from "mod";
+import { type Money, money } from "money/index.ts";
 import type { Currency, FXRate } from "types/types.ts";
 import { assert } from "helpers/assert.ts";
 import { getAmountAndScale, isArray } from "utils/index.ts";

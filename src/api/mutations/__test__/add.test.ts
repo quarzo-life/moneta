@@ -1,39 +1,37 @@
-import { assertEquals, assertThrows } from "@std/assert";
+import { describe, expect, test } from "vitest";
 import { EUR, USD } from "currencies/index.ts";
 import { add, money, toSnapshot } from "mod";
 
-Deno.test("add - number", async (t) => {
-  await t.step("add - number (decimal currencies)", () => {
+describe("add - number", () => {
+  test("add - number (decimal currencies)", () => {
     const d1 = money({ amount: 500n, currency: USD });
     const d2 = money({ amount: 100n, currency: USD });
 
     const snapshot = toSnapshot(add(d1, d2));
-    assertEquals(snapshot, { amount: 600n, currency: USD, scale: 2 });
+    expect(snapshot).toEqual({ amount: 600n, currency: USD, scale: 2 });
   });
 
-  await t.step("add - number (negative values)", () => {
+  test("add - number (negative values)", () => {
     const d1 = money({ amount: -500n, currency: USD });
     const d2 = money({ amount: -100n, currency: USD });
 
     const snapshot = toSnapshot(add(d1, d2));
-    assertEquals(snapshot, { amount: -600n, currency: USD, scale: 2 });
+    expect(snapshot).toEqual({ amount: -600n, currency: USD, scale: 2 });
   });
 
-  await t.step("add - number (normalizing scale)", () => {
+  test("add - number (normalizing scale)", () => {
     const d1 = money({ amount: 500n, currency: USD });
     const d2 = money({ amount: 1000n, currency: USD, scale: 3 });
 
     const snapshot = toSnapshot(add(d1, d2));
-    assertEquals(snapshot, { amount: 6000n, currency: USD, scale: 3 });
+    expect(snapshot).toEqual({ amount: 6000n, currency: USD, scale: 3 });
   });
 
-  await t.step("add - number (different currencies)", () => {
+  test("add - number (different currencies)", () => {
     const d1 = money({ amount: 500n, currency: USD });
     const d2 = money({ amount: 100n, currency: EUR });
 
-    assertThrows(
-      () => add(d1, d2),
-      Error,
+    expect(() => add(d1, d2)).toThrow(
       "[Money] Objects must have the same currency.",
     );
   });

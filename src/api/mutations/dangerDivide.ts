@@ -1,4 +1,4 @@
-import { type Money, money } from "mod";
+import { type Money, money } from "money/index.ts";
 import { DivideOperation, ScaledAmount } from "types/types.ts";
 import { getAmountAndScale } from "utils/index.ts";
 

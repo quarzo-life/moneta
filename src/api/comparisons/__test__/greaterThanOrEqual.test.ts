@@ -1,111 +1,107 @@
-import { assertEquals, assertThrows } from "@std/assert";
+import { describe, expect, test } from "vitest";
 import { EUR, MGA, USD } from "currencies/index.ts";
 import { greaterThanOrEqual, money } from "mod";
 
-Deno.test("greaterThanOrEqual - bigint", async (t) => {
-  await t.step(
+describe("greaterThanOrEqual - bigint", () => {
+  test(
     "greaterThanOrEqual - bigint (decimal currencies: less than)",
     () => {
       const d1 = money({ amount: 500n, currency: USD });
       const d2 = money({ amount: 800n, currency: USD });
 
-      assertEquals(greaterThanOrEqual(d1, d2), false);
+      expect(greaterThanOrEqual(d1, d2)).toEqual(false);
     },
   );
 
-  await t.step(
+  test(
     "greaterThanOrEqual - bigint (decimal currencies: equal)",
     () => {
       const d1 = money({ amount: 500n, currency: USD });
       const d2 = money({ amount: 500n, currency: USD });
 
-      assertEquals(greaterThanOrEqual(d1, d2), true);
+      expect(greaterThanOrEqual(d1, d2)).toEqual(true);
     },
   );
 
-  await t.step(
+  test(
     "greaterThanOrEqual - bigint (decimal currencies: greater than)",
     () => {
       const d1 = money({ amount: 800n, currency: USD });
       const d2 = money({ amount: 500n, currency: USD });
 
-      assertEquals(greaterThanOrEqual(d1, d2), true);
+      expect(greaterThanOrEqual(d1, d2)).toEqual(true);
     },
   );
 
-  await t.step(
+  test(
     "greaterThanOrEqual - bigint (decimal currencies: normalize scale)",
     () => {
       const d1 = money({ amount: 800n, currency: USD });
       const d2 = money({ amount: 5000n, currency: USD, scale: 3 });
 
-      assertEquals(greaterThanOrEqual(d1, d2), true);
+      expect(greaterThanOrEqual(d1, d2)).toEqual(true);
     },
   );
 
-  await t.step(
+  test(
     "greaterThanOrEqual - bigint (decimal currencies: different currency)",
     () => {
       const d1 = money({ amount: 800n, currency: USD });
       const d2 = money({ amount: 500n, currency: EUR });
 
-      assertThrows(
-        () => greaterThanOrEqual(d1, d2),
-        Error,
+      expect(() => greaterThanOrEqual(d1, d2)).toThrow(
         "[Money] Objects must have the same currency.",
       );
     },
   );
 
-  await t.step(
+  test(
     "greaterThanOrEqual - bigint (non-decimal currencies: less than)",
     () => {
       const d1 = money({ amount: 5n, currency: MGA });
       const d2 = money({ amount: 8n, currency: MGA });
 
-      assertEquals(greaterThanOrEqual(d1, d2), false);
+      expect(greaterThanOrEqual(d1, d2)).toEqual(false);
     },
   );
 
-  await t.step(
+  test(
     "greaterThanOrEqual - bigint (non-decimal currencies: equal)",
     () => {
       const d1 = money({ amount: 5n, currency: MGA });
       const d2 = money({ amount: 5n, currency: MGA });
 
-      assertEquals(greaterThanOrEqual(d1, d2), true);
+      expect(greaterThanOrEqual(d1, d2)).toEqual(true);
     },
   );
 
-  await t.step(
+  test(
     "greaterThanOrEqual - bigint (non-decimal currencies: greater than)",
     () => {
       const d1 = money({ amount: 8n, currency: MGA });
       const d2 = money({ amount: 5n, currency: MGA });
 
-      assertEquals(greaterThanOrEqual(d1, d2), true);
+      expect(greaterThanOrEqual(d1, d2)).toEqual(true);
     },
   );
 
-  await t.step(
+  test(
     "greaterThanOrEqual - bigint (non-decimal currencies: normalize scale)",
     () => {
       const d1 = money({ amount: 8n, currency: MGA });
       const d2 = money({ amount: 25n, currency: MGA, scale: 2 });
 
-      assertEquals(greaterThanOrEqual(d1, d2), true);
+      expect(greaterThanOrEqual(d1, d2)).toEqual(true);
     },
   );
 
-  await t.step(
+  test(
     "greaterThanOrEqual - bigint (non-decimal currencies: different currency)",
     () => {
       const d1 = money({ amount: 500n, currency: USD });
       const d2 = money({ amount: 500n, currency: MGA });
 
-      assertThrows(
-        () => greaterThanOrEqual(d1, d2),
-        Error,
+      expect(() => greaterThanOrEqual(d1, d2)).toThrow(
         "[Money] Objects must have the same currency.",
       );
     },

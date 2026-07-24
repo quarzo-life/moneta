@@ -1,4 +1,4 @@
-import type { Money } from "mod";
+import type { Money } from "money/index.ts";
 import { normalizeScale } from "api/conversions/normalizeScale.ts";
 
 const haveSameAmountPair = (first: Money, second: Money): boolean => {

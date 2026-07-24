@@ -1,41 +1,39 @@
-import { assertEquals, assertThrows } from "@std/assert";
+import { describe, expect, test } from "vitest";
 import { EUR, USD } from "currencies/index.ts";
 import { maximum, money, toSnapshot } from "mod";
 
-Deno.test("maximum - bigint", async (t) => {
-  await t.step("maximum - bigint (returns greatest)", () => {
+describe("maximum - bigint", () => {
+  test("maximum - bigint (returns greatest)", () => {
     const d1 = money({ amount: 150n, currency: USD });
     const d2 = money({ amount: 50n, currency: USD });
 
     const snapshot = toSnapshot(maximum([d1, d2]));
 
-    assertEquals(snapshot, {
+    expect(snapshot).toEqual({
       amount: 150n,
       currency: USD,
       scale: 2,
     });
   });
 
-  await t.step("maximum - bigint (after normalization)", () => {
+  test("maximum - bigint (after normalization)", () => {
     const d1 = money({ amount: 500n, currency: USD });
     const d2 = money({ amount: 1000n, currency: USD, scale: 3 });
 
     const snapshot = toSnapshot(maximum([d1, d2]));
 
-    assertEquals(snapshot, {
+    expect(snapshot).toEqual({
       amount: 5000n,
       currency: USD,
       scale: 3,
     });
   });
 
-  await t.step("maximum - bigint (different currencies)", () => {
+  test("maximum - bigint (different currencies)", () => {
     const d1 = money({ amount: 150n, currency: USD });
     const d2 = money({ amount: 50n, currency: EUR });
 
-    assertThrows(
-      () => maximum([d1, d2]),
-      Error,
+    expect(() => maximum([d1, d2])).toThrow(
       "[Money] Objects must have the same currency.",
     );
   });

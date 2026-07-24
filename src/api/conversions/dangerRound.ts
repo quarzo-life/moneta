@@ -1,4 +1,4 @@
-import { type Money } from "mod";
+import type { Money } from "money/index.ts";
 import { DivideOperation } from "types/types.ts";
 import { transformScale } from "api/conversions/transformScale.ts";
 

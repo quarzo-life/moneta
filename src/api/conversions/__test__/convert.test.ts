@@ -1,30 +1,30 @@
-import { assertEquals, assertThrows } from "@std/assert";
+import { describe, expect, test } from "vitest";
 import { EUR, JPY, MGA } from "currencies/index.ts";
 import { convert, money, toSnapshot } from "mod";
 
-Deno.test("convert - market rate string", async (t) => {
-  await t.step("converts using a comma decimal rate", () => {
+describe("convert - market rate string", () => {
+  test("converts using a comma decimal rate", () => {
     const d = money({ amount: 1000n, currency: EUR });
 
     const snapshot = toSnapshot(
       convert(d, { from: EUR, to: JPY, rate: { amount: 1826818n, scale: 4 } }),
     );
 
-    assertEquals(snapshot, {
+    expect(snapshot).toEqual({
       amount: 1827n,
       scale: 0,
       currency: JPY,
     });
   });
 
-  await t.step("expands scale to target exponent when needed", () => {
+  test("expands scale to target exponent when needed", () => {
     const d = money({ amount: 100n, currency: JPY });
 
     const snapshot = toSnapshot(
       convert(d, { from: JPY, to: EUR, rate: 1 }),
     );
 
-    assertEquals(snapshot, {
+    expect(snapshot).toEqual({
       amount: 10000n,
       scale: 2,
       currency: EUR,
@@ -32,12 +32,10 @@ Deno.test("convert - market rate string", async (t) => {
   });
 });
 
-Deno.test("convert - incompatible bases", () => {
+test("convert - incompatible bases", () => {
   const d = money({ amount: 100n, currency: EUR });
 
-  assertThrows(
-    () => convert(d, { from: EUR, to: MGA, rate: 1 }),
-    Error,
+  expect(() => convert(d, { from: EUR, to: MGA, rate: 1 })).toThrow(
     "[Money] Bases are not compatible.",
   );
 });

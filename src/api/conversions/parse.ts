@@ -1,5 +1,5 @@
 import { bigIntReviver } from "helpers/JSONbigint.ts";
-import { type Money, money } from "mod";
+import { type Money, money } from "money/index.ts";
 import { Currency } from "types/types.ts";
 
 /**

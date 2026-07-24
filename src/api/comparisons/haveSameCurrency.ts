@@ -1,4 +1,4 @@
-import type { Money } from "mod";
+import type { Money } from "money/index.ts";
 import { computeBase } from "utils/index.ts";
 
 const haveSameCurrencyPair = (m1: Money, m2: Money): boolean => {

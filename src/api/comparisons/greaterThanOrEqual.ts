@@ -1,4 +1,4 @@
-import { Money } from "mod";
+import type { Money } from "money/index.ts";
 import { compareAmounts } from "api/comparisons/compareAmounts.ts";
 
 /**

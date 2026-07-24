@@ -1,4 +1,5 @@
-import { computeBase, Money } from "mod";
+import { computeBase } from "utils/computeBase.ts";
+import type { Money } from "money/index.ts";
 
 /**
  * Money object has sub units
