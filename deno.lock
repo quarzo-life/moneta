@@ -4,6 +4,7 @@
     "jsr:@dnl-fm/money-ts@0.8.0": "0.8.0",
     "npm:@dinero.js/calculator-bigint@alpha": "2.0.0-alpha.14",
     "npm:dinero.js@2.0.0-alpha.14": "2.0.0-alpha.14",
+    "npm:dinero.js@2.0.2": "2.0.2",
     "npm:fast-check@4.5.3": "4.5.3",
     "npm:fast-check@^4.5.3": "4.5.3",
     "npm:vitest@*": "3.2.7",
@@ -404,6 +405,9 @@
         "@dinero.js/core",
         "@dinero.js/currencies"
       ]
+    },
+    "dinero.js@2.0.2": {
+      "integrity": "sha512-d+4egJTvNinkb66KSed11Daqz6MWaOHzyalLu6h3p+BLrsmwKFjHjvOKivOWeM7WyoX89te+xx4cKI6zrDtCfQ=="
     },
     "es-module-lexer@1.7.0": {
       "integrity": "sha512-jEQoCwk8hyb2AZziIOLhDqpm5+2ww5uIE6lkO/6jcOCusfk6LhMHpXXfBLXTZ7Ydyt0j4VoUQv6uGNYbdW+kBA=="

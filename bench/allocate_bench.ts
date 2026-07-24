@@ -1,4 +1,4 @@
-import { allocate, dinero } from "npm:dinero.js@2.0.0-alpha.14";
+import { allocate, dinero } from "npm:dinero.js@2.0.2";
 import { allocate as allocate_moneta } from "../mod.ts";
 import { EUR } from "../src/currencies/eur.ts";
 import { money } from "../mod.ts";

@@ -1,5 +1,5 @@
-import { createDinero, dinero, multiply } from "npm:dinero.js@2.0.0-alpha.14";
-import { calculator } from "npm:@dinero.js/calculator-bigint@alpha";
+import { createDinero, dinero, multiply } from "npm:dinero.js@2.0.2";
+import { calculator } from "npm:dinero.js@2.0.2/bigint";
 import { multiply as multiply_moneta } from "../mod.ts";
 import { USD } from "../src/currencies/usd.ts";
 import { money } from "../mod.ts";
