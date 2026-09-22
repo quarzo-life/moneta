@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Moneta logo">
+  <rect width="120" height="120" rx="16" fill="#3178C6"/>
+
+  <!-- banknote -->
+  <rect x="16" y="36" width="88" height="48" rx="4" fill="#FFFFFF"/>
+  <rect x="20" y="40" width="80" height="40" rx="2" fill="none" stroke="#3178C6" stroke-width="1.5"/>
+
+  <!-- corner denomination marks -->
+  <text x="26" y="50" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="8" font-weight="700" fill="#3178C6">M</text>
+  <text x="88" y="76" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="7" font-weight="700" fill="#3178C6">TS</text>
+
+  <!-- central seal -->
+  <circle cx="60" cy="60" r="16" fill="#3178C6"/>
+  <text x="60" y="67" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="20" font-weight="700" text-anchor="middle" fill="#FFFFFF">M</text>
+</svg>

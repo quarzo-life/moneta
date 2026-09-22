@@ -1,5 +1,16 @@
 <p align="center">
+  <img src="assets/logo.svg" alt="Moneta logo" width="120">
+</p>
+
+<p align="center">
   <h1>Moneta JS</h1>
+</p>
+
+<p align="center">
+  <a href="https://jsr.io/@quarzo-life/moneta"><img src="https://jsr.io/badges/@quarzo-life/moneta" alt="JSR version"></a>
+  <a href="https://jsr.io/@quarzo-life/moneta"><img src="https://jsr.io/badges/@quarzo-life/moneta/score" alt="JSR score"></a>
+  <a href="https://github.com/quarzo-life/moneta/actions/workflows/publish.yml"><img src="https://github.com/quarzo-life/moneta/actions/workflows/publish.yml/badge.svg" alt="CI"></a>
+  <a href="LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
 </p>
 
 <p align="center">
