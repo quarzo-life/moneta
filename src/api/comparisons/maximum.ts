@@ -3,6 +3,7 @@ import { assert, maxBigIntArray } from "helpers/index.ts";
 import { type Money, money } from "money/index.ts";
 import { haveSameCurrency, normalizeScale } from "api/index.ts";
 
+/** Parameters accepted by {@link maximum}. */
 export type MaximumParams = readonly [
   monetaObjects: ReadonlyArray<Money>,
 ];

@@ -3,6 +3,7 @@ import { assert, minBigIntArray } from "helpers/index.ts";
 import { type Money, money } from "money/index.ts";
 import { haveSameCurrency, normalizeScale } from "api/index.ts";
 
+/** Parameters accepted by {@link minimum}. */
 export type MinimumParams = readonly [
   monetaObjects: ReadonlyArray<Money>,
 ];

@@ -17,7 +17,7 @@ import { DivideOperation } from "types/types.ts";
  *
  * @returns The rounded amount.
  */
-export const up: DivideOperation = (amount, factor) => {
+export const up: DivideOperation = (amount, factor): bigint => {
   const zero = 0n;
 
   const isPositive = amount > zero;

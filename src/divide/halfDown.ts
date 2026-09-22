@@ -25,7 +25,7 @@ import { down, halfUp } from "./index.ts";
  *
  * @returns The rounded amount.
  */
-export const halfDown: DivideOperation = (amount, factor) => {
+export const halfDown: DivideOperation = (amount, factor): bigint => {
   if (isHalf(amount, factor)) {
     return down(amount, factor);
   }

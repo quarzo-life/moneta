@@ -21,7 +21,7 @@ import { down, up } from "./index.ts";
  *
  * @returns The rounded amount.
  */
-export const halfUp: DivideOperation = (amount, factor) => {
+export const halfUp: DivideOperation = (amount, factor): bigint => {
   const zero = 0n;
 
   const factorBigInt = BigInt(factor);

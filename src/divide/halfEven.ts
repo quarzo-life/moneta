@@ -34,7 +34,7 @@ import { halfUp } from "./index.ts";
  *
  * @returns The rounded amount.
  */
-export const halfEven: DivideOperation = (amount, factor) => {
+export const halfEven: DivideOperation = (amount, factor): bigint => {
   const rounded = halfUp(amount, factor);
 
   if (!isHalf(amount, factor)) {

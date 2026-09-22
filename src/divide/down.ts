@@ -21,7 +21,7 @@ import { DivideOperation } from "types/types.ts";
 export const down: DivideOperation = (
   amount,
   factor,
-) => {
+): bigint => {
   const quotient = amount / factor;
 
   const remainder = amount % factor;

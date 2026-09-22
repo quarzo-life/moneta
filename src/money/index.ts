@@ -2,7 +2,11 @@ import { CURRENCIES, type CurrencyCode } from "currencies/index.ts";
 import { assert } from "helpers/assert.ts";
 import type { Currency } from "types/types.ts";
 
-type SerializedMoney = {
+/**
+ * JSON-serializable representation of a {@link Money} object, as produced by
+ * `Money.toJSON` / `JSON.stringify(money)`.
+ */
+export type SerializedMoney = {
   amount: string;
   currency: string;
   scale: number;
@@ -82,6 +86,7 @@ const resolveAmount = (amount: number | bigint | string): bigint => {
   return BigInt(normalized);
 };
 
+/** Options accepted by {@link money} to build a {@link Money} object. */
 export type MoneyOptions = {
   currency: Currency | CurrencyCode;
   scale?: number;

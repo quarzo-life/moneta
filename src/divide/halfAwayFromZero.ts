@@ -25,7 +25,7 @@ import { halfUp, up } from "./index.ts";
 export const halfAwayFromZero: DivideOperation = (
   amount,
   factor,
-) => {
+): bigint => {
   if (!isHalf(amount, factor)) {
     return halfUp(amount, factor);
   }
