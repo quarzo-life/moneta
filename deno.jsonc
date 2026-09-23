@@ -1,6 +1,6 @@
 {
   "name": "@quarzo-life/moneta",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "A Deno/JSR library for safe monetary calculations, backed entirely by bigint arithmetic.",
   "license": "MIT",
   "exports": "./mod.ts",

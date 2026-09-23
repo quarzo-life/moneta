@@ -2,7 +2,8 @@ import { assert } from "helpers/assert.ts";
 import { NON_DECIMAL_CURRENCY_MESSAGE } from "messages";
 import type { Money } from "money/index.ts";
 import { Transformer } from "types/types.ts";
-import { absolute, computeBase, isArray } from "utils/index.ts";
+import { absolute } from "utils/index.ts";
+import { isDecimal } from "utils/isDecimal.ts";
 import { toUnits } from "api/formatting/toUnits.ts";
 
 /**
@@ -11,6 +12,12 @@ import { toUnits } from "api/formatting/toUnits.ts";
  * The number of decimal places depends on the scale of your object—or, when
  * unspecified, the exponent of its currency. Only works with single-based,
  * base-10 currencies.
+ *
+ * The base must be strictly `10`, not merely a multiple of it (20, 60, 240…)
+ * or another power of it (100, 1000…): the fractional part is rendered by
+ * zero-padding the remainder to `scale` characters, which only yields a
+ * correct decimal string when each unit of scale represents exactly one
+ * base-10 digit.
  *
  * @param monetaObject The Money object to format.
  * @param transformer An optional transformer function.
@@ -47,10 +54,7 @@ export const toDecimal = <TOutput>(
 ): TOutput | string => {
   const { currency, scale } = monetaObject;
 
-  assert(
-    !isArray(currency.base) && computeBase(currency.base) % 10 === 0,
-    NON_DECIMAL_CURRENCY_MESSAGE,
-  );
+  assert(isDecimal(monetaObject), NON_DECIMAL_CURRENCY_MESSAGE);
 
   const units = toUnits(monetaObject);
   const whole = String(units[0]);
