@@ -6,6 +6,7 @@
   "exports": "./mod.ts",
   "lock": true,
   "nodeModulesDir": "auto",
+  "exclude": ["docs/"],
   "imports": {
     "fast-check": "npm:fast-check@^4.5.3",
     "vitest": "npm:vitest@^3.2.4",
