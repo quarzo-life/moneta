@@ -110,6 +110,7 @@ export default defineConfig({
                 { text: "subtract", link: "/api/mutations/subtract" },
                 { text: "multiply", link: "/api/mutations/multiply" },
                 { text: "allocate", link: "/api/mutations/allocate" },
+                { text: "divideExact", link: "/api/mutations/divide-exact" },
                 {
                   text: "dangerDivide",
                   link: "/api/mutations/danger-divide",

@@ -230,3 +230,76 @@ test.each(strategies)(
     );
   },
 );
+
+test("dangerDivide - returns the requested scale", () => {
+  // $10.00 / 3 = 3.3333…
+  const m = money({ amount: 1000n, currency: USD });
+
+  expect(toSnapshot(dangerDivide(m, 3, halfEven, 4))).toEqual({
+    amount: 33333n,
+    currency: USD,
+    scale: 4,
+  });
+  expect(toSnapshot(dangerDivide(m, 3, halfEven, 0))).toEqual({
+    amount: 3n,
+    currency: USD,
+    scale: 0,
+  });
+});
+
+test("dangerDivide - rounds only once when lowering the scale", () => {
+  // 1.0049 / 1 at scale 2: a single halfUp gives 1.00, whereas rounding to
+  // scale 3 first (1.005) then to scale 2 would give 1.01.
+  const m = money({ amount: 10049n, currency: USD, scale: 4 });
+
+  expect(dangerDivide(m, 1, halfUp, 2).amount).toBe(100n);
+});
+
+test("dangerDivide - uses the currency base to change scale", () => {
+  // MGA is base 5: 1 at scale 1 / 2 = 0.5 units of scale 1 = 2.5 at scale 2
+  const m = money({ amount: 1n, currency: MGA });
+
+  expect(toSnapshot(dangerDivide(m, 2, halfUp, 2))).toEqual({
+    amount: 3n,
+    currency: MGA,
+    scale: 2,
+  });
+});
+
+test("dangerDivide - throws on a negative or non-integer scale", () => {
+  const m = money({ amount: 1000n, currency: USD });
+
+  expect(() => dangerDivide(m, 3, down, -1)).toThrow(
+    "[Money] Scale is invalid.",
+  );
+  expect(() => dangerDivide(m, 3, down, 1.5)).toThrow(
+    "[Money] Scale is invalid.",
+  );
+});
+
+test.each(strategies)(
+  "dangerDivide - %s rounds once at any target scale",
+  (_name, op, expected) => {
+    fc.assert(
+      fc.property(
+        fc.bigInt({ min: -100000n, max: 100000n }),
+        fc.bigInt({ min: -1000n, max: 1000n }).filter((d) => d !== 0n),
+        fc.integer({ min: 0, max: 6 }),
+        fc.integer({ min: 0, max: 6 }),
+        (amount, divisor, scale, targetScale) => {
+          const m = money({ amount, currency: USD, scale });
+          const sign = divisor < 0n ? -1n : 1n;
+          const shift = 10n ** BigInt(Math.abs(targetScale - scale));
+          // amount / divisor * 10^(targetScale - scale), as a fraction n / d
+          const [n, d] = targetScale >= scale
+            ? [sign * amount * shift, sign * divisor]
+            : [sign * amount, sign * divisor * shift];
+
+          expect(dangerDivide(m, divisor, op, targetScale).amount).toBe(
+            expected(n, d),
+          );
+        },
+      ),
+    );
+  },
+);

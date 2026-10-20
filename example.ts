@@ -6,8 +6,11 @@ import {
   add,
   allocate,
   convert,
+  dangerDivide,
   dangerTransformScale,
+  divideExact,
   EUR,
+  halfEven,
   haveSameAmount,
   haveSameCurrency,
   JPY,
@@ -361,6 +364,22 @@ const example26 = () => {
   console.log(toSnapshot(m3));
 };
 
+const example27 = () => {
+  console.log("Divide exactly, or round explicitly");
+
+  const d = money({ amount: 100n, currency: EUR }); // 1,00 €
+
+  console.log(toSnapshot(divideExact(d, 8))); // a Money object with amount 125 and scale 3
+
+  try {
+    divideExact(d, 3);
+  } catch (e) {
+    console.log((e as Error).message); // [Money] Division has no exact result in the currency base.
+  }
+
+  console.log(toSnapshot(dangerDivide(d, 3, halfEven, 4))); // a Money object with amount 3333 and scale 4
+};
+
 // Run all examples
 example1();
 example2();
@@ -388,3 +407,4 @@ example23();
 example24();
 example25();
 example26();
+example27();

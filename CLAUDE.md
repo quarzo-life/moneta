@@ -81,11 +81,11 @@ scale must be a non-negative integer) and freezes the result.
 ### Public API surface (`src/api/`)
 
 Functions are pure and grouped by intent — `mutations/` (add, subtract,
-multiply, allocate, dangerDivide), `conversions/` (convert, rescaleExact,
-dangerTransformScale, normalizeScale, parse, dangerRound), `formatting/`
-(toDecimal, toSnapshot, toUnits), `comparisons/` (equal, greaterThan…,
-haveSameCurrency, maximum/minimum). Everything is re-exported through
-`src/api/index.ts` and then `mod.ts`.
+multiply, allocate, divideExact, dangerDivide), `conversions/` (convert,
+rescaleExact, dangerTransformScale, normalizeScale, parse, dangerRound),
+`formatting/` (toDecimal, toSnapshot, toUnits), `comparisons/` (equal,
+greaterThan…, haveSameCurrency, maximum/minimum). Everything is re-exported
+through `src/api/index.ts` and then `mod.ts`.
 
 Cross-cutting patterns to preserve when adding API:
 
@@ -102,7 +102,9 @@ Cross-cutting patterns to preserve when adding API:
   loss is deliberate. Preserve this when adding any new lossy operation.
 - **`allocate` vs `dangerDivide`.** Use `allocate` to split a `Money` across
   recipients without losing pennies (distributes the remainder); use
-  `dangerDivide` only when discarding the remainder is acceptable.
+  `divideExact` when the quotient must be exact (grows the scale, throws on
+  non-terminating results like `1 / 3`); use `dangerDivide` (optional target
+  `scale`, rounded once) only when discarding the remainder is acceptable.
 
 ### Rounding strategies (`src/divide/`)
 

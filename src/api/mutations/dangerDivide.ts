@@ -1,29 +1,34 @@
-import { DIVISION_BY_ZERO_MESSAGE } from "messages";
+import { INVALID_SCALE_MESSAGE } from "messages";
 import { assert } from "helpers/assert.ts";
 import { type Money, money } from "money/index.ts";
 import { DivideOperation, ScaledAmount } from "types/types.ts";
-import { getAmountAndScale } from "utils/index.ts";
+import { computeBase, getDivision, getScaleFactor } from "utils/index.ts";
 
 /**
  * Divide a Money object by a scalar divisor.
  *
  * **Danger**: the remainder is permanently discarded. Use {@link allocate} instead
- * if you need to distribute the remainder fairly across recipients.
+ * if you need to distribute the remainder fairly across recipients, or
+ * {@link divideExact} if the division must not lose anything.
  *
  * The divisor can be a plain integer, a `bigint`, or a {@link ScaledAmount}
  * for fractional divisors (e.g. `{ amount: 5n, scale: 1 }` = 0.5).
  * The rounding strategy must be provided explicitly — there is no default —
- * to make the loss of precision a deliberate choice.
+ * to make the loss of precision a deliberate choice. The result is rounded
+ * once, directly at the requested scale (no double rounding).
  *
  * @param monetaObject - The Money object to divide.
  * @param divisor - The value to divide by. Accepts a plain number, bigint, or
  *   a scaled amount `{ amount: bigint, scale: number }` for fractional divisors.
  * @param divideOp - The rounding function applied when the division is not exact
  *   (e.g. {@link down}, {@link up}, {@link halfUp}).
- * @returns A new Money object at the same scale as the input.
+ * @param scale - The scale of the result (non-negative integer). Defaults to
+ *   the scale of `monetaObject`.
+ * @returns A new Money object at `scale`.
  * @throws if the divisor is zero.
  *
  * @see allocate
+ * @see divideExact
  *
  * @example Divide by an integer
  * ```ts
@@ -59,30 +64,39 @@ import { getAmountAndScale } from "utils/index.ts";
  * dangerDivide(m, 3, up);     // amount: 334n  ($3.34)
  * dangerDivide(m, 3, halfUp); // amount: 333n  ($3.33)
  * ```
+ *
+ * @example Choose the scale of the result
+ * ```ts
+ * const m = money({ amount: 1000n, currency: USD }); // $10.00
+ *
+ * dangerDivide(m, 3, halfEven, 4); // amount: 33333n, scale: 4  ($3.3333)
+ * dangerDivide(m, 3, halfEven, 0); // amount: 3n, scale: 0      ($3)
+ * ```
  */
 export const dangerDivide = (
   monetaObject: Money,
   divisor: ScaledAmount | number | bigint,
   divideOp: DivideOperation,
+  scale: number = monetaObject.scale,
 ): Money => {
-  const { amount, currency, scale } = monetaObject;
+  assert(Number.isInteger(scale) && scale >= 0, INVALID_SCALE_MESSAGE);
 
-  const { amount: divisorAmount, scale: divisorScale } = getAmountAndScale(
-    divisor,
+  const { amount, currency } = monetaObject;
+
+  // Rounding strategies expect a positive factor: the divisor's sign is moved
+  // onto the numerator so that e.g. `down` still rounds towards -Infinity.
+  const { numerator, denominator } = getDivision(amount, divisor);
+
+  // Move the fraction to the target scale before rounding, so that it is
+  // rounded only once.
+  const factor = getScaleFactor(
+    computeBase(currency.base),
+    Math.abs(scale - monetaObject.scale),
   );
 
-  assert(divisorAmount !== 0n, DIVISION_BY_ZERO_MESSAGE);
-
-  const scaledAmount = amount * (10n ** BigInt(divisorScale));
-
-  // Rounding strategies expect a positive factor: move the divisor's sign
-  // onto the dividend so that e.g. `down` still rounds towards -Infinity.
-  const isNegativeDivisor = divisorAmount < 0n;
-
-  const newAmount = divideOp(
-    isNegativeDivisor ? -scaledAmount : scaledAmount,
-    isNegativeDivisor ? -divisorAmount : divisorAmount,
-  );
+  const newAmount = scale >= monetaObject.scale
+    ? divideOp(numerator * factor, denominator)
+    : divideOp(numerator, denominator * factor);
 
   return money({ amount: newAmount, currency, scale });
 };

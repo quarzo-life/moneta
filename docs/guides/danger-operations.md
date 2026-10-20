@@ -23,6 +23,9 @@ Every other transformation in the library is either exact or fair:
   See the [Allocating guide](/guides/allocating-money).
 - [`rescaleExact`](/api/conversions/rescale-exact) only changes how a value is
   _represented_ — it throws rather than drop a non-zero digit.
+- [`divideExact`](/api/mutations/divide-exact) is exact — it grows the scale
+  when needed, and throws when the quotient can't be represented (e.g.
+  `1 / 3`).
 
 The `danger` functions are different: they throw away a remainder with no way to
 recover it.

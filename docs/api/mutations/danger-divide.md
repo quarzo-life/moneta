@@ -16,6 +16,10 @@ The `danger` prefix marks operations that silently lose precision. There is no
 default rounding strategy — you must always pass one explicitly, so the loss is
 a deliberate choice.
 
+The result is rounded once, directly at the requested `scale` — there's no
+intermediate rounding. Use [`divideExact`](/api/mutations/divide-exact) when the
+division must not lose anything.
+
 The divisor may be negative (the rounding strategy keeps its meaning, e.g.
 `down` still rounds towards negative infinity). A zero divisor throws
 `[Money] Cannot divide by zero.`
@@ -27,6 +31,7 @@ The divisor may be negative (the rounding strategy keeps its meaning, e.g.
 | `monetaObject` | `Money`                            | The Money object to divide.                                                          | Yes      |
 | `divisor`      | `ScaledAmount \| number \| bigint` | The value to divide by. Use a scaled amount for fractional divisors.                 | Yes      |
 | `divideOp`     | `DivideOperation`                  | The [rounding strategy](/core-concepts/mutations) applied when division isn't exact. | Yes      |
+| `scale`        | `number`                           | The scale of the result. Defaults to the scale of `monetaObject`.                    | No       |
 
 ## Code examples
 
@@ -81,4 +86,15 @@ const m = money({ amount: 1000n, currency: USD }); // $10.00
 dangerDivide(m, 3, down); // amount: 333n ($3.33)
 dangerDivide(m, 3, up); // amount: 334n ($3.34)
 dangerDivide(m, 3, halfUp); // amount: 333n ($3.33)
+```
+
+### Choose the scale of the result
+
+```ts
+import { dangerDivide, halfEven, money, USD } from "jsr:@quarzo-life/moneta";
+
+const m = money({ amount: 1000n, currency: USD }); // $10.00
+
+dangerDivide(m, 3, halfEven, 4); // amount: 33333n, scale: 4 ($3.3333)
+dangerDivide(m, 3, halfEven, 0); // amount: 3n, scale: 0 ($3)
 ```

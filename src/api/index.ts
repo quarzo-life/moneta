@@ -7,6 +7,7 @@
 export * from "api/mutations/add.ts";
 export * from "api/mutations/allocate.ts";
 export * from "api/mutations/dangerDivide.ts";
+export * from "api/mutations/divideExact.ts";
 export * from "api/mutations/multiply.ts";
 export * from "api/mutations/subtract.ts";
 

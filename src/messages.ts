@@ -15,3 +15,5 @@ export const INVALID_RATE_MESSAGE = "Rate is invalid.";
 export const INEXACT_RESCALE_MESSAGE =
   "Rescaling would discard non-zero digits.";
 export const DIVISION_BY_ZERO_MESSAGE = "Cannot divide by zero.";
+export const INEXACT_DIVISION_MESSAGE =
+  "Division has no exact result in the currency base.";
