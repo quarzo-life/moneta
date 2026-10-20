@@ -12,3 +12,6 @@ export const UNEQUAL_CURRENCIES_MESSAGE =
 export const NON_DECIMAL_CURRENCY_MESSAGE = "Currency is not decimal.";
 export const INCOMPATIBLE_BASES_MESSAGE = "Bases are not compatible.";
 export const INVALID_RATE_MESSAGE = "Rate is invalid.";
+export const INEXACT_RESCALE_MESSAGE =
+  "Rescaling would discard non-zero digits.";
+export const DIVISION_BY_ZERO_MESSAGE = "Cannot divide by zero.";

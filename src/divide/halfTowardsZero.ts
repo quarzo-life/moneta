@@ -9,11 +9,11 @@ import { down, halfUp } from "./index.ts";
  *
  * This rounding mode rounds to the nearest integer. When the value is exactly halfway between two integers, it rounds towards zero. Positive halfway values round down (e.g., 1.5 becomes 1), and negative halfway values round up (e.g., -1.5 becomes -1).
  *
- * **Usage** : Pass this function as the last argument to `multiply`, `allocate`, or `transformScale` to control how remainders are handled.
+ * **Usage** : Pass this function as the rounding argument to `dangerTransformScale`, `dangerRound`, or `dangerDivide` to control how remainders are handled.
  *
- * @see multiply
- * @see allocate
- * @see transformScale
+ * @see dangerTransformScale
+ * @see dangerRound
+ * @see dangerDivide
  *
  * @param amount - The amount to divide.
  * @param factor - The factor to divide by.

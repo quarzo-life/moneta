@@ -1,7 +1,6 @@
 import { type Money, money } from "money/index.ts";
 import { ScaledAmount } from "types/types.ts";
 import { getAmountAndScale } from "utils/index.ts";
-import { transformScale } from "api/conversions/transformScale.ts";
 
 /**
  * Multiply a Money object.
@@ -39,12 +38,9 @@ export const multiply = (
 
   const newScale = scale + multiplierScale;
 
-  return transformScale(
-    money({
-      amount: amount * multiplierAmount,
-      currency,
-      scale: newScale,
-    }),
-    newScale,
-  );
+  return money({
+    amount: amount * multiplierAmount,
+    currency,
+    scale: newScale,
+  });
 };

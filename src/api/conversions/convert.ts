@@ -8,7 +8,7 @@ import type { Currency, FXRate } from "types/types.ts";
 import { assert } from "helpers/assert.ts";
 import { getAmountAndScale, isArray } from "utils/index.ts";
 import { halfUp } from "divide/halfUp.ts";
-import { transformScale } from "api/conversions/transformScale.ts";
+import { dangerTransformScale } from "api/conversions/dangerTransformScale.ts";
 
 const areBasesCompatible = (
   first: number | readonly number[],
@@ -84,5 +84,5 @@ export const convert = (moneyObject: Money, fx: FXRate): Money => {
   });
 
   // by default, round to halfUp
-  return transformScale(result, to.exponent, halfUp);
+  return dangerTransformScale(result, to.exponent, halfUp);
 };

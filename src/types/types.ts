@@ -27,9 +27,12 @@ export type Currency = {
 };
 
 /**
- * Divide Operation function
+ * Divide Operation function: divides `amount` by `factor` and rounds the
+ * result to an integer.
  *
- * Use for transformScale when reduce the scale
+ * Passed to `dangerTransformScale`, `dangerRound` and `dangerDivide`, which
+ * always call it with a strictly positive `factor` (the sign is carried by
+ * `amount`).
  */
 export type DivideOperation = (
   amount: bigint,

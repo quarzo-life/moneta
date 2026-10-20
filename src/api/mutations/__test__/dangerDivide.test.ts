@@ -1,8 +1,19 @@
 import { expect, test } from "vitest";
+import * as fc from "fast-check";
 import { JPY, MGA, USD } from "currencies/index.ts";
 import { dangerDivide, toSnapshot } from "api/index.ts";
 import { money } from "mod";
-import { down, halfUp, up } from "divide/index.ts";
+import {
+  down,
+  halfAwayFromZero,
+  halfDown,
+  halfEven,
+  halfOdd,
+  halfTowardsZero,
+  halfUp,
+  up,
+} from "divide/index.ts";
+import type { DivideOperation } from "types/types.ts";
 
 test("dangerDivide - integer divisor - exact division", () => {
   const m = money({ amount: 1000n, currency: USD });
@@ -117,3 +128,105 @@ test("dangerDivide - zero-exponent currency (JPY) - exact", () => {
     scale: 0,
   });
 });
+
+test("dangerDivide - throws on a zero divisor", () => {
+  const m = money({ amount: 1000n, currency: USD });
+
+  expect(() => dangerDivide(m, 0, down)).toThrow(
+    "[Money] Cannot divide by zero.",
+  );
+  expect(() => dangerDivide(m, 0n, down)).toThrow(
+    "[Money] Cannot divide by zero.",
+  );
+  expect(() => dangerDivide(m, { amount: 0n, scale: 2 }, down)).toThrow(
+    "[Money] Cannot divide by zero.",
+  );
+});
+
+test("dangerDivide - negative divisor - rounds in the right direction", () => {
+  // $10.00 / -3 = -3.333…
+  const m = money({ amount: 1000n, currency: USD });
+
+  expect(dangerDivide(m, -3, down).amount).toBe(-334n);
+  expect(dangerDivide(m, -3, up).amount).toBe(-333n);
+  expect(dangerDivide(m, -3, halfUp).amount).toBe(-333n);
+  expect(dangerDivide(m, { amount: -3n, scale: 1 }, down).amount).toBe(
+    -3334n,
+  );
+});
+
+test("dangerDivide - negative dividend and divisor give a positive result", () => {
+  // -$10.00 / -3 = 3.333…
+  const m = money({ amount: -1000n, currency: USD });
+
+  expect(dangerDivide(m, -3, down).amount).toBe(333n);
+  expect(dangerDivide(m, -3, up).amount).toBe(334n);
+});
+
+// Reference rounding of n / d (d > 0), written independently of src/divide.
+const reference = (
+  tie: (floor: bigint) => bigint,
+  nonTie: "floor" | "ceil" | "nearest",
+) =>
+(n: bigint, d: bigint): bigint => {
+  const floor = n >= 0n || n % d === 0n ? n / d : n / d - 1n;
+  const twiceRemainder = 2n * (n - floor * d);
+  if (twiceRemainder === 0n) return floor;
+  if (nonTie === "floor") return floor;
+  if (nonTie === "ceil") return floor + 1n;
+  if (twiceRemainder < d) return floor;
+  if (twiceRemainder > d) return floor + 1n;
+  return tie(floor);
+};
+
+const isEvenBigInt = (n: bigint) => n % 2n === 0n;
+
+const strategies: Array<
+  [string, DivideOperation, ReturnType<typeof reference>]
+> = [
+  ["down", down, reference((f) => f, "floor")],
+  ["up", up, reference((f) => f + 1n, "ceil")],
+  ["halfUp", halfUp, reference((f) => f + 1n, "nearest")],
+  ["halfDown", halfDown, reference((f) => f, "nearest")],
+  [
+    "halfEven",
+    halfEven,
+    reference((f) => (isEvenBigInt(f) ? f : f + 1n), "nearest"),
+  ],
+  [
+    "halfOdd",
+    halfOdd,
+    reference((f) => (isEvenBigInt(f) ? f + 1n : f), "nearest"),
+  ],
+  [
+    "halfTowardsZero",
+    halfTowardsZero,
+    reference((f) => (f >= 0n ? f : f + 1n), "nearest"),
+  ],
+  [
+    "halfAwayFromZero",
+    halfAwayFromZero,
+    reference((f) => (f >= 0n ? f + 1n : f), "nearest"),
+  ],
+];
+
+test.each(strategies)(
+  "dangerDivide - %s matches the reference rounding for any signs",
+  (_name, op, expected) => {
+    fc.assert(
+      fc.property(
+        fc.bigInt({ min: -100000n, max: 100000n }),
+        fc.bigInt({ min: -1000n, max: 1000n }).filter((d) => d !== 0n),
+        (amount, divisor) => {
+          const m = money({ amount, currency: USD });
+          const absDivisor = divisor < 0n ? -divisor : divisor;
+          const n = divisor < 0n ? -amount : amount;
+
+          expect(dangerDivide(m, divisor, op).amount).toBe(
+            expected(n, absDivisor),
+          );
+        },
+      ),
+    );
+  },
+);

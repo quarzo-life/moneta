@@ -1,14 +1,17 @@
 ---
 title: Danger-prefixed operations
-description: Why some Moneta functions are named dangerDivide and dangerRound, and how to use them safely.
+description: Why some Moneta functions are named dangerDivide, dangerRound and dangerTransformScale, and how to use them safely.
 ---
 
 # Danger-prefixed operations
 
-Two functions in the API carry a `danger` prefix:
-[`dangerDivide`](/api/mutations/danger-divide) and
-[`dangerRound`](/api/conversions/danger-round). The prefix isn't decorative — it
-marks the only two operations in Moneta that can permanently discard money.
+Three functions in the API carry a `danger` prefix:
+[`dangerDivide`](/api/mutations/danger-divide),
+[`dangerRound`](/api/conversions/danger-round), and
+[`dangerTransformScale`](/api/conversions/danger-transform-scale). The prefix
+isn't decorative — apart from [`convert`](/api/conversions/convert), which
+rounds the converted amount to the target currency's exponent with `halfUp`, it
+marks the only operations in Moneta that can permanently discard money.
 
 Every other transformation in the library is either exact or fair:
 
@@ -18,13 +21,11 @@ Every other transformation in the library is either exact or fair:
 - [`allocate`](/api/mutations/allocate) is fair — when an amount doesn't split
   evenly, it distributes the remainder across recipients instead of dropping it.
   See the [Allocating guide](/guides/allocating-money).
-- [`transformScale`](/api/conversions/transform-scale) and
-  [`trimScale`](/api/conversions/trim-scale) round or trim, but only ever change
-  how a value is _represented_ — they still track the value going in and out
-  predictably, and `transformScale` lets you pick the rounding strategy.
+- [`rescaleExact`](/api/conversions/rescale-exact) only changes how a value is
+  _represented_ — it throws rather than drop a non-zero digit.
 
-`dangerDivide` and `dangerRound` are different: they throw away a remainder with
-no way to recover it.
+The `danger` functions are different: they throw away a remainder with no way to
+recover it.
 
 ```ts
 import { dangerDivide, down, money, USD } from "jsr:@quarzo-life/moneta";
@@ -36,11 +37,7 @@ dangerDivide(m, 3, down); // amount: 333n — the extra $0.01 from splitting by 
 
 ## No default rounding strategy
 
-Every other function that rounds (`transformScale`, and by extension `multiply`,
-`allocate`, `convert`) defaults to a sensible strategy (`down`, or `halfUp` for
-`convert`) so you don't have to think about it for the common case.
-
-`dangerDivide` and `dangerRound` deliberately have **no default.** The
+The `danger` functions deliberately have **no default.** The
 [`DivideOperation`](/api/rounding/down) argument is required, not optional — so
 the loss of precision is always a decision you make explicitly, not one the
 library makes silently on your behalf.
@@ -64,7 +61,7 @@ dangerRound(m, halfUp); // $12.35
 
 ## When to reach for them
 
-Use `dangerDivide` or `dangerRound` when you genuinely need to discard a
+Use a `danger` function when you genuinely need to discard a
 remainder — for example, rounding a computed value down to a currency's
 displayable precision right before showing it to a user, where there's no
 recipient to distribute the leftover to.

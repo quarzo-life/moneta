@@ -3,7 +3,7 @@ import { INVALID_RATIOS_MESSAGE } from "messages";
 import { type Money, money } from "money/index.ts";
 import { ScaledAmount } from "types/types.ts";
 import { distribute, getAmountAndScale } from "utils/index.ts";
-import { transformScale } from "api/index.ts";
+import { rescaleExact } from "api/conversions/rescaleExact.ts";
 
 /**
  * Distribute the amount of a {@link Money} object across a list of ratios.
@@ -121,7 +121,7 @@ export function allocate(
 
   const newScale = scale + highestRatioScale;
 
-  const scaled = transformScale(monetaObject, newScale);
+  const scaled = rescaleExact(monetaObject, newScale);
 
   const { amount, currency } = scaled;
 

@@ -5,11 +5,11 @@ import { DivideOperation } from "types/types.ts";
  *
  * This rounding mode always rounds up, regardless of the fractional part. For positive numbers, any fractional value causes the result to increase (e.g., 1.1 becomes 2, 1.9 becomes 2). For negative numbers, it rounds towards zero (e.g., -1.9 becomes -1).
  *
- * **Usage** : Pass this function as the last argument to `multiply`, `allocate`, or `transformScale` to control how remainders are handled.
+ * **Usage** : Pass this function as the rounding argument to `dangerTransformScale`, `dangerRound`, or `dangerDivide` to control how remainders are handled.
  *
- * @see multiply
- * @see allocate
- * @see transformScale
+ * @see dangerTransformScale
+ * @see dangerRound
+ * @see dangerDivide
  *
  * @param amount - The amount to divide.
  * @param factor - The factor to divide by.

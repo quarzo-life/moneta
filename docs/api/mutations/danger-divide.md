@@ -16,6 +16,10 @@ The `danger` prefix marks operations that silently lose precision. There is no
 default rounding strategy — you must always pass one explicitly, so the loss is
 a deliberate choice.
 
+The divisor may be negative (the rounding strategy keeps its meaning, e.g.
+`down` still rounds towards negative infinity). A zero divisor throws
+`[Money] Cannot divide by zero.`
+
 ## Parameters
 
 | Name           | Type                               | Description                                                                          | Required |

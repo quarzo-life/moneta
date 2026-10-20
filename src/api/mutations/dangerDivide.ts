@@ -1,3 +1,5 @@
+import { DIVISION_BY_ZERO_MESSAGE } from "messages";
+import { assert } from "helpers/assert.ts";
 import { type Money, money } from "money/index.ts";
 import { DivideOperation, ScaledAmount } from "types/types.ts";
 import { getAmountAndScale } from "utils/index.ts";
@@ -19,6 +21,7 @@ import { getAmountAndScale } from "utils/index.ts";
  * @param divideOp - The rounding function applied when the division is not exact
  *   (e.g. {@link down}, {@link up}, {@link halfUp}).
  * @returns A new Money object at the same scale as the input.
+ * @throws if the divisor is zero.
  *
  * @see allocate
  *
@@ -68,9 +71,18 @@ export const dangerDivide = (
     divisor,
   );
 
+  assert(divisorAmount !== 0n, DIVISION_BY_ZERO_MESSAGE);
+
   const scaledAmount = amount * (10n ** BigInt(divisorScale));
 
-  const newAmount = divideOp(scaledAmount, divisorAmount);
+  // Rounding strategies expect a positive factor: move the divisor's sign
+  // onto the dividend so that e.g. `down` still rounds towards -Infinity.
+  const isNegativeDivisor = divisorAmount < 0n;
+
+  const newAmount = divideOp(
+    isNegativeDivisor ? -scaledAmount : scaledAmount,
+    isNegativeDivisor ? -divisorAmount : divisorAmount,
+  );
 
   return money({ amount: newAmount, currency, scale });
 };

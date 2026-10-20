@@ -126,10 +126,13 @@ export default defineConfig({
                   link: "/api/conversions/normalize-scale",
                 },
                 {
-                  text: "transformScale",
-                  link: "/api/conversions/transform-scale",
+                  text: "rescaleExact",
+                  link: "/api/conversions/rescale-exact",
                 },
-                { text: "trimScale", link: "/api/conversions/trim-scale" },
+                {
+                  text: "dangerTransformScale",
+                  link: "/api/conversions/danger-transform-scale",
+                },
                 { text: "parse", link: "/api/conversions/parse" },
                 {
                   text: "dangerRound",

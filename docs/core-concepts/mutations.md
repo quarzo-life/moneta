@@ -87,14 +87,13 @@ multiply(m, { amount: 21n, scale: 1 }); // a Money object with amount 8421n and 
 
 ## Rounding is always explicit for lossy operations
 
-`multiply`, `allocate`, and `transformScale` never lose money silently —
-`allocate` distributes remainders fairly, and `transformScale` defaults to
-rounding down (`down`) when reducing scale, but lets you pass any other
-[rounding strategy](/api/rounding/down).
+`multiply` and `allocate` never lose money — `multiply` grows the scale instead
+of rounding, and `allocate` distributes remainders fairly.
 
-Two operations go further and are named accordingly:
-[`dangerDivide`](/api/mutations/danger-divide) and
-[`dangerRound`](/api/conversions/danger-round) permanently discard the
-remainder, and force you to pick a rounding strategy explicitly — there's no
+Operations that can lose precision are named accordingly:
+[`dangerDivide`](/api/mutations/danger-divide),
+[`dangerRound`](/api/conversions/danger-round), and
+[`dangerTransformScale`](/api/conversions/danger-transform-scale) permanently
+discard the remainder, and force you to pick a rounding strategy explicitly — there's no
 default. See the [Danger-prefixed operations guide](/guides/danger-operations)
 for the full rationale.

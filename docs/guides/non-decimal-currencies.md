@@ -73,9 +73,9 @@ subdivisions.
 ## Scale still works the same way
 
 [Scale](/core-concepts/scale) transformations
-([`transformScale`](/api/conversions/transform-scale),
-[`normalizeScale`](/api/conversions/normalize-scale),
-[`trimScale`](/api/conversions/trim-scale)) use the currency's `base` internally
+([`rescaleExact`](/api/conversions/rescale-exact),
+[`dangerTransformScale`](/api/conversions/danger-transform-scale),
+[`normalizeScale`](/api/conversions/normalize-scale)) use the currency's `base` internally
 to compute the conversion factor — for an array base, Moneta multiplies its
 elements together (`20 * 12 = 240`) to get a single radix. You don't need to do
 anything differently when mixing non-decimal `Money` objects into `add`,

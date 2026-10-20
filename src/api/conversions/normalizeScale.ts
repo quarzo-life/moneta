@@ -1,5 +1,5 @@
 import type { Money } from "money/index.ts";
-import { transformScale } from "api/conversions/transformScale.ts";
+import { rescaleExact } from "api/conversions/rescaleExact.ts";
 
 /**
  * Normalize a set of Money objects to the highest scale of the set.
@@ -30,6 +30,6 @@ export const normalizeScale = (
   return monetaObjects.map((d) => {
     const scale = d.scale;
 
-    return scale !== highestScale ? transformScale(d, highestScale) : d;
+    return scale !== highestScale ? rescaleExact(d, highestScale) : d;
   });
 };

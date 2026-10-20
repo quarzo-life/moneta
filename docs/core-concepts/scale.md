@@ -103,17 +103,18 @@ precision than they actually need — trailing zeros that could be dropped witho
 losing anything:
 
 ```ts
-import { add, money, trimScale, USD } from "jsr:@quarzo-life/moneta";
+import { add, money, rescaleExact, USD } from "jsr:@quarzo-life/moneta";
 
 const d1 = money({ amount: 100n, currency: USD });
 const d2 = money({ amount: 2000000n, currency: USD, scale: 6 });
 
 const d3 = add(d1, d2); // a Money object with amount 3000000n and scale 6
 
-trimScale(d3); // a Money object with amount 300n and scale 2
+rescaleExact(d3); // a Money object with amount 300n and scale 2
 ```
 
-[`trimScale`](/api/conversions/trim-scale) only removes trailing zeros — it
+[`rescaleExact`](/api/conversions/rescale-exact) without a target scale only
+removes trailing zeros — it
 never discards significant digits, and never trims below the currency's exponent
 — so it's always safe to call. Compare this with
 [`dangerRound`](/api/conversions/danger-round) and the

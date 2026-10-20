@@ -18,10 +18,9 @@ round up (e.g. `1.5` becomes `2`), and negative halfway values round down (e.g.
 This is sometimes referred to as "commercial rounding" or "arithmetic rounding."
 
 Pass this function as the rounding argument to
-[`multiply`](/api/mutations/multiply), [`allocate`](/api/mutations/allocate),
-[`transformScale`](/api/conversions/transform-scale),
-[`dangerDivide`](/api/mutations/danger-divide), or
-[`dangerRound`](/api/conversions/danger-round) to control how remainders are
+[`dangerTransformScale`](/api/conversions/danger-transform-scale),
+[`dangerRound`](/api/conversions/danger-round), or
+[`dangerDivide`](/api/mutations/danger-divide) to control how remainders are
 handled.
 
 ## Signature

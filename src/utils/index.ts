@@ -8,6 +8,7 @@ export * from "./computeBase.ts";
 export * from "./countTrailingZeros.ts";
 export * from "./getAmountAndScale.ts";
 export * from "./getDivisors.ts";
+export * from "./getScaleFactor.ts";
 export * from "./isArray.ts";
 export * from "./isEven.ts";
 export * from "./isHalf.ts";

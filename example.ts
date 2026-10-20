@@ -6,6 +6,7 @@ import {
   add,
   allocate,
   convert,
+  dangerTransformScale,
   EUR,
   haveSameAmount,
   haveSameCurrency,
@@ -16,12 +17,11 @@ import {
   money,
   multiply,
   normalizeScale,
+  rescaleExact,
   subtract,
   toDecimal,
   toSnapshot,
   toUnits,
-  transformScale,
-  trimScale,
   up,
   USD,
   zeroMoney,
@@ -84,7 +84,7 @@ const example6 = () => {
   console.log("Trim a Money object's scale");
 
   const d = money({ amount: 500000n, currency: USD, scale: 5 });
-  const result = trimScale(d);
+  const result = rescaleExact(d);
 
   console.log(toSnapshot(result)); // a Money object with amount 500 and scale 2
 };
@@ -108,19 +108,26 @@ const example8 = () => {
 };
 
 const example9 = () => {
-  console.log("Transform an object to a new scale");
+  console.log("Rescale an object exactly");
 
-  const d = money({ amount: 500n, currency: USD, scale: 2 });
+  const d = money({ amount: 12300n, currency: USD, scale: 4 }); // $1.2300
 
-  console.log(toSnapshot(transformScale(d, 4))); // a Money object with amount 50000 and scale 4
+  console.log(toSnapshot(rescaleExact(d, 2))); // a Money object with amount 123 and scale 2
+  console.log(toSnapshot(rescaleExact(d, 6))); // a Money object with amount 1230000 and scale 6
+
+  try {
+    rescaleExact(money({ amount: 1234n, currency: USD, scale: 3 }), 2); // $1.234
+  } catch (e) {
+    console.log((e as Error).message); // [Money] Rescaling would discard non-zero digits.
+  }
 };
 
 const example10 = () => {
-  console.log("Pass a custom divide function");
+  console.log("Reduce the scale with an explicit rounding");
 
   const d = money({ amount: 10455n, currency: USD, scale: 3 });
 
-  console.log(toSnapshot(transformScale(d, 2, up))); // a Money object with amount 1046 and scale 2
+  console.log(toSnapshot(dangerTransformScale(d, 2, up))); // a Money object with amount 1046 and scale 2
 };
 
 const example11 = () => {

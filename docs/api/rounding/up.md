@@ -14,10 +14,9 @@ becomes `2`, `1.9` becomes `2`). For negative numbers, it rounds towards zero
 (e.g. `-1.9` becomes `-1`).
 
 Pass this function as the rounding argument to
-[`multiply`](/api/mutations/multiply), [`allocate`](/api/mutations/allocate),
-[`transformScale`](/api/conversions/transform-scale),
-[`dangerDivide`](/api/mutations/danger-divide), or
-[`dangerRound`](/api/conversions/danger-round) to control how remainders are
+[`dangerTransformScale`](/api/conversions/danger-transform-scale),
+[`dangerRound`](/api/conversions/danger-round), or
+[`dangerDivide`](/api/mutations/danger-divide) to control how remainders are
 handled.
 
 ## Signature
@@ -41,9 +40,9 @@ up(-19n, 10n); // -1n (-1.9 → -1)
 ```
 
 ```ts
-import { money, transformScale, up, USD } from "jsr:@quarzo-life/moneta";
+import { dangerTransformScale, money, up, USD } from "jsr:@quarzo-life/moneta";
 
 const m = money({ amount: 10455n, currency: USD, scale: 3 });
 
-transformScale(m, 2, up); // a Money object with amount 1046n and scale 2
+dangerTransformScale(m, 2, up); // a Money object with amount 1046n and scale 2
 ```

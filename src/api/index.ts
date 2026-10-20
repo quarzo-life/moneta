@@ -14,8 +14,8 @@ export * from "api/mutations/subtract.ts";
 export * from "api/conversions/convert.ts";
 export * from "api/conversions/dangerRound.ts";
 export * from "api/conversions/normalizeScale.ts";
-export * from "api/conversions/transformScale.ts";
-export * from "api/conversions/trimScale.ts";
+export * from "api/conversions/dangerTransformScale.ts";
+export * from "api/conversions/rescaleExact.ts";
 export * from "api/conversions/parse.ts";
 
 // Formatting

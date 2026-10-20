@@ -81,11 +81,11 @@ scale must be a non-negative integer) and freezes the result.
 ### Public API surface (`src/api/`)
 
 Functions are pure and grouped by intent — `mutations/` (add, subtract,
-multiply, allocate, dangerDivide), `conversions/` (convert, transformScale,
-trimScale, normalizeScale, parse, dangerRound), `formatting/` (toDecimal,
-toSnapshot, toUnits), `comparisons/` (equal, greaterThan…, haveSameCurrency,
-maximum/minimum). Everything is re-exported through `src/api/index.ts` and then
-`mod.ts`.
+multiply, allocate, dangerDivide), `conversions/` (convert, rescaleExact,
+dangerTransformScale, normalizeScale, parse, dangerRound), `formatting/`
+(toDecimal, toSnapshot, toUnits), `comparisons/` (equal, greaterThan…,
+haveSameCurrency, maximum/minimum). Everything is re-exported through
+`src/api/index.ts` and then `mod.ts`.
 
 Cross-cutting patterns to preserve when adding API:
 
@@ -109,8 +109,13 @@ Cross-cutting patterns to preserve when adding API:
 Each file exports a `DivideOperation`
 (`(amount: bigint, factor: bigint) => bigint`): `down`, `up`, `halfUp`,
 `halfDown`, `halfEven` (banker's), `halfOdd`, `halfTowardsZero`,
-`halfAwayFromZero`. They are first-class values passed to `transformScale`,
-`dangerDivide`, `dangerRound`, etc. `transformScale` defaults to `down`.
+`halfAwayFromZero`. They are first-class values passed to
+`dangerTransformScale`, `dangerDivide`, `dangerRound`, etc. — always called with
+a strictly positive `factor` (callers move the sign onto `amount`). Scale
+changes are split by intent: `rescaleExact` never loses precision (throws
+instead; with no target scale it trims trailing zeros), `dangerTransformScale`
+rounds and has no default strategy. Internal code that only scales up uses
+`rescaleExact`.
 
 ### Currencies (`src/currencies/`)
 

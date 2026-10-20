@@ -10,11 +10,11 @@ import { down, up } from "./index.ts";
  *
  * For example, 1.5 rounds to 2, 2.5 rounds to 3, and -1.5 rounds to -1.
  *
- * **Usage** : Pass this function as the last argument to `multiply`, `allocate`, or `transformScale` to control how remainders are handled.
+ * **Usage** : Pass this function as the rounding argument to `dangerTransformScale`, `dangerRound`, or `dangerDivide` to control how remainders are handled.
  *
- * @see multiply
- * @see allocate
- * @see transformScale
+ * @see dangerTransformScale
+ * @see dangerRound
+ * @see dangerDivide
  *
  * @param amount - The amount to divide.
  * @param factor - The factor to divide by.

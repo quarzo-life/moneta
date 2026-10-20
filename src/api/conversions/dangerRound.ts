@@ -1,6 +1,6 @@
 import type { Money } from "money/index.ts";
 import { DivideOperation } from "types/types.ts";
-import { transformScale } from "api/conversions/transformScale.ts";
+import { dangerTransformScale } from "api/conversions/dangerTransformScale.ts";
 
 /**
  * Round a Money object to its currency's conventional scale (the exponent).
@@ -21,8 +21,8 @@ import { transformScale } from "api/conversions/transformScale.ts";
  * @returns A new Money object at `currency.exponent` scale, or the original
  *   object if no rounding was needed.
  *
- * @see transformScale
- * @see trimScale
+ * @see dangerTransformScale
+ * @see rescaleExact
  *
  * @example Round to cents (USD exponent = 2)
  * ```ts
@@ -62,5 +62,5 @@ export const dangerRound = (
     return monetaObject;
   }
 
-  return transformScale(monetaObject, currency.exponent, divideOp);
+  return dangerTransformScale(monetaObject, currency.exponent, divideOp);
 };
