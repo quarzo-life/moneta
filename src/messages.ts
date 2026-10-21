@@ -12,6 +12,10 @@ export const UNEQUAL_CURRENCIES_MESSAGE =
 export const NON_DECIMAL_CURRENCY_MESSAGE = "Currency is not decimal.";
 export const INCOMPATIBLE_BASES_MESSAGE = "Bases are not compatible.";
 export const INVALID_RATE_MESSAGE = "Rate is invalid.";
+export const INVALID_DATE_MESSAGE =
+  "Date is invalid; expected an ISO 8601 date or date-time with offset.";
+export const INVALID_VALIDITY_MESSAGE =
+  "Validity window is invalid; validFrom must be before validUntil.";
 export const INEXACT_RESCALE_MESSAGE =
   "Rescaling would discard non-zero digits.";
 export const DIVISION_BY_ZERO_MESSAGE = "Cannot divide by zero.";

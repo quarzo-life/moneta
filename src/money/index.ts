@@ -1,5 +1,6 @@
-import { CURRENCIES, type CurrencyCode } from "currencies/index.ts";
+import type { CurrencyCode } from "currencies/index.ts";
 import { assert } from "helpers/assert.ts";
+import { resolveCurrency } from "utils/resolveCurrency.ts";
 import type { Currency } from "types/types.ts";
 
 /**
@@ -33,18 +34,6 @@ export type Money = Readonly<{
    */
   toJSON: () => SerializedMoney;
 }>;
-
-const resolveCurrency = (currency: Currency | CurrencyCode): Currency => {
-  if (typeof currency !== "string") {
-    return currency;
-  }
-
-  const found = CURRENCIES[currency];
-
-  assert(!!found, `Unknown currency code: ${currency}`);
-
-  return found;
-};
 
 const resolveScale = (
   scale: number | undefined,

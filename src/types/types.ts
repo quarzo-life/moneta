@@ -60,13 +60,60 @@ export type Rate = ScaledAmount | number | bigint;
 export type Rates = Record<string, Rate>;
 
 /**
- * FX Rate
+ * Nature of an FX rate. The known values get autocompletion; any other string
+ * is accepted so callers can use their own taxonomy.
+ *
+ * - `reference`: published fixing (e.g. ECB reference rate), for valuation.
+ * - `indicative`: informative quote, not guaranteed for execution.
+ * - `executable`: firm quote a counterparty commits to execute.
  */
-export type FXRate = {
+export type RateKind =
+  | "reference"
+  | "indicative"
+  | "executable"
+  | (string & Record<never, never>);
+
+/**
+ * Optional metadata describing where an FX rate comes from and when it can be
+ * used. It is never read by `convert`: it only serves traceability.
+ *
+ * Dates are ISO 8601 strings, either a calendar date (`2026-10-21`, e.g. a
+ * daily reference rate) or a date-time with an offset
+ * (`2026-10-21T14:03:12Z`, e.g. a broker quote).
+ */
+export type FXRateContext = Readonly<{
+  /** Identifier of the quote at its source, to find it back later. */
+  id?: string;
+  /** Provider of the rate (e.g. `"ECB"`, a broker name). */
+  source?: string;
+  /** Nature of the rate. */
+  kind?: RateKind;
+  /** When the rate was quoted (ISO 8601). */
+  quotedAt?: string;
+  /** Start of the validity window, inclusive (ISO 8601). */
+  validFrom?: string;
+  /** End of the validity window, exclusive (ISO 8601). */
+  validUntil?: string;
+  /** Rates this one was derived from, e.g. EUR→USD and USD→JPY for a EUR→JPY cross rate. */
+  derivedFrom?: readonly FXRate[];
+}>;
+
+/**
+ * FX Rate: 1 unit of `from` equals `rate` units of `to`.
+ *
+ * Build it with `fxRate()` to get a validated, frozen object; a plain literal
+ * is also accepted by `convert`.
+ */
+export type FXRate = Readonly<{
+  /** Source currency. */
   from: Currency;
+  /** Target currency. */
   to: Currency;
+  /** Units of `to` for 1 unit of `from`; must be strictly positive. */
   rate: Rate;
-};
+  /** Optional metadata (source, dates, validity…), ignored by computations. */
+  context?: FXRateContext;
+}>;
 
 /**
  * TransformerOptions

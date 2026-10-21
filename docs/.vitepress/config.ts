@@ -101,6 +101,7 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: "money", link: "/api/money" },
+            { text: "fxRate", link: "/api/fx-rate" },
             { text: "Currencies", link: "/api/currencies" },
             {
               text: "Mutations",

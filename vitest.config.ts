@@ -13,6 +13,7 @@ export default defineConfig({
       { find: /^utils\//, replacement: path.join(root, "src/utils") + "/" },
       { find: /^divide\//, replacement: path.join(root, "src/divide") + "/" },
       { find: /^money\//, replacement: path.join(root, "src/money") + "/" },
+      { find: /^fxRate\//, replacement: path.join(root, "src/fxRate") + "/" },
       { find: /^types\//, replacement: path.join(root, "src/types") + "/" },
       { find: /^helpers\//, replacement: path.join(root, "src/helpers") + "/" },
       {

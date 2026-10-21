@@ -41,6 +41,7 @@ api/        → ./src/api/
 utils/      → ./src/utils/
 divide/     → ./src/divide/
 money/      → ./src/money/
+fxRate/     → ./src/fxRate/
 types/      → ./src/types/
 helpers/    → ./src/helpers/
 currencies/ → ./src/currencies/
@@ -78,6 +79,15 @@ scale must be a non-negative integer) and freezes the result.
   (`[20, 12]`). Code that touches scale must go through `computeBase`
   (`src/utils/computeBase.ts`) rather than assuming base 10.
 
+### FX rates (`src/fxRate/index.ts`, `src/types/types.ts`)
+
+`FXRate` is `{ from, to, rate, context? }`: 1 `from` = `rate` `to`. Only
+`from`/`to`/`rate` are used in computations; `context` (id, source, kind,
+quotedAt, validFrom/validUntil, derivedFrom — all optional) is traceability
+metadata that `convert` ignores. `fxRate()` is the validating, freezing factory
+(mirrors `money()`), but plain literals stay accepted by `convert`. Rate
+validation lives in `utils/resolveRate.ts` and is shared by both.
+
 ### Public API surface (`src/api/`)
 
 Functions are pure and grouped by intent — `mutations/` (add, subtract,
@@ -100,6 +110,8 @@ Cross-cutting patterns to preserve when adding API:
   precision (`dangerDivide`, `dangerRound`). The convention is: no default
   rounding strategy — the caller must pass a `DivideOperation` explicitly so the
   loss is deliberate. Preserve this when adding any new lossy operation.
+  Deliberate exception: `convert` takes an optional `DivideOperation` that
+  defaults to `halfUp`.
 - **`allocate` vs `dangerDivide`.** Use `allocate` to split a `Money` across
   recipients without losing pennies (distributes the remainder); use
   `divideExact` when the quotient must be exact (grows the scale, throws on

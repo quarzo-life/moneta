@@ -1,36 +1,14 @@
 import {
   INCOMPATIBLE_BASES_MESSAGE,
-  INVALID_RATE_MESSAGE,
   UNEQUAL_CURRENCIES_MESSAGE,
 } from "messages";
 import { type Money, money } from "money/index.ts";
-import type { Currency, FXRate } from "types/types.ts";
+import type { Currency, DivideOperation, FXRate } from "types/types.ts";
 import { assert } from "helpers/assert.ts";
-import { getAmountAndScale, isArray } from "utils/index.ts";
+import { areBasesCompatible } from "utils/areBasesCompatible.ts";
+import { resolveRate } from "utils/resolveRate.ts";
 import { halfUp } from "divide/halfUp.ts";
 import { dangerTransformScale } from "api/conversions/dangerTransformScale.ts";
-
-const areBasesCompatible = (
-  first: number | readonly number[],
-  second: number | readonly number[],
-): boolean => {
-  const firstIsArray = isArray(first);
-
-  const secondIsArray = isArray(second);
-
-  if (firstIsArray !== secondIsArray) {
-    return false;
-  }
-
-  if (firstIsArray && secondIsArray) {
-    if (first.length !== second.length) {
-      return false;
-    }
-    return first.every((value, index) => value === second[index]);
-  }
-
-  return first === second;
-};
 
 const isSameCurrency = (left: Currency, right: Currency): boolean => {
   return (
@@ -47,16 +25,33 @@ const isSameCurrency = (left: Currency, right: Currency): boolean => {
  * For example: EUR -> JPY, rate { amount: 1826818n, scale: 4 }.
  *
  * If you need to use fractional rates, you shouldn't use floats, but scaled amounts instead.
- * For example, instead of passing 0.89, you should pass { amount: 89, scale: 2 }.
- * When using scaled amounts, the function converts the returned object to the safest scale.
+ * For example, instead of passing 0.89, you should pass { amount: 89n, scale: 2 }.
+ *
+ * The result is rounded to the target currency exponent with `divide`, which
+ * defaults to `halfUp`. Pass another rounding strategy (e.g. `halfEven`) when
+ * your conversion rules require it. `fx.context` is ignored.
  *
  * @param moneyObject Money object to convert.
  * @param fx.from Source currency for the rate.
  * @param fx.to Target currency for the rate.
- * @param fx.rate Exchange rate as a scaled amount or integer.
+ * @param fx.rate Exchange rate as a strictly positive scaled amount or integer.
+ * @param divide Rounding applied to reach the target exponent. Default `halfUp`.
  * @returns Money object in the target currency.
+ *
+ * @example
+ * import { convert, fxRate, halfEven, money } from "jsr:@quarzo-life/moneta";
+ *
+ * const fx = fxRate({ from: "EUR", to: "JPY", rate: { amount: 1826818n, scale: 4 } });
+ * const m = money({ amount: 1000n, currency: "EUR" }); // 10,00 EUR
+ *
+ * convert(m, fx); // 1827 JPY (halfUp)
+ * convert(m, fx, halfEven); // 1827 JPY
  */
-export const convert = (moneyObject: Money, fx: FXRate): Money => {
+export const convert = (
+  moneyObject: Money,
+  fx: FXRate,
+  divide: DivideOperation = halfUp,
+): Money => {
   const { from, to, rate } = fx;
 
   assert(
@@ -69,20 +64,13 @@ export const convert = (moneyObject: Money, fx: FXRate): Money => {
     INCOMPATIBLE_BASES_MESSAGE,
   );
 
-  if (typeof rate === "number" && !Number.isInteger(rate)) {
-    assert(false, INVALID_RATE_MESSAGE);
-  }
-
-  const { amount: rateAmount, scale: rateScale } = getAmountAndScale(rate);
-
-  const newScale = moneyObject.scale + rateScale;
+  const { amount: rateAmount, scale: rateScale } = resolveRate(rate);
 
   const result = money({
     amount: moneyObject.amount * rateAmount,
     currency: to,
-    scale: newScale,
+    scale: moneyObject.scale + rateScale,
   });
 
-  // by default, round to halfUp
-  return dangerTransformScale(result, to.exponent, halfUp);
+  return dangerTransformScale(result, to.exponent, divide);
 };

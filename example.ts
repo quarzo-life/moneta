@@ -10,6 +10,7 @@ import {
   dangerTransformScale,
   divideExact,
   EUR,
+  fxRate,
   halfEven,
   haveSameAmount,
   haveSameCurrency,
@@ -380,6 +381,28 @@ const example27 = () => {
   console.log(toSnapshot(dangerDivide(d, 3, halfEven, 4))); // a Money object with amount 3333 and scale 4
 };
 
+const example28 = () => {
+  console.log("Build a traceable FX rate and choose the conversion rounding");
+
+  const fx = fxRate({
+    from: "EUR",
+    to: "USD",
+    rate: { amount: 11n, scale: 1 }, // 1 EUR = 1.1 USD
+    context: {
+      id: "ecb-2026-10-21-usd",
+      source: "ECB",
+      kind: "reference",
+      quotedAt: "2026-10-21",
+    },
+  });
+
+  const d = money({ amount: 115n, currency: EUR }); // 1,15 € → 1.265 $
+
+  console.log(toSnapshot(convert(d, fx))); // amount 127 (halfUp, default)
+  console.log(toSnapshot(convert(d, fx, halfEven))); // amount 126
+  console.log(fx.context);
+};
+
 // Run all examples
 example1();
 example2();
@@ -408,3 +431,4 @@ example24();
 example25();
 example26();
 example27();
+example28();
