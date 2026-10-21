@@ -19,7 +19,7 @@
     "fxRate/": "./src/fxRate/",
     "types/": "./src/types/",
     "helpers/": "./src/helpers/",
-    "currencies/": "./src/currencies/",
+    "currencies/": "./src/currencies/"
   },
   "tasks": {
     "start": "deno run example.ts",
@@ -27,14 +27,14 @@
     "docs:dev": "npm --prefix docs run dev",
     "docs:build": "npm --prefix docs run build",
     "docs:preview": "npm --prefix docs run preview",
-    "test": "deno run -A npm:vitest run",
+    "test": "deno run -A npm:vitest run"
   },
   "lint": {
     "rules": {
-      "tags": ["recommended"],
-    },
+      "tags": ["recommended"]
+    }
   },
   "fmt": {
-    "exclude": ["assets/logo.svg"],
-  },
+    "exclude": ["assets/logo.svg"]
+  }
 }
