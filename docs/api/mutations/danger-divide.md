@@ -1,6 +1,6 @@
 ---
 title: dangerDivide
-description: Divide a Money object by a scalar divisor, discarding the remainder.
+description: Divide a Money object by a scalar divisor, discarding the remainder. Prefer allocate whenever possible - it never loses anything to rounding.
 returns: Money
 ---
 
@@ -8,9 +8,10 @@ returns: Money
 
 Divide a Money object by a scalar divisor.
 
-::: warning Danger The remainder is permanently discarded. Use
-[`allocate`](/api/mutations/allocate) instead if you need to distribute the
-remainder fairly across recipients. :::
+::: warning Danger The remainder is permanently discarded. Prefer
+[`allocate`](/api/mutations/allocate) whenever possible: it never loses anything
+to rounding, because the remainder is distributed across the parts and they
+always sum back to the original amount. :::
 
 The `danger` prefix marks operations that silently lose precision. There is no
 default rounding strategy — you must always pass one explicitly, so the loss is

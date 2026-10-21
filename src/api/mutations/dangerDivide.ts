@@ -7,9 +7,10 @@ import { computeBase, getDivision, getScaleFactor } from "utils/index.ts";
 /**
  * Divide a Money object by a scalar divisor.
  *
- * **Danger**: the remainder is permanently discarded. Use {@link allocate} instead
- * if you need to distribute the remainder fairly across recipients, or
- * {@link divideExact} if the division must not lose anything.
+ * **Danger**: the remainder is permanently discarded. Prefer {@link allocate}
+ * whenever possible: it never loses anything to rounding, because the remainder
+ * is distributed across the parts and they always sum back to the original
+ * amount. Use {@link divideExact} if the division must not lose anything.
  *
  * The divisor can be a plain integer, a `bigint`, or a {@link ScaledAmount}
  * for fractional divisors (e.g. `{ amount: 5n, scale: 1 }` = 0.5).
